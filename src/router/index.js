@@ -27,6 +27,7 @@ import PublishQuestionIntro from "@/components/host/organize/PublishQuestionIntr
 import PublishQuestionContent from "@/components/host/organize/question/PublishQuestionContent";
 import publishAnswerStatistics from "@/components/host/organize/question/publishAnswerStatistics";
 import StartChallenge from "@/components/host/organize/StartChallenge";
+import TopStudent from "@/components/host/organize/question/TopStudent";
 import Store from "@/store/store";
 
 
@@ -94,39 +95,44 @@ const router = new Router({
       ]
     },
     {
-      path: "/organize/:challengeId/",
+      path: "/organize",
       component: OrganizeChallenge,
       children: [
 
         {
-          path: "/organize/waiting/:challengeId",
+          path: "/organize/waiting",
           name: "waitingRoom",
           component: WaitingRoom
         },
         {
-          path: "/organize/start/:challengeId",
-          name: "startChallenge",
+          path: "/organize/start",
+          name: "host.startChallenge",
           component: StartChallenge
         },
         {
-          path: "/organize/question/:challengeId/:questionId/",
+          path: "/organize/question",
           name: "host.publishQuestion",
           component: publishQuestion,
           children: [
             {
-              path: "/organize/question/intro/:challengeId/:questionId/",
+              path: "/organize/question/intro",
               name: "host.publishQuestionIntro",
               component: PublishQuestionIntro
             },
             {
-              path: "/organize/question/content/:challengeId/:questionId/",
+              path: "/organize/question/content",
               name: "host.publishQuestionContent",
               component: PublishQuestionContent
             },
             {
-              path: "/organize/question/statistics/:challengeId/:questionId/",
+              path: "/organize/question/statistics",
               name: "host.publishAnswerStatistics",
               component: publishAnswerStatistics
+            },
+            {
+              path: "/organize/question/topStudent",
+              name: "host.topStudent",
+              component: TopStudent
             },
           ]
         },

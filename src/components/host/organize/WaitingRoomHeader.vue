@@ -1,9 +1,9 @@
 <template>
   <v-app-bar app flat hide-on-scroll class="cyan">
-    <b>{{ numOfStudents }} Student</b>
+    <b>{{ NumOfStudent }} Student</b>
 
     <v-spacer>
-      <b>Challenge id: {{ $route.params.challengeId }}</b>
+      <b>Challenge id: {{ $route.query.challengeId }}</b>
     </v-spacer>
 
     <v-btn class="red white--text" @click="lockChallenge"> Lock </v-btn>
@@ -17,8 +17,10 @@
 <script>
 import HostPlayService from "@/services/HostPlayService";
 export default {
+  props: {
+    NumOfStudent: Number,
+  },
   data: () => ({
-    numOfStudents: 0,
   }),
   created() {
     this.$eventBus.$on("updateScore", (data) => {
@@ -28,11 +30,9 @@ export default {
   components: {},
   methods: {
     startChallenge() {
-      console.log("start challenge");
 
-      this.$router.push({
-        name: "startChallenge",
-        params: { challengeId: this.$route.params.challengeId, questionId: 0 },
+      HostPlayService.startChallenge({
+        challengeId: this.$route.query.challengeId,
       });
     },
     lockChallenge() {

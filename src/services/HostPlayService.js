@@ -21,6 +21,21 @@ export default {
             params: params
         })
     },
+    getTopStudent(params){
+        return Api().get("host/getTopStudent",{
+            params: params
+        })
+    },
+    publishNextQuestion(params){
+        return Api().get("host/publishNextQuestion",{
+            params: params
+        })
+    },
+    startChallenge(params){
+        return Api().get("host/startChallenge",{
+            params: params
+        })
+    }
 
 
 

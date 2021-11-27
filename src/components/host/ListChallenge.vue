@@ -120,7 +120,7 @@ export default {
       }).then(() => {
         this.$router.push({
           name: "waitingRoom",
-          params: { challengeId: challengeId  }
+          query: { challengeId: challengeId  }
         });
       });
 

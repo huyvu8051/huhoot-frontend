@@ -12,51 +12,46 @@ export default {
     };
   },
   created() {
-    this.connectSocket();
-
-    this.$eventBus.$on("getFirstQuestion", () => {
-      let questionId = this.questionIds[0];
-      this.$router.push({
-        name: "host.publishQuestionIntro",
-        params: {
-          challengeId: this.$route.params.challengeId,
-          questionId: questionId,
-        },
-      });
-    });
+    this.socket = this.connectSocket();
+    this.registerEvent(this.socket);
   },
   methods: {
     connectSocket() {
       const socketUrl = "http://localhost:8082";
-      this.socket = io.connect(socketUrl);
-
-      this.registerEvent(this.socket);
-    },
-    registerEvent(socket) {
-      let token = this.$store.state.token;
-
+      var socket = io.connect(socketUrl);
       socket
         .on("connected", (data) => {
           console.log(data);
         })
         .emit("registerHostSocket", {
-          challengeId: this.$route.params.challengeId,
-          token: token,
+          challengeId: this.$route.query.challengeId,
+          token: this.$store.state.token,
         })
         .on("registerSuccess", (data) => {
           // console.log(data);
           this.questionIds = data;
+        })
+        .on("joinError", (data) => {
+          this.$eventBus.$emit("nofication", {
+            message: "Cann't connect to room!!!",
+            status: "error",
+          });
+          throw "Cannot connect socket"
         });
 
-      socket.on("joinError", (data) => {
-        this.$eventBus.$emit("nofication", {
-          message: "Cann't connect to room!!!",
-          status: "error",
+      return socket;
+    },
+    registerEvent(socket) {
+      socket.on("startChallenge", () => {
+        this.$router.push({
+          name: "host.startChallenge",
+          query: {
+            challengeId: this.$route.query.challengeId,
+          },
         });
       });
-      socket.on("studentAnswer", (data) => {
-        console.log(data);
-      });
+
+      
     },
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <v-container fluid fill-height rounded-lg>
+    <v-container fluid rounded-lg>
       <v-layout align-center justify-center>
         <h1>Start challenge</h1>
       </v-layout>
@@ -11,18 +11,26 @@
 <script>
 export default {
   data: () => {
-      return {
-          
-      }
+    return {
+      intervalObj: null,
+    };
   },
-  mounted() {
-    this.requestGetFirstQuestion();
+  created() {
+    this.intervalObj = setInterval(() => {
+      this.startChallenge();
+    }, 3000);
+  },
+  destroyed() {
+    clearInterval(this.intervalObj);
   },
   methods: {
-    requestGetFirstQuestion() {
-      setTimeout(() => {
-        this.$eventBus.$emit("getFirstQuestion");
-      }, 2000);
+    startChallenge() {
+      this.$router.push({
+        name: "host.publishQuestionIntro",
+        query: {
+          challengeId: this.$route.query.challengeId,
+        },
+      });
     },
   },
 };

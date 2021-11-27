@@ -28,17 +28,16 @@ export default {
       answerTime: this.question.answerTimeLimit,
       askDate: this.question.askDate,
     });
-  },destroyed(){
-      this.$eventBus.$emit("countDown", {
+  },
+  destroyed() {
+    this.$eventBus.$emit("countDown", {
       answerTime: 0,
       askDate: this.question.askDate,
     });
   },
-  methods:{
-    registSocket(){
-      
-    }
-  }
+  methods: {
+    registSocket() {},
+  },
 };
 </script>
 

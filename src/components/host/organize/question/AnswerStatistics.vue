@@ -1,16 +1,25 @@
 <template>
-  <v-progress-linear v-model="skill" color="blue-grey" height="25">
-    <template v-slot:default="{ value }">
-      <strong>{{ Math.ceil(value) }}%</strong>
+  <v-progress-linear v-model="percent" color="blue" height="30" class="my-5" rounded >
+    <template v-slot:default="{value}">
+      <strong>{{ answerStatistic.answerContent}} {{ Math.ceil(value) }}% {{answerStatistic.numberOfStudentSelect}} students</strong>
     </template>
   </v-progress-linear>
 </template>
 
 <script>
 export default {
+  props: {
+    totalStudentAnswer: Number,
+    answerStatistic: Object,
+  },
   data: () => ({
-    skill: 20,
   }),
+  computed: {
+    percent() {
+      console.log(this.answerStatistic.numberOfStudentSelect, this.totalStudentAnswer);
+      return (this.answerStatistic.numberOfStudentSelect / this.totalStudentAnswer) * 100;
+    },
+  },
 };
 </script>
 

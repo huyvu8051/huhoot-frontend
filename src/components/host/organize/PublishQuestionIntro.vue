@@ -6,7 +6,15 @@
 </template>
 
 <script>
-export default {};
+import HostPlayService from "@/services/HostPlayService";
+
+export default {
+  created() {
+    HostPlayService.publishNextQuestion({
+      challengeId: this.$route.query.challengeId,
+    });
+  },
+};
 </script>
 
 <style>

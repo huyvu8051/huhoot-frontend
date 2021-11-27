@@ -1,7 +1,7 @@
 <template>
   <v-main>
-    <WaitingRoomHeader />
-    <v-container fluid fill-height rounded-lg>
+    <WaitingRoomHeader :NumOfStudent="students.length" />
+    <v-container fluid rounded-lg>
       <v-layout align-center justify-center>
         <v-row>
           <v-col>
@@ -32,11 +32,9 @@ export default {
     return {
       students: [],
       updateStudentsLoginInterval: {},
-      challengeId: 0,
     };
   },
   created() {
-    this.challengeId = this.$route.params.challengeId;
     this.updateStudentsLogin();
   },
   destroyed() {
@@ -53,7 +51,7 @@ export default {
     },
     getStudentsLogin() {
       HostPlayService.getStudentsOnline({
-        challengeId: this.challengeId,
+        challengeId: this.$route.query.challengeId,
       }).then((response) => {
         // console.log(response);
         this.students = response.data;

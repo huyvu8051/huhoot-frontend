@@ -46,7 +46,7 @@ export default {
     },
     countdownFinish() {
       HostPlayService.showCorrectAnswer({
-        questionId: this.$route.params.questionId,
+        questionId: this.$route.query.questionId,
       });
     },
   },

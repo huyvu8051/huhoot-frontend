@@ -1,16 +1,15 @@
 <template>
   <v-col cols="12" xs="12" sm="6" md="6" lg="6" xl="6">
-    <v-card>
-      <v-btn
+    <v-btn
         min-height="60"
         width="100%"
         color="black lighten-2"
         text
-        v-bind:class="{ green: answer.correct}"
+        v-bind:class="{ green: answer.correct }"
+        outlined
       >
         <b>{{ answer.answerContent }}</b>
       </v-btn>
-    </v-card>
   </v-col>
 </template>
 
@@ -19,13 +18,9 @@ export default {
   props: {
     answer: Object,
   },
-  data: () => ({
-  }),
-  created() {
-  },
-  methods: {
-   
-  },
+  data: () => ({}),
+  created() {},
+  methods: {},
 };
 </script>
 
