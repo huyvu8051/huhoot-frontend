@@ -46,11 +46,7 @@
 <script>
 import AuthenticationService from "@/services/AuthenticationService";
 import { validationMixin } from "vuelidate";
-import {
-  required,
-  maxLength,
-  minLength,
-} from "vuelidate/lib/validators";
+import { required, maxLength, minLength } from "vuelidate/lib/validators";
 
 export default {
   mixins: [validationMixin],
@@ -82,6 +78,12 @@ export default {
     username: "",
     password: "",
   }),
+  created() {
+    this.$store.dispatch("setToken", null);
+    this.$store.dispatch("setUsername", null);
+    this.$store.dispatch("setFullName", null);
+    this.$store.dispatch("setRoles", null);
+  },
   methods: {
     submit() {
       this.$v.$touch();
@@ -98,17 +100,15 @@ export default {
       AuthenticationService.login({
         username: this.username,
         password: this.password,
-      })
-        .then((response) => {
+      }).then((response) => {
+        this.$store.dispatch("setToken", "Bearer " + response.data.jwt);
+        this.$store.dispatch("setUsername", response.data.username);
+        this.$store.dispatch("setRoles", response.data.authorities);
 
-          this.$store.dispatch("setToken", "Bearer " + response.data.jwt);
-          this.$store.dispatch("setUsername", response.data.username);
-
-          this.$router.push({
-            name: response.data.authorities[0].authority,
-          });
-
+        this.$router.push({
+          name: response.data.authorities[0].authority,
         });
+      });
     },
   },
 };

@@ -6,8 +6,7 @@
         width="100%"
         color="black lighten-2"
         text
-        @click="selectAnswer"
-        v-bind:class="{ green: answer.correct, yellow: this.selected }"
+        v-bind:class="{ green: answer.correct}"
       >
         <b>{{ answer.answerContent }}</b>
       </v-btn>
@@ -21,19 +20,11 @@ export default {
     answer: Object,
   },
   data: () => ({
-    selected: false,
   }),
   created() {
-    this.answer.selected = false;
   },
   methods: {
-    selectAnswer() {
-      if (this.answer.selected === undefined) {
-        this.answer.selected = this.selected = true;
-      } else {
-        this.answer.selected = this.selected = !this.selected;
-      }
-    },
+   
   },
 };
 </script>

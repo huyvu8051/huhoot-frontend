@@ -13,6 +13,7 @@ export default new Vuex.Store({
 		token: null,
 		username: null,
 		fullName: null,
+		roles: null
 	},
 	mutations: {
 		setToken(state, token) {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
 		},
 		setFullName(state, fullName) {
 			state.fullName = fullName
+		},
+		setRoles(state, roles) {
+			state.roles = roles
 		}
 	},
 	actions: {
@@ -34,6 +38,9 @@ export default new Vuex.Store({
 		},
 		setFullName({ commit }, fullName) {
 			commit('setFullName', fullName)
+		},
+		setRoles({ commit }, roles) {
+			commit('setRoles', roles)
 		}
 	}
 })

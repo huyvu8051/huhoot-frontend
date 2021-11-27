@@ -15,11 +15,25 @@ import Challenge from "@/components/student/Challenge";
 
 
 import Admin from "@/components/admin/Admin";
-import Host from "@/components/host/Host";
+
+
+import HostLayout from "@/components/host/HostLayout";
+import OrganizeChallenge from "@/components/host/organize/OrganizeChallenge";
+import HostListChallenge from "@/components/host/ListChallenge";
+import publishQuestion from "@/components/host/organize/question/publishQuestion";
+
+import WaitingRoom from "@/components/host/organize/WaitingRoom";
+import PublishQuestionIntro from "@/components/host/organize/PublishQuestionIntro";
+import PublishQuestionContent from "@/components/host/organize/question/PublishQuestionContent";
+import publishAnswerStatistics from "@/components/host/organize/question/publishAnswerStatistics";
+import StartChallenge from "@/components/host/organize/StartChallenge";
+import Store from "@/store/store";
+
+
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "history",
   routes: [
 
@@ -62,14 +76,59 @@ export default new Router({
         },
       ]
     },
+
+
+
     {
       path: "/host",
-      component: Host,
+      component: HostLayout,
       children: [
         {
-          path: "/",
+          path: "/host/challenge",
           name: "HOST",
-          component: Account
+          component: HostListChallenge,
+          meta: {
+            requiresAuth: true
+          }
+        },
+      ]
+    },
+    {
+      path: "/organize/:challengeId/",
+      component: OrganizeChallenge,
+      children: [
+
+        {
+          path: "/organize/waiting/:challengeId",
+          name: "waitingRoom",
+          component: WaitingRoom
+        },
+        {
+          path: "/organize/start/:challengeId",
+          name: "startChallenge",
+          component: StartChallenge
+        },
+        {
+          path: "/organize/question/:challengeId/:questionId/",
+          name: "host.publishQuestion",
+          component: publishQuestion,
+          children: [
+            {
+              path: "/organize/question/intro/:challengeId/:questionId/",
+              name: "host.publishQuestionIntro",
+              component: PublishQuestionIntro
+            },
+            {
+              path: "/organize/question/content/:challengeId/:questionId/",
+              name: "host.publishQuestionContent",
+              component: PublishQuestionContent
+            },
+            {
+              path: "/organize/question/statistics/:challengeId/:questionId/",
+              name: "host.publishAnswerStatistics",
+              component: publishAnswerStatistics
+            },
+          ]
         },
       ]
     },
@@ -80,3 +139,23 @@ export default new Router({
     }
   ]
 });
+
+
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    if (!Store.state.token) {
+      next({
+        name: "login"
+      });
+    } else {
+      next()
+    }
+
+  }
+  else {
+    next()
+  }
+})
+
+export default router;

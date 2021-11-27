@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app flat bottom class="cyan">
+  <v-app-bar app flat hide-on-scroll class="cyan">
     <v-toolbar-title class="black--text">
       <span>{{ $store.state.username }}</span>
     </v-toolbar-title>

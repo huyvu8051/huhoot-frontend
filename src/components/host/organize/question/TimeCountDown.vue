@@ -8,6 +8,7 @@
   </div>
 </template>
 <script>
+import HostPlayService from "@/services/HostPlayService";
 export default {
   data: () => ({
     timeLeft: 0,
@@ -35,12 +36,18 @@ export default {
           clearInterval(that.downloadTimer);
           that.timeLeft = "Finished";
           that.percent = 0;
-          that.$eventBus.$emit("submitable", false);
+
+          that.countdownFinish();
         } else {
           that.percent = Math.ceil((timeLeft / answerTime) * 100);
           that.timeLeft = timeLeft;
         }
       }, 1000);
+    },
+    countdownFinish() {
+      HostPlayService.showCorrectAnswer({
+        questionId: this.$route.params.questionId,
+      });
     },
   },
 };

@@ -1,14 +1,10 @@
 <template>
-  <v-flex xs12 sm12 md12>
-    <Question v-if="question != null" :question="question" />
+  <v-flex xs12 sm12 md6 lg6 xl6>
+    <Question :question="question" />
 
     <TimeCountDown class="py-2" />
     <v-row>
-      <Answer
-        :answer="item"
-        v-for="(item, index) in answers"
-        :key="index"
-      />
+      <Answer :answer="item" v-for="(item, index) in answers" :key="index" />
     </v-row>
   </v-flex>
 </template>
@@ -51,10 +47,13 @@ export default {
       StudentPlayService.sentAnswer({
         answerIds: selected,
         challengeId: challengeId,
-        questionId: this.question.id
+        questionId: this.question.id,
+      }).then((response) => {
+        this.$eventBus.$emit("updateScore", response.data);
       });
 
       console.log(selected);
+      this.answers = [];
     },
 
     connectSocket() {
@@ -94,6 +93,7 @@ export default {
           answerTime: this.question.answerTimeLimit,
           askDate: this.question.askDate,
         });
+        this.$eventBus.$emit("submitable", true);
       });
 
       socket.on("showCorrectAnswer", (answers) => {
@@ -101,17 +101,25 @@ export default {
           message: "Timeup!!!",
         });
         this.answers = answers;
+        this.$eventBus.$emit("submitable", false);
       });
 
       socket.on("endChallenge", (data) => {
         this.$eventBus.$emit("nofication", {
           message: "Challenge ended!!!",
         });
+        this.$router.push({
+          name: "STUDENT",
+        });
       });
 
       socket.on("kickStudent", (data) => {
         this.$eventBus.$emit("nofication", {
           message: "You're out!!!",
+          status: "error",
+        });
+        this.$router.push({
+          name: "STUDENT",
         });
       });
     },
