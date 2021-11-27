@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs12 sm12 md8 lg8 xl8>
+  <QuestionLayout>
     <v-card>
       <v-card-title>
         Rank Table
@@ -16,12 +16,17 @@
         </v-data-table>
       </v-card-text>
     </v-card>
-  </v-flex>
+  </QuestionLayout>
 </template>
 
 <script>
 import HostPlayService from "@/services/HostPlayService";
+
+import QuestionLayout from "@/components/host/organize/QuestionLayout";
 export default {
+  components: {
+    QuestionLayout,
+  },
   data() {
     return {
       headers: [
@@ -48,7 +53,6 @@ export default {
         challengeId: this.$route.query.challengeId,
       }).then((response) => {
         this.desserts = response.data;
-        console.log(this.desserts);
       });
     },
     nextQuestion() {

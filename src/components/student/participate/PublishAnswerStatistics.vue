@@ -1,12 +1,9 @@
 <template>
-  <v-flex xs12 sm12 md8 lg6 xl6>
+  <QuestionLayout>
     <v-card>
       <v-card-title>
         Statistics
         <v-spacer></v-spacer>
-        <v-btn color="cyan" @click="showTopStudent">
-          <b> See Rank Table </b>
-        </v-btn>
       </v-card-title>
       <v-card-text>
         <AnswerStatistics
@@ -26,18 +23,21 @@
         </v-row>
       </v-card-text>
     </v-card>
-  </v-flex>
+  </QuestionLayout>
 </template>
 
 <script>
 import Question from "@/components/student/Question";
-import Answer from "@/components/host/organize/question/Answer";
-import AnswerStatistics from "@/components/host/organize/question/AnswerStatistics";
+import Answer from "@/components/host/organize/Answer";
+import AnswerStatistics from "@/components/host/organize/AnswerStatistics";
+import QuestionLayout from "@/components/host/organize/QuestionLayout";
+
 export default {
   components: {
     Question,
     Answer,
     AnswerStatistics,
+    QuestionLayout,
   },
   props: {
     question: Object,
@@ -52,16 +52,6 @@ export default {
       let total = 0;
       this.answerStatistics.forEach((e) => (total += e.numberOfStudentSelect));
       return total;
-    },
-  },
-  methods: {
-    showTopStudent() {
-      this.$router.push({
-        name: "host.topStudent",
-        query: {
-          challengeId: this.$route.query.challengeId,
-        },
-      });
     },
   },
 };

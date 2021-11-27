@@ -8,13 +8,18 @@
         <v-toolbar-title class="text-body-2">
           <strong>{{ question.answerOption }} </strong>
         </v-toolbar-title>
+        <v-toolbar-title class="text-body-2">
+          <strong>{{ question.point }} </strong>
+        </v-toolbar-title>
       </v-spacer>
-      <v-toolbar-title class="text-body-2">
-        <strong>{{ question.point }} </strong>
-      </v-toolbar-title>
+      <v-btn color="red" @click="skipQuestion"><b>Skip</b></v-btn>
     </v-toolbar>
 
-    <v-img height="100%" width="100%" max-height="500px" :src="question.questionContent" />
+    <v-img
+      height="100%"
+      width="100%"
+      :src="question.questionContent"
+    />
   </v-card>
 </template>
 
@@ -24,6 +29,11 @@ export default {
   props: {
     question: Object,
   },
+  methods:{
+    skipQuestion(){
+
+    }
+  }
 };
 </script>
 

@@ -16,7 +16,6 @@ export default {
   }),
   computed: {
     percent() {
-      console.log(this.answerStatistic.numberOfStudentSelect, this.totalStudentAnswer);
       return (this.answerStatistic.numberOfStudentSelect / this.totalStudentAnswer) * 100;
     },
   },

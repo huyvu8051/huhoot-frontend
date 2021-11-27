@@ -1,40 +1,23 @@
 <template>
   <v-app-bar app flat hide-on-scroll class="cyan">
     <v-toolbar-title class="black--text">
-      <span>{{ $store.state.username }}</span>
+      <span>{{ studentAnswered }} student answered</span>
     </v-toolbar-title>
-    <v-spacer>
-      <v-btn class="green white--text" @click="sentAnswer" v-if="submitable"> Submit </v-btn>
-    </v-spacer>
-    <v-btn class="deep-purple white--text" text>
-      {{ score }}
+    <v-spacer> </v-spacer>
+    <v-btn class="deep-purple white--text" text @click="skipQuestion">
+      Skip
     </v-btn>
   </v-app-bar>
 </template>
 
 <script>
 export default {
-  data: () => ({
-    score: 0,
-    submitable: false
-  }),
-  created() {
-    this.$eventBus.$on("updateScore", (data) => {
-      this.score = data;
-    });
-
-    this.$eventBus.$on("submitable",(data)=>{
-      this.submitable = data;
-    });
-
-
-
+  props: {
+    studentAnswered: Number,
   },
-  components: {},
   methods: {
-    sentAnswer() {
-      this.submitable = false;
-      this.$eventBus.$emit("sentAnswer");
+    skipQuestion() {
+       this.$eventBus.$emit("skipQuestion");
     },
   },
 };

@@ -86,7 +86,7 @@ export default {
     initialize() {
       StudentManageService.findAllChallenge()
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           this.desserts = response.data.list;
         })
         .catch((err) => {
@@ -119,8 +119,8 @@ export default {
         challengeId: challengeId,
       }).then(() => {
         this.$router.push({
-          name: "student.challenge",
-          params: { challengeId: challengeId  }
+          name: "student.waiting",
+          query: { challengeId: challengeId  }
         });
       });
 

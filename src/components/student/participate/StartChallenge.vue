@@ -31,7 +31,7 @@ export default {
   methods: {
     startChallenge() {
       this.$router.push({
-        name: "host.publishQuestionIntro",
+        name: "student.publishQuestionIntro",
         query: {
           challengeId: this.$route.query.challengeId,
         },
