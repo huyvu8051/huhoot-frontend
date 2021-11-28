@@ -32,7 +32,7 @@ import HostListChallenge from "@/components/host/ListChallenge";
 import WaitingRoom from "@/components/host/organize/WaitingRoom";
 import PublishQuestionIntro from "@/components/host/organize/PublishQuestionIntro";
 import PublishQuestionContent from "@/components/host/organize/PublishQuestionContent";
-import publishAnswerStatistics from "@/components/host/organize/publishAnswerStatistics";
+import publishAnswerStatistics from "@/components/host/organize/PublishAnswerStatistics";
 import StartChallenge from "@/components/host/organize/StartChallenge";
 import TopStudent from "@/components/host/organize/TopStudent";
 import ChallengeFinish from "@/components/host/organize/ChallengeFinish";
