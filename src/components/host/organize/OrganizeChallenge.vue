@@ -17,8 +17,7 @@ export default {
       question: {},
       answers: [],
       answerStatistics: [],
-      studentAnswered:0
-
+      studentAnswered: 0,
     };
   },
   created() {
@@ -27,7 +26,7 @@ export default {
   },
   methods: {
     connectSocket() {
-      const socketUrl = "http://localhost:8082";
+      const socketUrl = "http://159.223.38.181:8082";
       var socket = io.connect(socketUrl);
       socket
         .on("connected", (data) => {
@@ -65,15 +64,13 @@ export default {
         this.answers = data.answers;
         this.studentAnswered = 0;
 
-        setTimeout(() => {
-          this.$router.push({
-            name: "host.publishQuestionReady",
-            query: {
-              challengeId: this.$route.query.challengeId,
-              questionId: this.question.id,
-            },
-          });
-        }, 1000);
+        this.$router.push({
+          name: "host.publishQuestionReady",
+          query: {
+            challengeId: this.$route.query.challengeId,
+            questionId: this.question.id,
+          },
+        });
       });
 
       this.socket.on("showCorrectAnswer", (data) => {
@@ -92,15 +89,15 @@ export default {
       });
 
       this.socket.on("studentAnswer", () => {
-        this.studentAnswered ++;
+        this.studentAnswered++;
         console.log(this.studentAnswered);
       });
       this.socket.on("endChallenge", () => {
-         this.$router
+        this.$router
           .push({
             name: "host.challengeFinish",
             query: {
-              challengeId: this.$route.query.challengeId
+              challengeId: this.$route.query.challengeId,
             },
           })
           .catch((err) => err);

@@ -2,7 +2,9 @@
   <v-card class="mx-auto" flat>
     <v-toolbar color="cyan" dense flat>
       <v-toolbar-title class="text-body-2">
-        <strong>{{ question.ordinalNumber }} of </strong>
+        <strong>
+          {{ question.ordinalNumber }} of {{ question.totalQuestion }}
+        </strong>
       </v-toolbar-title>
       <v-spacer>
         <v-toolbar-title class="text-body-2">
@@ -14,11 +16,7 @@
       </v-spacer>
     </v-toolbar>
 
-    <v-img
-      height="100%"
-      width="100%"
-      :src="question.questionContent"
-    />
+    <v-img height="100%" width="100%" :src="question.questionContent" />
   </v-card>
 </template>
 
@@ -28,11 +26,9 @@ export default {
   props: {
     question: Object,
   },
-  methods:{
-    skipQuestion(){
-
-    }
-  }
+  methods: {
+    skipQuestion() {},
+  },
 };
 </script>
 

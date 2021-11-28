@@ -1,6 +1,6 @@
 <template>
   <QuestionLayout :studentAnswered="studentAnswered">
-    <Question :question="question" />
+    <Question :question="question" :studentAnswered="studentAnswered" />
 
     <TimeCountDown class="py-2" />
     <v-row>

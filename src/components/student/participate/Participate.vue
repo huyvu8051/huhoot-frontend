@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     connectSocket() {
-      const socketUrl = "http://localhost:8082";
+      const socketUrl = "http://159.223.38.181:8082";
       var socket = io.connect(socketUrl);
       socket
         .on("connected", (data) => {
@@ -77,15 +77,13 @@ export default {
         this.question = data.question;
         this.answers = data.answers;
 
-        setTimeout(() => {
-          this.$router.push({
-            name: "student.publishQuestionReady",
-            query: {
-              challengeId: this.$route.query.challengeId,
-              questionId: this.question.id,
-            },
-          });
-        }, 1000);
+        this.$router.push({
+          name: "student.publishQuestionReady",
+          query: {
+            challengeId: this.$route.query.challengeId,
+            questionId: this.question.id,
+          },
+        });
       });
 
       socket.on("showCorrectAnswer", (data) => {
