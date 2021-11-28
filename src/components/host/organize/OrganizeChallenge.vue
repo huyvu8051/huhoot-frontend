@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     connectSocket() {
-      const socketUrl = "http://159.223.38.181:8082";
+      const socketUrl = "https://159.223.38.181:8082";
       var socket = io.connect(socketUrl);
       socket
         .on("connected", (data) => {
