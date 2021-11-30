@@ -3,8 +3,25 @@
     <Question :question="question" :studentAnswered="studentAnswered" />
 
     <TimeCountDown class="py-2" />
+
     <v-row>
-      <Answer :answer="item" v-for="(item, index) in answers" :key="index" />
+      <v-col
+        cols="12"
+        xs="12"
+        sm="6"
+        md="6"
+        lg="6"
+        xl="6"
+        class="pa-3 d-flex flex-column"
+        v-for="i in answers"
+        :key="i.id"
+      >
+        <v-card  outlined class="flex d-flex flex-column" v-bind:class="{ green: i.correct }">
+          <v-card-text class="flex" >
+            <b>{{ i.answerContent }}</b>
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
   </QuestionLayout>
 </template>
@@ -24,7 +41,7 @@ export default {
   props: {
     question: Object,
     answers: Array,
-    studentAnswered: Number
+    studentAnswered: Number,
   },
   mounted() {
     this.$eventBus.$emit("countDown", {

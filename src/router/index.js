@@ -27,7 +27,10 @@ import Admin from "@/components/admin/Admin";
 
 import HostLayout from "@/components/host/HostLayout";
 import OrganizeChallenge from "@/components/host/organize/OrganizeChallenge";
-import HostListChallenge from "@/components/host/ListChallenge";
+import HostListChallenge from "@/components/host/challenge/ListChallenge";
+import HostListQuestion from "@/components/host/challenge/ListQuestion";
+import HostListAnswer from "@/components/host/challenge/ListAnswer";
+import ListStudentInChallenge from "@/components/host/challenge/ListStudentInChallenge";
 
 import WaitingRoom from "@/components/host/organize/WaitingRoom";
 import PublishQuestionIntro from "@/components/host/organize/PublishQuestionIntro";
@@ -139,16 +142,32 @@ const router = new Router({
     // host
 
     {
-      path: "/host",
+      path: "/host/",
       component: HostLayout,
+      meta: {
+        requiresAuth: true
+      },
       children: [
         {
-          path: "/host/challenge",
+          path: "challenge",
           name: "HOST",
           component: HostListChallenge,
-          meta: {
-            requiresAuth: true
-          }
+
+        },
+        {
+          path: "question",
+          name: "host.listQuestion",
+          component: HostListQuestion
+        },
+        {
+          path: "answer",
+          name: "host.listAnswer",
+          component: HostListAnswer
+        },
+        {
+          path: "studentInChallenge",
+          name: "host.listStudentInChallenge",
+          component: ListStudentInChallenge
         },
       ]
     },

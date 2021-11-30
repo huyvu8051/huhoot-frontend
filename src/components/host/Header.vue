@@ -5,27 +5,27 @@
       <span>Huhoot</span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <AccountPanel />
-    
+
+    <v-btn elevation="2" small class="primary white--text">
+      {{ $store.state.username }}
+    </v-btn>
   </v-app-bar>
 </template>
 
 <script>
-
-import AccountPanel from "@/components/AccountPanel";
+import AccountPanel from "@/components/host/AccountPanel";
 export default {
   data: () => ({
-    icons: ["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"]
+    icons: ["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"],
   }),
   components: {
- 
-    AccountPanel: AccountPanel
+    AccountPanel: AccountPanel,
   },
   methods: {
     drawer() {
       this.$eventBus.$emit("drawer");
-    }
-  }
+    },
+  },
 };
 </script>
 

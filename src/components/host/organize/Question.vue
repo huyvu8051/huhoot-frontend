@@ -32,7 +32,9 @@ export default {
     studentAnswered: Number
   },
   methods: {
-    skipQuestion() {},
+    skipQuestion() {
+      this.$eventBus.$emit("skipQuestion")
+    },
   },
 };
 </script>

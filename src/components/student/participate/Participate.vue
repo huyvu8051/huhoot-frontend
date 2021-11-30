@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     connectSocket() {
-      const socketUrl = "http://159.223.38.181:8082";
+      const socketUrl = "http://localhost:8082";
       var socket = io.connect(socketUrl);
       socket
         .on("connected", (data) => {
@@ -50,16 +50,17 @@ export default {
           token: this.$store.state.token,
         })
         .on("registerSuccess", (data) => {
-          // console.log(data);
+          console.log(data);
           this.student = data;
-        })
-        .on("joinError", (data) => {
-          this.$eventBus.$emit("nofication", {
-            message: "Cann't connect to room!!!",
-            status: "error",
-          });
-          throw "Cannot connect socket";
         });
+        
+      socket.on("joinError", (data) => {
+        this.$eventBus.$emit("nofication", {
+          message: "Cann't connect to room!!!",
+          status: "error",
+        });
+        throw "Cannot connect socket";
+      });
 
       return socket;
     },

@@ -9,7 +9,9 @@
         @click="selectAnswer"
         v-bind:class="{ green: answer.correct, yellow: this.selected }"
       >
-        <b>{{ answer.answerContent }}</b>
+        <p class="text-wrap">
+          <b>{{ answer.answerContent }}</b>
+        </p>
       </v-btn>
     </v-card>
   </v-col>

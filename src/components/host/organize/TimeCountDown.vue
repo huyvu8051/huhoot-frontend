@@ -20,6 +20,10 @@ export default {
     this.$eventBus.$on("countDown", (data) => {
       this.countdown(data.answerTime, data.askDate);
     });
+    this.$eventBus.$on("skipQuestion", () => {
+       clearInterval(this.downloadTimer);
+       this.countdownFinish();
+    });
   },
   methods: {
     countdown(answerTime, askDate) {

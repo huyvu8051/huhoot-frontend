@@ -21,6 +21,9 @@
 
       <template v-slot:top>
         <v-toolbar flat>
+          <v-toolbar-title> List challenge </v-toolbar-title>
+          <v-divider class="mx-4" inset vertical> </v-divider>
+          <v-spacer> </v-spacer>
           <v-dialog v-model="dialogPlay" max-width="500px">
             <v-card>
               <v-card-title class="text-h5"
@@ -120,7 +123,7 @@ export default {
       }).then(() => {
         this.$router.push({
           name: "student.waiting",
-          query: { challengeId: challengeId  }
+          query: { challengeId: challengeId },
         });
       });
 

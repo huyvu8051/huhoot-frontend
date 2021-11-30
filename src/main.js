@@ -6,13 +6,17 @@ import router from './router'
 import store from '@/store/store'
 
 import vuetify from './plugins/vuetify'
-
+import Vuelidate from 'vuelidate'
 import EventBus from "@/EventBus"
+import VueConfig from "@/vue.config"
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 
+Vue.prototype.$backendUrl = VueConfig.backendUrl
+
+Vue.use(Vuelidate)
 Vue.prototype.$eventBus = EventBus;
 
 new Vue({

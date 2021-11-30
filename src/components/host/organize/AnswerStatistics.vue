@@ -1,7 +1,20 @@
 <template>
-  <v-progress-linear v-model="percent" color="blue" height="30" class="my-5" rounded >
-    <template v-slot:default="{value}">
-      <strong>{{ answerStatistic.answerContent}} {{ Math.ceil(value) }}% {{answerStatistic.numberOfStudentSelect}} students</strong>
+  <v-progress-linear
+    v-model="percent"
+    color="blue"
+    height="40"
+    class="my-5"
+    rounded
+  >
+    <template v-slot:default="{ value }">
+      <span class="d-inline-block text-truncate pl-3" style="max-width: 400px" >
+        {{ answerStatistic.answerContent }}
+      </span>
+      <v-spacer></v-spacer>
+      <strong class="pr-3">
+        {{ Math.ceil(value) }}%|
+        {{ answerStatistic.numberOfStudentSelect }} students
+      </strong>
     </template>
   </v-progress-linear>
 </template>
@@ -12,11 +25,13 @@ export default {
     totalStudentAnswer: Number,
     answerStatistic: Object,
   },
-  data: () => ({
-  }),
+  data: () => ({}),
   computed: {
     percent() {
-      return (this.answerStatistic.numberOfStudentSelect / this.totalStudentAnswer) * 100;
+      return (
+        (this.answerStatistic.numberOfStudentSelect / this.totalStudentAnswer) *
+        100
+      );
     },
   },
 };

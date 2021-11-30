@@ -1,9 +1,13 @@
 <template>
-  <v-img :src="src" height="50px" width="90px" class="my-1 rounded"/>
+  <ImageWrapper :src="src" height="50px" width="90px"/>
 </template>
 
 <script>
+import ImageWrapper from "@/components/ImageWrapper"
 export default {
+  components:{
+    ImageWrapper
+  },
   props: {
     src: String,
   },
