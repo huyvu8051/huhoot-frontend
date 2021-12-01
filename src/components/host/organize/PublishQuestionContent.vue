@@ -1,6 +1,8 @@
 <template>
   <QuestionLayout :studentAnswered="studentAnswered">
+
     <Question :question="question" :studentAnswered="studentAnswered" />
+    
 
     <TimeCountDown class="py-2" />
 

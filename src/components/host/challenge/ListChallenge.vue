@@ -124,6 +124,9 @@
       </template>
       <template v-slot:[`item.actions`]="{ item }">
         <v-icon small class="mr-2" @click="viewListQuestion(item)">
+          poll
+        </v-icon>
+        <v-icon small class="mr-2" @click="viewListQuestion(item)">
           view_list
         </v-icon>
         <v-icon small class="mr-2" @click="viewListStudentInChallenge(item)">
@@ -133,6 +136,7 @@
         <v-icon small class="mr-2" @click="deleteItem(item)">
           mdi-delete
         </v-icon>
+        <OpenChallenge :challengeId="item.id" />
 
         <v-icon small class="mr-2" @click="play(item)"> play_arrow </v-icon>
       </template>
@@ -155,6 +159,7 @@ import HostPlayService from "@/services/HostPlayService";
 
 import ImageDataTable from "@/components/ImageDataTable";
 import DateFormater from "@/components/DateFormater";
+import OpenChallenge from "@/components/host/challenge/OpenChallenge";
 
 import ImageWrapper from "@/components/ImageWrapper";
 
@@ -171,6 +176,7 @@ export default {
     DateFormater,
     ImageDataTable,
     ImageWrapper,
+    OpenChallenge
   },
   // validate
   mixins: [validationMixin],
@@ -204,7 +210,7 @@ export default {
     editedItem: {
       Id: 0,
       title: "",
-      coverImage: "hutech-logo.png",
+      coverImage: "huhoot-logo.png",
       randomAnswer: false,
       randomQuest: false,
       challengeStatus: "BUILDING",
@@ -212,7 +218,7 @@ export default {
     defaultItem: {
       Id: 0,
       title: "",
-      coverImage: "hutech-logo.png",
+      coverImage: "huhoot-logo.png",
       randomAnswer: false,
       randomQuest: false,
       challengeStatus: "BUILDING",
@@ -348,6 +354,9 @@ export default {
     },
 
     uploadFile(file) {
+
+      if (file === null || file === undefined) return;
+
       var formData = new FormData();
       formData.append("file", file);
 
@@ -359,12 +368,12 @@ export default {
     play(item) {
       // join a game
 
-      HostPlayService.openChallenge({
+      HostPlayService.joinChallenge({
         challengeId: item.id,
       }).then(() => {
         this.$router.push({
           name: "waitingRoom",
-          query: { challengeId: challengeId },
+          query: { challengeId: item.id },
         });
       });
     },

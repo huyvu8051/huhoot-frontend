@@ -1,23 +1,28 @@
 <template>
-  <div>
+  <v-main>
     <Header :point="point" :submitable="submitable" />
-    <router-view
-      :socket="socket"
-      :question="question"
-      :answers="answers"
-      :answerStatistics="answerStatistics"
-    />
-  </div>
+    <FlexLayout>
+      <router-view
+        :socket="socket"
+        :question="question"
+        :answers="answers"
+        :answerStatistics="answerStatistics"
+      />
+    </FlexLayout>
+  </v-main>
 </template>
 
 <script>
 import Header from "@/components/student/participate/ChallengeHeader";
+
+import FlexLayout from "@/components/FlexLayout";
 
 import StudentPlayService from "@/services/StudentPlayService";
 
 export default {
   components: {
     Header,
+    FlexLayout,
   },
   data() {
     return {
@@ -53,7 +58,7 @@ export default {
           console.log(data);
           this.student = data;
         });
-        
+
       socket.on("joinError", (data) => {
         this.$eventBus.$emit("nofication", {
           message: "Cann't connect to room!!!",

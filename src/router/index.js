@@ -31,6 +31,7 @@ import HostListChallenge from "@/components/host/challenge/ListChallenge";
 import HostListQuestion from "@/components/host/challenge/ListQuestion";
 import HostListAnswer from "@/components/host/challenge/ListAnswer";
 import ListStudentInChallenge from "@/components/host/challenge/ListStudentInChallenge";
+import ListStudent from "@/components/host/challenge/ListStudent";
 
 import WaitingRoom from "@/components/host/organize/WaitingRoom";
 import PublishQuestionIntro from "@/components/host/organize/PublishQuestionIntro";
@@ -168,6 +169,11 @@ const router = new Router({
           path: "studentInChallenge",
           name: "host.listStudentInChallenge",
           component: ListStudentInChallenge
+        },
+        {
+          path: "student",
+          name: "host.student",
+          component: ListStudent
         },
       ]
     },

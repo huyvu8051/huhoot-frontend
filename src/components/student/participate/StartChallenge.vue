@@ -1,11 +1,5 @@
 <template>
-  <v-main>
-    <v-container fluid rounded-lg>
-      <v-layout align-center justify-center>
-        <h1>{{ timeleft }}</h1>
-      </v-layout>
-    </v-container>
-  </v-main>
+  <h1>{{ timeleft }}</h1>
 </template>
 
 <script>
@@ -54,5 +48,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

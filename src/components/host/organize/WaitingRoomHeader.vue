@@ -6,7 +6,15 @@
       <b>Challenge id: {{ $route.query.challengeId }}</b>
     </v-spacer>
 
-    <v-btn class="red white--text" @click="lockChallenge"> Lock </v-btn>
+    <v-btn
+      class="black white--text mr-2"
+      :to="{
+        name: 'HOST',
+      }"
+    >
+      Return
+    </v-btn>
+    <v-btn class="red white--text mr-2" @click="lockChallenge"> Lock </v-btn>
 
     <v-btn class="deep-purple white--text" @click="startChallenge">
       Start
@@ -20,8 +28,7 @@ export default {
   props: {
     NumOfStudent: Number,
   },
-  data: () => ({
-  }),
+  data: () => ({}),
   created() {
     this.$eventBus.$on("updateScore", (data) => {
       this.score = data;
@@ -30,7 +37,6 @@ export default {
   components: {},
   methods: {
     startChallenge() {
-
       HostPlayService.startChallenge({
         challengeId: this.$route.query.challengeId,
       });

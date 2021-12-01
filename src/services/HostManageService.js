@@ -39,6 +39,11 @@ export default {
   addChallenge(data) {
     return Api().post("host/challenge", data);
   },
+  openChallenge(params) {
+    return Api().get("host/openChallenge", {
+      params: params
+    });
+  },
 
 
   upload(data) {
@@ -49,10 +54,23 @@ export default {
     });
   },
 
+  findAllStudent(params) {
+    return Api().get("host/student", {
+      params: params
+    });
+  },
+
   findAllStudentInChallenge(params) {
     return Api().get("host/studentChallenge", {
       params: params
     });
+  },
+  addStudentInChallenge(data) {
+    return Api().post("host/studentChallenge", data);
+
+  },
+  updateStudentInChallenge(data) {
+    return Api().patch("host/studentChallenge", data);
 
   }
 };

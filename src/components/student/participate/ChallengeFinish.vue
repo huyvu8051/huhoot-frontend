@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <v-container fluid rounded-lg>
+    <v-container fluid fill-height rounded-lg>
       <h1>Challenge finish</h1>
       <v-layout align-center justify-center>
         <v-btn

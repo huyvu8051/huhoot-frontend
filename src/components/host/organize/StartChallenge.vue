@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <v-container fluid rounded-lg>
+    <v-container fluid fill-height rounded-lg>
       <v-layout align-center justify-center>
         <h1>{{ timeleft }}</h1>
       </v-layout>

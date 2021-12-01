@@ -9,6 +9,9 @@ import vuetify from './plugins/vuetify'
 import Vuelidate from 'vuelidate'
 import EventBus from "@/EventBus"
 import VueConfig from "@/vue.config"
+import resize from "vue-element-resize-detector";
+ 
+Vue.use(resize)
 
 Vue.config.productionTip = false
 

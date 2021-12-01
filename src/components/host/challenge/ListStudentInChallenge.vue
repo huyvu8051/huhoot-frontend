@@ -16,7 +16,7 @@
           100,
           {
             text: 'All',
-            value: 999,
+            value: 9999,
           },
         ],
       }"
@@ -25,15 +25,10 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>List Challenge</v-toolbar-title>
+          <v-toolbar-title>List student in challenge</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="1000px">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
-                New Item
-              </v-btn>
-            </template>
             <v-card>
               <v-card-title>
                 <span class="text-h5">{{ formTitle }}</span>
@@ -42,53 +37,16 @@
               <v-card-text>
                 <v-container>
                   <v-row>
-                    <v-col cols="12">
-                      <v-textarea
-                        v-model="editedItem.title"
-                        label="Title"
-                        counter="255"
-                        :error-messages="titleErrors"
-                        required
-                        @input="$v.editedItem.title.$touch()"
-                        @blur="$v.editedItem.title.$touch()"
-                      >
-                      </v-textarea>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="3">
-                      <v-switch
-                        v-model="editedItem.randomAnswer"
-                        label="Random Answer"
-                      >
+                    <v-col cols="12" sm="6" md="6">
+                      <v-switch v-model="editedItem.isKicked" label="Is kicked">
                       </v-switch>
                     </v-col>
-                    <v-col cols="12" sm="6" md="3">
+                    <v-col cols="12" sm="6" md="6">
                       <v-switch
-                        v-model="editedItem.randomQuest"
-                        label="Random Question"
+                        v-model="editedItem.isNonDeleted"
+                        label="Is non deleted"
                       >
                       </v-switch>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="3">
-                      <v-select
-                        :items="challengeStatus"
-                        v-model="editedItem.challengeStatus"
-                        label="Challenge status"
-                        outlined
-                      ></v-select>
-                    </v-col>
-
-                    <v-col cols="12" sm="6" md="3">
-                      <v-file-input
-                        name="image"
-                        accept="image/*"
-                        label="Upload image"
-                        @change="uploadFile"
-                      >
-                      </v-file-input>
-                    </v-col>
-                    <v-col>
-                      <p>Challenge cover</p>
-                      <ImageWrapper :src="editedItem.coverImage" />
                     </v-col>
                   </v-row>
                 </v-container>
@@ -103,6 +61,40 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
+          <v-dialog v-model="dialogAdd" max-width="1000px">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
+                Add student
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="text-h5">{{ formTitle }}</span>
+              </v-card-title>
+
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12">
+                      <ListStudent>
+                        <template v-slot:top="props">
+                          <AddStudentInChallenge :selected="props.selected" />
+                        </template>
+                      </ListStudent>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="close">
+                  Cancel
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
           <v-dialog v-model="dialogDelete" max-width="500px">
             <v-card>
               <v-card-title class="text-h5">
@@ -123,26 +115,18 @@
         </v-toolbar>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
-        <v-icon small class="mr-2" @click="viewListQuestion(item)">
-          view_list
-        </v-icon>
-        <v-icon small class="mr-2" @click="viewListStudentInChallenge(item)">
-          group
-        </v-icon>
         <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
         <v-icon small class="mr-2" @click="deleteItem(item)">
           mdi-delete
         </v-icon>
-
-        <v-icon small class="mr-2" @click="play(item)"> play_arrow </v-icon>
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="getDataFromApi()"> Reset </v-btn>
       </template>
-      <template v-slot:[`item.coverImage`]="{ item }">
-        <ImageDataTable :src="item.coverImage" />
-      </template>
       <template v-slot:[`item.createdDate`]="{ item }">
+        <DateFormater :date="item.createdDate" />
+      </template>
+      <template v-slot:[`item.modifiedDate`]="{ item }">
         <DateFormater :date="item.createdDate" />
       </template>
     </v-data-table>
@@ -155,30 +139,21 @@ import HostPlayService from "@/services/HostPlayService";
 
 import ImageDataTable from "@/components/ImageDataTable";
 import DateFormater from "@/components/DateFormater";
+import AddStudentInChallenge from "@/components/host/challenge/AddStudentInChallenge";
+import ListStudent from "@/components/host/challenge/ListStudent";
+
 
 import ImageWrapper from "@/components/ImageWrapper";
-
-import { validationMixin } from "vuelidate";
-import {
-  required,
-  maxLength,
-  minLength,
-  minValue,
-} from "vuelidate/lib/validators";
 
 export default {
   components: {
     DateFormater,
     ImageDataTable,
     ImageWrapper,
+    AddStudentInChallenge,
+    ListStudent,
   },
   // validate
-  mixins: [validationMixin],
-  validations: {
-    editedItem: {
-      title: { required, maxLength: maxLength(255) },
-    },
-  },
 
   // data
   data: () => ({
@@ -187,51 +162,39 @@ export default {
     point: ["STANDARD", "DOUBLE_POINTS", "NO_POINTS"],
     radioGroup: 1,
     dialog: false,
+    dialogAdd: false,
     dialogDelete: false,
     headers: [
-      { text: "Id", value: "id", align: "start", sortable: true },
-      { text: "Title", value: "title" },
-      { text: "Cover", value: "coverImage" },
+      { text: "Id", value: "studentId", align: "start", sortable: true },
+      { text: "Username", value: "studentUsername" },
+      { text: "Full name", value: "studentFullName" },
       { text: "Created date", value: "createdDate" },
-      { text: "Owner", value: "owner" },
-      { text: "Random answer", value: "randomAnswer" },
-      { text: "Random quest", value: "randomQuest" },
-      { text: "Status", value: "challengeStatus" },
+      { text: "Created By", value: "createdBy" },
+      { text: "Modified date", value: "modifiedDate" },
+      { text: "Modified by", value: "modifiedBy" },
+      { text: "Kick", value: "isKicked" },
+      { text: "Login", value: "isLogin" },
+      { text: "Online", value: "isOnline" },
+      { text: "Non deleted", value: "isNonDeleted" },
       { text: "Actions", value: "actions", sortable: false },
     ],
     desserts: [],
     editedIndex: -1,
     editedItem: {
-      Id: 0,
-      title: "",
-      coverImage: "hutech-logo.png",
-      randomAnswer: false,
-      randomQuest: false,
-      challengeStatus: "BUILDING",
+      studentId: 0,
+      isKicked: false,
+      isNonDeleted: true,
     },
     defaultItem: {
-      Id: 0,
-      title: "",
-      coverImage: "hutech-logo.png",
-      randomAnswer: false,
-      randomQuest: false,
-      challengeStatus: "BUILDING",
+      studentId: 0,
+      isKicked: false,
+      isNonDeleted: true,
     },
     totalDesserts: 0,
     loading: true,
     options: {},
   }),
   computed: {
-    titleErrors() {
-      const errors = [];
-      if (!this.$v.editedItem.title.$dirty) return errors;
-      !this.$v.editedItem.title.required &&
-        errors.push("Question title required!");
-      !this.$v.editedItem.title.maxLength &&
-        errors.push("Question title length must less than 255!");
-      return errors;
-    },
-
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
     },
@@ -252,6 +215,10 @@ export default {
     },
   },
 
+  created() {
+    this.$eventBus.$on("refreshListStudentInChallenge", this.getDataFromApi);
+  },
+
   methods: {
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
@@ -267,10 +234,13 @@ export default {
 
     deleteItemConfirm() {
       this.loading = true;
-      HostManageService.updateChallenge({
-        id: this.editedItem.id,
-        isNonDeleted: false,
-      })
+      this.editedItem.isNonDeleted = false;
+      HostManageService.updateStudentInChallenge(
+        Object.assign(
+          { challengeId: this.$route.query.challengeId },
+          this.editedItem
+        )
+      )
         .catch(console.log)
         .finally(() => {
           this.loading = false;
@@ -282,6 +252,7 @@ export default {
     },
 
     close() {
+      this.dialogAdd = false;
       this.dialog = false;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
@@ -298,21 +269,29 @@ export default {
     },
 
     save() {
-      this.$v.$touch();
-      if (this.$v.$anyError) {
-        return;
-      }
       this.loading = true;
 
+      console.log(this.editedItem);
+
       if (this.editedIndex > -1) {
-        HostManageService.updateChallenge(Object.assign({}, this.editedItem))
+        HostManageService.updateStudentInChallenge(
+          Object.assign(
+            { challengeId: this.$route.query.challengeId },
+            this.editedItem
+          )
+        )
           .catch(console.log)
           .finally(() => {
             this.loading = false;
             this.getDataFromApi();
           });
       } else {
-        HostManageService.addChallenge(Object.assign({}, this.editedItem))
+        HostManageService.addChallenge(
+          Object.assign(
+            { challengeId: this.$route.query.challengeId },
+            this.editedItem
+          )
+        )
           .catch(console.log)
           .finally(() => {
             this.loading = false;
@@ -330,44 +309,9 @@ export default {
           console.log(response.data);
           this.desserts = response.data.list;
           this.totalDesserts = response.data.totalElements;
-          this.loading = false;
         })
         .catch(console.log)
         .finally((this.loading = false));
-    },
-    viewListQuestion(item) {
-      this.$router.push({
-        name: "host.listQuestion",
-        query: { challengeId: item.id },
-      });
-    },
-    viewListStudentInChallenge(item) {
-      this.$router.push({
-        name: "host.listStudentInChallenge",
-        query: { challengeId: item.id },
-      });
-    },
-
-    uploadFile(file) {
-      var formData = new FormData();
-      formData.append("file", file);
-
-      HostManageService.upload(formData)
-        .then((response) => (this.editedItem.coverImage = response.data))
-        .catch(console.log)
-        .finally((this.loading = false));
-    },
-    play(item) {
-      // join a game
-
-      HostPlayService.openChallenge({
-        challengeId: item.id,
-      }).then(() => {
-        this.$router.push({
-          name: "waitingRoom",
-          query: { challengeId: challengeId },
-        });
-      });
     },
   },
 };
