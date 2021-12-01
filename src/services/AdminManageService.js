@@ -2,41 +2,19 @@ import Api from "@/services/Api";
 
 export default {
 
-    joinChallenge(params) {
-        return Api().get("host/joinChallenge", {
+    findAllStudent(params) {
+        return Api().get("admin/student", {
             params: params
         });
     },
-    getStudentsOnline(params) {
-        return Api().get("host/studentOnline", {
-            params: params
-        });
+
+    updateStudent(data) {
+        return Api().patch("admin/student", data);
     },
-    publishQuestion(params){
-        return Api().get("host/publishQuestion",{
-            params: params
-        })
+    addStudent(data) {
+        return Api().post("admin/student", data);
     },
-    showCorrectAnswer(params){
-        return Api().get("host/showCorrectAnswer",{
-            params: params
-        })
-    },
-    getTopStudent(params){
-        return Api().get("host/getTopStudent",{
-            params: params
-        })
-    },
-    publishNextQuestion(params){
-        return Api().get("host/publishNextQuestion",{
-            params: params
-        })
-    },
-    startChallenge(params){
-        return Api().get("host/startChallenge",{
-            params: params
-        })
-    }
+
 
 
 

@@ -42,33 +42,37 @@
               <v-card-text>
                 <v-container>
                   <v-row>
-                    <v-col cols="12">
-                      <v-textarea
-                        v-model="editedItem.title"
-                        label="Title"
-                        counter="255"
-                        :error-messages="titleErrors"
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        v-model="editedItem.username"
+                        label="Username"
+                        counter="10"
+                        :error-messages="usernameErrors"
                         required
-                        @input="$v.editedItem.title.$touch()"
-                        @blur="$v.editedItem.title.$touch()"
+                        @input="$v.editedItem.username.$touch()"
+                        @blur="$v.editedItem.username.$touch()"
                       >
-                      </v-textarea>
+                      </v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="3">
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        v-model="editedItem.fullName"
+                        label="FullName"
+                        counter="50"
+                        :error-messages="fullNameErrors"
+                        required
+                        @input="$v.editedItem.fullName.$touch()"
+                        @blur="$v.editedItem.fullName.$touch()"
+                      >
+                      </v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
                       <v-switch
-                        v-model="editedItem.randomAnswer"
-                        label="Random Answer"
+                        v-model="editedItem.isNonLocked"
+                        label="Non deleted"
                       >
                       </v-switch>
                     </v-col>
-                    <v-col cols="12" sm="6" md="3">
-                      <v-switch
-                        v-model="editedItem.randomQuest"
-                        label="Random Question"
-                      >
-                      </v-switch>
-                    </v-col>
-                    
                   </v-row>
                 </v-container>
               </v-card-text>
@@ -121,7 +125,7 @@
 </template>
 
 <script>
-import HostManageService from "@/services/HostManageService";
+import AdminManageService from "@/services/AdminManageService";
 
 import ImageDataTable from "@/components/ImageDataTable";
 import DateFormater from "@/components/DateFormater";
@@ -136,6 +140,7 @@ import {
   maxLength,
   minLength,
   minValue,
+  length,
 } from "vuelidate/lib/validators";
 
 export default {
@@ -150,7 +155,15 @@ export default {
   mixins: [validationMixin],
   validations: {
     editedItem: {
-      title: { required, maxLength: maxLength(255) },
+      username: {
+        required,
+        allNumber: function (value) {
+          const allNumber =
+            /^\d{10}$/.test(value);
+          return allNumber;
+        },
+      },
+      fullName: { required, maxLength: maxLength(50), minLength: minLength(5) },
     },
   },
 
@@ -172,33 +185,40 @@ export default {
     desserts: [],
     editedIndex: -1,
     editedItem: {
-      Id: 0,
-      title: "",
-      coverImage: "huhoot-logo.png",
-      randomAnswer: false,
-      randomQuest: false,
-      challengeStatus: "BUILDING",
+      id: 0,
+      username: "",
+      fullName: "",
+      isNonLocked: true,
     },
     defaultItem: {
-      Id: 0,
-      title: "",
-      coverImage: "huhoot-logo.png",
-      randomAnswer: false,
-      randomQuest: false,
-      challengeStatus: "BUILDING",
+      id: 0,
+      username: "",
+      fullName: "",
+      isNonLocked: true,
     },
     totalDesserts: 0,
     loading: true,
     options: {},
   }),
   computed: {
-    titleErrors() {
+    usernameErrors() {
       const errors = [];
-      if (!this.$v.editedItem.title.$dirty) return errors;
-      !this.$v.editedItem.title.required &&
-        errors.push("Question title required!");
-      !this.$v.editedItem.title.maxLength &&
-        errors.push("Question title length must less than 255!");
+      if (!this.$v.editedItem.username.$dirty) return errors;
+      !this.$v.editedItem.username.required &&
+        errors.push("Username required!");
+      !this.$v.editedItem.username.allNumber &&
+        errors.push("Username length equal 10 with all number");
+      return errors;
+    },
+    fullNameErrors() {
+      const errors = [];
+      if (!this.$v.editedItem.fullName.$dirty) return errors;
+      !this.$v.editedItem.fullName.required &&
+        errors.push("Fullname required!");
+      !this.$v.editedItem.fullName.maxLength &&
+        errors.push("Fullname length less than 50!");
+      !this.$v.editedItem.fullName.minLength &&
+        errors.push("Fullname length greater than 5!");
       return errors;
     },
 
@@ -237,7 +257,7 @@ export default {
 
     deleteItemConfirm() {
       this.loading = true;
-      HostManageService.updateChallenge({
+      AdminManageService.updateStudent({
         id: this.editedItem.id,
         isNonDeleted: false,
       })
@@ -275,14 +295,14 @@ export default {
       this.loading = true;
 
       if (this.editedIndex > -1) {
-        HostManageService.updateChallenge(Object.assign({}, this.editedItem))
+        AdminManageService.updateStudent(Object.assign({}, this.editedItem))
           .catch(console.log)
           .finally(() => {
             this.loading = false;
             this.getDataFromApi();
           });
       } else {
-        HostManageService.addChallenge(Object.assign({}, this.editedItem))
+        AdminManageService.addStudent(Object.assign({}, this.editedItem))
           .catch(console.log)
           .finally(() => {
             this.loading = false;
@@ -294,7 +314,7 @@ export default {
     getDataFromApi() {
       //  console.log(this.options);
       this.loading = true;
-      HostManageService.findAllStudent(this.options)
+      AdminManageService.findAllStudent(this.options)
         .then((response) => {
           // console.log(response.data);
           this.desserts = response.data.list;
