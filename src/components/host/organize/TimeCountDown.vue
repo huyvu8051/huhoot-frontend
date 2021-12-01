@@ -8,7 +8,7 @@
   </div>
 </template>
 <script>
-import HostPlayService from "@/services/HostPlayService";
+import HostOrganizeService from "@/services/HostOrganizeService";
 export default {
   data: () => ({
     timeLeft: 0,
@@ -49,7 +49,7 @@ export default {
       }, 1000);
     },
     countdownFinish() {
-      HostPlayService.showCorrectAnswer({
+      HostOrganizeService.showCorrectAnswer({
         questionId: this.$route.query.questionId,
       });
     },

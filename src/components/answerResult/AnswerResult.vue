@@ -4,6 +4,7 @@
       <v-card-title>
         Statistics
         <v-spacer></v-spacer>
+        <slot name="showTopStudent" />
       </v-card-title>
       <v-card-text>
         <AnswerStatistics
@@ -15,11 +16,27 @@
       </v-card-text>
       <v-card-text>
         <v-row>
-          <Answer
-            :answer="item"
-            v-for="(item, index) in answers"
-            :key="index"
-          />
+          <v-col
+            cols="12"
+            xs="12"
+            sm="6"
+            md="6"
+            lg="6"
+            xl="6"
+            class="pa-3 d-flex flex-column"
+            v-for="i in answers"
+            :key="i.id"
+          >
+            <v-card
+              outlined
+              class="flex d-flex flex-column"
+              v-bind:class="{ green: i.isCorrect }"
+            >
+              <v-card-text class="flex">
+                <b>{{ i.answerContent }}</b>
+              </v-card-text>
+            </v-card>
+          </v-col>
         </v-row>
       </v-card-text>
     </v-card>
@@ -44,9 +61,6 @@ export default {
     answers: Array,
     answerStatistics: Array,
   },
-  data: () => ({
-    skill: 20,
-  }),
   computed: {
     totalAnswer() {
       let total = 0;
@@ -54,6 +68,8 @@ export default {
       return total;
     },
   },
+ 
+  
 };
 </script>
 

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import HostPlayService from "@/services/HostPlayService";
+import HostOrganizeService from "@/services/HostOrganizeService";
 import QuestionLayout from "@/components/host/organize/QuestionLayout";
 
 export default {
@@ -13,7 +13,7 @@ export default {
     QuestionLayout,
   },
   created() {
-    HostPlayService.publishNextQuestion({
+    HostOrganizeService.publishNextQuestion({
       challengeId: this.$route.query.challengeId,
     });
   },

@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import Question from "@/components/host/organize/Question";
+import Question from "@/components/publishQuestion/Question";
 import Answer from "@/components/host/organize/Answer";
 import TimeCountDown from "@/components/host/organize/TimeCountDown";
 import QuestionLayout from "@/components/host/organize/QuestionLayout";

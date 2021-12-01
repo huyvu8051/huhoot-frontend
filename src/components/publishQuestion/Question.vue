@@ -42,7 +42,7 @@ export default {
 
   methods: {
     skipQuestion() {
-      this.$eventBus.$emit("skipQuestion");
+      this.$eventBus.$emit("skipQuestion", this.$route.query.questionId);
     },
     onResize(e) {
       this.imageHeight =  window.innerHeight / 3 + "";

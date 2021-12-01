@@ -21,7 +21,7 @@
 import WaitingRoomHeader from "@/components/host/organize/WaitingRoomHeader";
 import StudentInWaitingRoom from "@/components/host/organize/StudentInWaitingRoom";
 
-import HostPlayService from "@/services/HostPlayService";
+import HostOrganizeService from "@/services/HostOrganizeService";
 
 export default {
   components: {
@@ -50,7 +50,7 @@ export default {
       );
     },
     getStudentsLogin() {
-      HostPlayService.getStudentsOnline({
+      HostOrganizeService.getStudentsOnline({
         challengeId: this.$route.query.challengeId,
       }).then((response) => {
         // console.log(response);

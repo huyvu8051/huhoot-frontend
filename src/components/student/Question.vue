@@ -1,6 +1,6 @@
 <template>
   <v-card class="mx-auto" flat>
-    <v-toolbar color="cyan" dense flat>
+    <v-toolbar color="pink" dense flat>
       <v-toolbar-title class="text-body-2">
         <strong>{{ question.ordinalNumber }} of </strong>
       </v-toolbar-title>

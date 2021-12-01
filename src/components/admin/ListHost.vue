@@ -1,5 +1,5 @@
 <template>
-  <div>admin</div>
+  <div>list host</div>
 </template>
 
 <script>

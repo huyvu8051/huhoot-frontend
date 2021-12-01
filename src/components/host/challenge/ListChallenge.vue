@@ -123,21 +123,32 @@
         </v-toolbar>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
-        <v-icon small class="mr-2" @click="viewListQuestion(item)">
-          poll
-        </v-icon>
-        <v-icon small class="mr-2" @click="viewListQuestion(item)">
-          view_list
-        </v-icon>
-        <v-icon small class="mr-2" @click="viewListStudentInChallenge(item)">
-          group
-        </v-icon>
+        <DataTableRouterIcon
+          icon="poll"
+          name="host.rank"
+          :query="{ challengeId: item.id }"
+        />
+        <DataTableRouterIcon
+          icon="view_list"
+          name="host.listQuestion"
+          :query="{ challengeId: item.id }"
+        />
+        <DataTableRouterIcon
+          icon="group"
+          name="host.listStudentInChallenge"
+          :query="{ challengeId: item.id }"
+        />
+
         <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
         <v-icon small class="mr-2" @click="deleteItem(item)">
           mdi-delete
         </v-icon>
         <OpenChallenge :challengeId="item.id" />
-
+        <!-- <DataTableRouterIcon
+          icon="play_arrow"
+          name="waitingRoom"
+          :query="{ challengeId: item.id }"
+        /> -->
         <v-icon small class="mr-2" @click="play(item)"> play_arrow </v-icon>
       </template>
       <template v-slot:no-data>
@@ -155,13 +166,14 @@
 
 <script>
 import HostManageService from "@/services/HostManageService";
-import HostPlayService from "@/services/HostPlayService";
+import HostOrganizeService from "@/services/HostOrganizeService";
 
 import ImageDataTable from "@/components/ImageDataTable";
 import DateFormater from "@/components/DateFormater";
 import OpenChallenge from "@/components/host/challenge/OpenChallenge";
 
 import ImageWrapper from "@/components/ImageWrapper";
+import DataTableRouterIcon from "@/components/DataTableRouterIcon";
 
 import { validationMixin } from "vuelidate";
 import {
@@ -176,7 +188,8 @@ export default {
     DateFormater,
     ImageDataTable,
     ImageWrapper,
-    OpenChallenge
+    OpenChallenge,
+    DataTableRouterIcon,
   },
   // validate
   mixins: [validationMixin],
@@ -208,7 +221,7 @@ export default {
     desserts: [],
     editedIndex: -1,
     editedItem: {
-      Id: 0,
+      id: 0,
       title: "",
       coverImage: "huhoot-logo.png",
       randomAnswer: false,
@@ -216,7 +229,7 @@ export default {
       challengeStatus: "BUILDING",
     },
     defaultItem: {
-      Id: 0,
+      id: 0,
       title: "",
       coverImage: "huhoot-logo.png",
       randomAnswer: false,
@@ -225,7 +238,7 @@ export default {
     },
     totalDesserts: 0,
     loading: true,
-    options: {},
+    options: {} 
   }),
   computed: {
     titleErrors() {
@@ -335,26 +348,12 @@ export default {
           // console.log(response.data);
           this.desserts = response.data.list;
           this.totalDesserts = response.data.totalElements;
-          this.loading = false;
         })
         .catch(console.log)
         .finally((this.loading = false));
     },
-    viewListQuestion(item) {
-      this.$router.push({
-        name: "host.listQuestion",
-        query: { challengeId: item.id },
-      });
-    },
-    viewListStudentInChallenge(item) {
-      this.$router.push({
-        name: "host.listStudentInChallenge",
-        query: { challengeId: item.id },
-      });
-    },
 
     uploadFile(file) {
-
       if (file === null || file === undefined) return;
 
       var formData = new FormData();
@@ -368,7 +367,7 @@ export default {
     play(item) {
       // join a game
 
-      HostPlayService.joinChallenge({
+      HostOrganizeService.joinChallenge({
         challengeId: item.id,
       }).then(() => {
         this.$router.push({

@@ -228,6 +228,7 @@ export default {
     desserts: [],
     editedIndex: -1,
     editedItem: {
+      id: 0,
       questionContent: "",
       questionImage: "hutech-logo.png",
       ordinalNumber: 0,
@@ -236,6 +237,7 @@ export default {
       point: "STANDARD",
     },
     defaultItem: {
+      id: 0,
       questionContent: "",
       questionImage: "hutech-logo.png",
       ordinalNumber: 0,

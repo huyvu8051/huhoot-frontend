@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import HostPlayService from "@/services/HostPlayService";
+import HostOrganizeService from "@/services/HostOrganizeService";
 export default {
   props: {
     NumOfStudent: Number,
@@ -37,7 +37,7 @@ export default {
   components: {},
   methods: {
     startChallenge() {
-      HostPlayService.startChallenge({
+      HostOrganizeService.startChallenge({
         challengeId: this.$route.query.challengeId,
       });
     },

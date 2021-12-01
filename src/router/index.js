@@ -22,8 +22,6 @@ import StudentPublishQuestionReady from "@/components/student/participate/Publis
 
 
 
-import Admin from "@/components/admin/Admin";
-
 
 import HostLayout from "@/components/host/HostLayout";
 import OrganizeChallenge from "@/components/host/organize/OrganizeChallenge";
@@ -34,13 +32,10 @@ import ListStudentInChallenge from "@/components/host/challenge/ListStudentInCha
 import ListStudent from "@/components/host/challenge/ListStudent";
 
 import WaitingRoom from "@/components/host/organize/WaitingRoom";
-import PublishQuestionIntro from "@/components/host/organize/PublishQuestionIntro";
-import PublishQuestionContent from "@/components/host/organize/PublishQuestionContent";
 import publishAnswerStatistics from "@/components/host/organize/PublishAnswerStatistics";
 import StartChallenge from "@/components/host/organize/StartChallenge";
-import TopStudent from "@/components/host/organize/TopStudent";
 import ChallengeFinish from "@/components/host/organize/ChallengeFinish";
-import PublishQuestionReady from "@/components/host/organize/PublishQuestionReady";
+
 
 
 
@@ -130,12 +125,12 @@ const router = new Router({
     // admin
     {
       path: "/admin",
-      component: Admin,
+      component: () => import("@/components/admin/Layout"),
       children: [
         {
           path: "/",
           name: "ADMIN",
-          component: Account
+          component: () => import("@/components/admin/ListStudent"),
         },
       ]
     },
@@ -153,6 +148,12 @@ const router = new Router({
           path: "challenge",
           name: "HOST",
           component: HostListChallenge,
+
+        },
+        {
+          path: "rank",
+          name: "host.rank",
+          component: () => import("@/components/challengeRank/ChallengeRank"),
 
         },
         {
@@ -198,17 +199,17 @@ const router = new Router({
         {
           path: "intro",
           name: "host.publishQuestionIntro",
-          component: PublishQuestionIntro
+          component: () => import("@/components/publishQuestion/PublishQuestionIntro")
         },
         {
           path: "ready",
           name: "host.publishQuestionReady",
-          component: PublishQuestionReady
+          component: () => import("@/components/publishQuestion/PublishQuestionReady")
         },
         {
           path: "content",
           name: "host.publishQuestionContent",
-          component: PublishQuestionContent
+          component: () => import("@/components/publishQuestion/PublishQuestionContent")
         },
         {
           path: "statistics",
@@ -218,7 +219,7 @@ const router = new Router({
         {
           path: "topStudent",
           name: "host.topStudent",
-          component: TopStudent
+          component: () => import("@/components/host/organize/ChallengeRank")
         },
         {
           path: "end",
@@ -239,7 +240,7 @@ const router = new Router({
 
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!Store.state.token) {
       next({
         name: "login"

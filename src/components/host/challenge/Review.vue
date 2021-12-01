@@ -27,7 +27,7 @@
   </v-dialog>
 </template>
 <script>
-import PublishQuestionContent from "@/components/host/organize/PublishQuestionContent";
+import PublishQuestionContent from "@/components/publishQuestion/PublishQuestionContent";
 
 export default {
   components: {

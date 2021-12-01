@@ -1,7 +1,6 @@
 <template>
   <div>
     <Navigation />
-    <Header />
     <v-main>
       <v-container fluid fill-height rounded-lg>
         <v-layout align-center justify-center>
@@ -67,7 +66,6 @@
 <script>
 import PlayerService from "@/services/Player";
 import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import { validationMixin } from "vuelidate";
 import {
@@ -91,7 +89,6 @@ export default {
   },
   components: {
     Footer: Footer,
-    Header: Header,
     Navigation: Navigation
   },
   computed: {

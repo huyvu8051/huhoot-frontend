@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app flat hide-on-scroll>
     <v-app-bar-nav-icon @click="drawer"></v-app-bar-nav-icon>
-    <router-link :to="{ name: 'HOST' }">
+    <router-link :to="{ name: 'ADMIN' }">
       <v-img
         class="mx-2 background-color:white"
         :src="require('@/assets/img/huhoot-logo-text.png')"
@@ -21,7 +21,6 @@
 <script>
 import AccountPanel from "@/components/host/AccountPanel";
 export default {
-
   components: {
     AccountPanel: AccountPanel,
   },

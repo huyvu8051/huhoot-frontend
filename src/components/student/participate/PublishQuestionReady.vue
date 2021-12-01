@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import HostPlayService from "@/services/HostPlayService";
 import QuestionLayout from "@/components/host/organize/QuestionLayout";
 
 export default {

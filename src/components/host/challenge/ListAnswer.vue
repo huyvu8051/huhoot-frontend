@@ -161,11 +161,13 @@ export default {
     desserts: [],
     editedIndex: -1,
     editedItem: {
+      id: 0,
       answerContent: "",
       ordinalNumber: 0,
       isCorrect: false,
     },
     defaultItem: {
+      id: 0,
       answerContent: "",
       ordinalNumber: 0,
       isCorrect: false,
