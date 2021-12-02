@@ -81,7 +81,7 @@ const router = new Router({
     },
 
     {
-      path: "/participate/",
+      path: "/participate",
       component: Participate,
       children: [
         {
@@ -126,11 +126,20 @@ const router = new Router({
     {
       path: "/admin",
       component: () => import("@/components/admin/Layout"),
+      redirect: '/student',
+      meta: {
+        requiresAuth: true
+      },
       children: [
         {
-          path: "/",
+          path: "student",
           name: "ADMIN",
           component: () => import("@/components/admin/ListStudent"),
+        },
+        {
+          path: "host",
+          name: "admin.host",
+          component: () => import("@/components/admin/ListHost"),
         },
       ]
     },

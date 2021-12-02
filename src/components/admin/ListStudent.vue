@@ -28,6 +28,7 @@
           <v-toolbar-title>List Student</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
+          <AddManyStudent/>
           <v-dialog v-model="dialog" max-width="1000px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
@@ -127,12 +128,9 @@
 <script>
 import AdminManageService from "@/services/AdminManageService";
 
-import ImageDataTable from "@/components/ImageDataTable";
 import DateFormater from "@/components/DateFormater";
-import OpenChallenge from "@/components/host/challenge/OpenChallenge";
+import AddManyStudent from "@/components/admin/AddManyStudent";
 
-import ImageWrapper from "@/components/ImageWrapper";
-import DataTableRouterIcon from "@/components/DataTableRouterIcon";
 
 import { validationMixin } from "vuelidate";
 import {
@@ -146,10 +144,7 @@ import {
 export default {
   components: {
     DateFormater,
-    ImageDataTable,
-    ImageWrapper,
-    OpenChallenge,
-    DataTableRouterIcon,
+    AddManyStudent
   },
   // validate
   mixins: [validationMixin],
@@ -158,8 +153,7 @@ export default {
       username: {
         required,
         allNumber: function (value) {
-          const allNumber =
-            /^\d{10}$/.test(value);
+          const allNumber = /^\d{10}$/.test(value);
           return allNumber;
         },
       },
@@ -259,7 +253,7 @@ export default {
       this.loading = true;
       AdminManageService.updateStudent({
         id: this.editedItem.id,
-        isNonDeleted: false,
+        isNonLocked: false,
       })
         .catch(console.log)
         .finally(() => {

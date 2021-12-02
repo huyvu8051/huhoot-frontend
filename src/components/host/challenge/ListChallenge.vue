@@ -83,6 +83,7 @@
                         accept="image/*"
                         label="Upload image"
                         @change="uploadFile"
+                        show-size
                       >
                       </v-file-input>
                     </v-col>

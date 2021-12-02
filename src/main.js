@@ -10,7 +10,9 @@ import Vuelidate from 'vuelidate'
 import EventBus from "@/EventBus"
 import VueConfig from "@/vue.config"
 import resize from "vue-element-resize-detector";
- 
+import VueExcelXlsx from "vue-excel-xlsx";
+
+Vue.use(VueExcelXlsx);
 Vue.use(resize)
 
 Vue.config.productionTip = false

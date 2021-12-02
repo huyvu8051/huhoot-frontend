@@ -6,15 +6,15 @@
           <v-list-item-icon>
             <v-icon>mdi-home</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>Home</v-list-item-title>
+          <v-list-item-title>Student</v-list-item-title>
         </v-list-item>
 
-        <!-- <v-list-item :to="{ name: 'admin.student' }">
+        <v-list-item :to="{ name: 'admin.host' }">
           <v-list-item-icon>
             <v-icon>mdi-account</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>Student</v-list-item-title>
-        </v-list-item> -->
+          <v-list-item-title>Host</v-list-item-title>
+        </v-list-item>
         <!-- <v-list-item :to="{ name: 'account' }">
           <v-list-item-icon>
             <v-icon>mdi-account</v-icon>
