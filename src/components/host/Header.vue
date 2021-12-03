@@ -8,11 +8,17 @@
         max-height="150"
         max-width="150"
         contain
-      ></v-img
-    ></router-link>
+      >
+      </v-img>
+    </router-link>
     <v-spacer></v-spacer>
 
-    <v-btn elevation="2" small class="primary white--text" :to="{name:'login'}">
+    <v-btn
+      elevation="2"
+      small
+      class="primary white--text"
+      :to="{ name: 'login' }"
+    >
       {{ $store.state.username }}
     </v-btn>
   </v-app-bar>
@@ -21,7 +27,6 @@
 <script>
 import AccountPanel from "@/components/host/AccountPanel";
 export default {
-
   components: {
     AccountPanel: AccountPanel,
   },

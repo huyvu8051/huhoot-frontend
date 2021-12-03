@@ -372,7 +372,7 @@ export default {
         challengeId: item.id,
       }).then(() => {
         this.$router.push({
-          name: "waitingRoom",
+          name: "host.wait",
           query: { challengeId: item.id },
         });
       });

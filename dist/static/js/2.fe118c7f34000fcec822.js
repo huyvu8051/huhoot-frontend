@@ -1,2 +1,0 @@
-webpackJsonp([2],{mnnU:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var s=n("soqp"),u={components:{QuestionLayout:n("BvKl").a},created:function(){s.a.publishNextQuestion({challengeId:this.$route.query.challengeId})}},o={render:function(){var e=this.$createElement,t=this._self._c||e;return t("QuestionLayout",[t("h1",[this._v("Get question...")])])},staticRenderFns:[]};var i=n("VU/8")(u,o,!1,function(e){n("s1PV")},null,null);t.default=i.exports},s1PV:function(e,t){}});
-//# sourceMappingURL=2.fe118c7f34000fcec822.js.map

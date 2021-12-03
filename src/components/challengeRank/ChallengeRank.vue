@@ -1,51 +1,47 @@
 <template>
-  <QuestionLayout>
-    <v-data-table
-      :headers="headers"
-      :items="desserts"
-      :options.sync="options"
-      :server-items-length="totalDesserts"
-      :loading="loading"
-      :footer-props="{
-        'items-per-page-options': [
-          5,
-          10,
-          20,
-          30,
-          50,
-          100,
-          {
-            text: 'All',
-            value: 999,
-          },
-        ],
-      }"
-      disable-sort
-      class="elevation-1"
-    >
-      <template v-slot:top>
-        <v-toolbar flat>
-          <v-toolbar-title>Rank Table</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider>
-          <v-spacer> </v-spacer>
-          <slot name="nextQuestion" />
-        </v-toolbar>
-      </template>
-      <template v-slot:no-data>
-        <v-btn color="primary" @click="getDataFromApi()"> Reset </v-btn>
-      </template>
-    </v-data-table>
-  </QuestionLayout>
+  <v-data-table
+    :headers="headers"
+    :items="desserts"
+    :options.sync="options"
+    :server-items-length="totalDesserts"
+    :loading="loading"
+    :footer-props="{
+      'items-per-page-options': [
+        5,
+        10,
+        20,
+        30,
+        50,
+        100,
+        {
+          text: 'All',
+          value: 999,
+        },
+      ],
+    }"
+    disable-sort
+    class="elevation-1"
+  >
+    <template v-slot:top>
+      <v-toolbar flat>
+        <v-toolbar-title>Rank Table</v-toolbar-title>
+        <v-divider class="mx-4" inset vertical></v-divider>
+        <v-spacer> </v-spacer>
+        <slot name="nextQuestion" />
+      </v-toolbar>
+    </template>
+    <template v-slot:no-data>
+      <v-btn color="primary" @click="getDataFromApi()"> Reset </v-btn>
+    </template>
+  </v-data-table>
 </template>
 
 
 <script>
 import HostOrganizeService from "@/services/HostOrganizeService";
 
-import QuestionLayout from "@/components/host/organize/QuestionLayout";
 export default {
   components: {
-    QuestionLayout,
   },
   data() {
     return {

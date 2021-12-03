@@ -20,6 +20,7 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 
 Vue.prototype.$backendUrl = VueConfig.backendUrl
+Vue.prototype.$socketUrl = VueConfig.socketUrl
 
 Vue.use(Vuelidate)
 Vue.prototype.$eventBus = EventBus;

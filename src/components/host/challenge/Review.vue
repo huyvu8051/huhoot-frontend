@@ -18,7 +18,7 @@
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
-      <PublishQuestionContent
+      <Ask
         :question="question"
         :answers="answers"
         :studentAnswered="69"
@@ -27,11 +27,11 @@
   </v-dialog>
 </template>
 <script>
-import PublishQuestionContent from "@/components/publishQuestion/PublishQuestionContent";
+import Ask from "@/components/organize/ask/Ask";
 
 export default {
   components: {
-    PublishQuestionContent,
+    Ask,
   },
   props: {
     question: Object,

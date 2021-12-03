@@ -8,8 +8,9 @@
 export default {
   methods: {
     showTopStudent() {
+      console.log("show rank")
       this.$router.push({
-        name: "host.topStudent",
+        name: "host.organize.rank",
         query: {
           challengeId: this.$route.query.challengeId,
         },

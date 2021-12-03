@@ -1,50 +1,46 @@
 <template>
-  <v-flex xs12 sm12 md12>
-    <v-data-table
-      :headers="headers"
-      :items="desserts"
-      :search="search"
-      class="elevation-1"
-    >
-      <template v-slot:[`item.coverImage`]="{ item }">
-        <ImageDataTable :src="item.coverImage" />
-      </template>
-      <template v-slot:[`item.createdDate`]="{ item }">
-        <DateFormater :date="item.createdDate" />
-      </template>
-      <template v-slot:no-data>
-        <v-btn color="primary" @click="initialize">Reset</v-btn>
-      </template>
-      <template v-slot:[`item.actions`]="{ item }">
-        <v-icon small class="mr-2" @click="play(item)">play_arrow</v-icon>
-      </template>
+  <v-data-table
+    :headers="headers"
+    :items="desserts"
+    :search="search"
+    class="elevation-1"
+  >
+    <template v-slot:[`item.coverImage`]="{ item }">
+      <ImageDataTable :src="item.coverImage" />
+    </template>
+    <template v-slot:[`item.createdDate`]="{ item }">
+      <DateFormater :date="item.createdDate" />
+    </template>
+    <template v-slot:no-data>
+      <v-btn color="primary" @click="initialize">Reset</v-btn>
+    </template>
+    <template v-slot:[`item.actions`]="{ item }">
+      <v-icon small class="mr-2" @click="play(item)">play_arrow</v-icon>
+    </template>
 
-      <template v-slot:top>
-        <v-toolbar flat>
-          <v-toolbar-title> List challenge </v-toolbar-title>
-          <v-divider class="mx-4" inset vertical> </v-divider>
-          <v-spacer> </v-spacer>
-          <v-dialog v-model="dialogPlay" max-width="500px">
-            <v-card>
-              <v-card-title class="text-h5"
-                >Are you sure you want to join this game?</v-card-title
+    <template v-slot:top>
+      <v-toolbar flat>
+        <v-toolbar-title> List challenge </v-toolbar-title>
+        <v-divider class="mx-4" inset vertical> </v-divider>
+        <v-spacer> </v-spacer>
+        <v-dialog v-model="dialogPlay" max-width="500px">
+          <v-card>
+            <v-card-title class="text-h5"
+              >Are you sure you want to join this game?</v-card-title
+            >
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="closePlay"
+                >Cancel</v-btn
               >
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="closePlay"
-                  >Cancel</v-btn
-                >
-                <v-btn color="blue darken-1" text @click="playConfirm"
-                  >OK</v-btn
-                >
-                <v-spacer></v-spacer>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-toolbar>
-      </template>
-    </v-data-table>
-  </v-flex>
+              <v-btn color="blue darken-1" text @click="playConfirm">OK</v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-toolbar>
+    </template>
+  </v-data-table>
 </template>
 <script>
 import StudentManageService from "@/services/StudentManageService";
@@ -122,7 +118,7 @@ export default {
         challengeId: challengeId,
       }).then(() => {
         this.$router.push({
-          name: "student.waiting",
+          name: "student.wait",
           query: { challengeId: challengeId },
         });
       });
