@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import HostOrganizeService from "@/services/HostOrganizeService";
+
 export default {
   props: {
     student: Object,
@@ -25,8 +27,12 @@ export default {
       console.log(
         "kick student id: ",
         this.student.studentId,
-        this.student.studentFullname
+        this.$route.query.challengeId
       );
+      HostOrganizeService.kickStudent({
+        studentIds: [this.student.studentId],
+        challengeId: this.$route.query.challengeId,
+      });
     },
   },
 };
