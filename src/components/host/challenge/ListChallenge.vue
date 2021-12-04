@@ -361,7 +361,10 @@ export default {
       formData.append("file", file);
 
       HostManageService.upload(formData)
-        .then((response) => (this.editedItem.coverImage = response.data))
+        .then((response) => {
+          //console.log(response.data);
+          this.editedItem.coverImage = response.data
+        })
         .catch(console.log)
         .finally((this.loading = false));
     },

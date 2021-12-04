@@ -1,14 +1,14 @@
 <template>
   <v-img
     :lazy-src="require(`@/assets/img/huhoot-logo.png`)"
-    :src="imageUrl"
+    :src="url"
     :height="height"
     :max-height="maxHeight"
     :width="width"
     :max-width="maxWidth"
     :contain="contain"
     class="my-1 rounded"
-    v-on:error="imageUrl = require(`@/assets/img/huhoot-logo.png`)"
+    v-on:error="url = require(`@/assets/img/huhoot-logo.png`)"
   />
 </template>
 
@@ -39,12 +39,20 @@ export default {
   },
   data: () => {
     return {
-      imageUrl: "",
+      url: "",
     };
   },
-  created() {
-    this.imageUrl = this.$backendUrl + "/uploads/" + this.src;
+  watch:{
+    src(val){
+      this.url = this.$backendUrl + '/uploads/' + val;
+
+      console.log(this.url);
+    }
   },
+  created(){
+    this.url = this.$backendUrl + '/uploads/' + this.src;
+  }
+
 };
 </script>
 
