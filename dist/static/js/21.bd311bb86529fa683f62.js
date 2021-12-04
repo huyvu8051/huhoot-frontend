@@ -1,0 +1,2 @@
+webpackJsonp([21],{"7C8B":function(e,t){},TC26:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var s={render:function(){var e=this.$createElement,t=this._self._c||e;return t("div",[t("h1",[this._v("Challenge finish")]),this._v(" "),t("v-btn",{staticClass:"white--text",attrs:{to:{name:"STUDENT"},color:"green"}},[t("b",[this._v("Return home")])])],1)},staticRenderFns:[]};var i=n("VU/8")({components:{}},s,!1,function(e){n("7C8B")},null,null);t.default=i.exports}});
+//# sourceMappingURL=21.bd311bb86529fa683f62.js.map

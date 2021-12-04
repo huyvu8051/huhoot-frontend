@@ -37,6 +37,11 @@ export default {
             params: params
         })
     },
+    endChallenge(params) {
+        return Api().get("host/endChallenge", {
+            params: params
+        })
+    },
     kickStudent(data) {
         return Api().post("host/kickStudent",data);
     }

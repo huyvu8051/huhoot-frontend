@@ -7,6 +7,7 @@
         :answers="answers"
         :answerStatistics="answerStatistics"
         :studentAnswered="studentAnswered"
+        :theLastQuestion="question.theLastQuestion"
       />
     </FlexLayout>
   </v-main>
@@ -29,6 +30,10 @@ export default {
   created() {
     this.socket = this.connectSocket();
     this.registerEvent(this.socket);
+  },
+  beforeDestroy() {
+    this.removeEventBusListener();
+    this.removeSocketListener(this.socket);
   },
   methods: {
     connectSocket() {
@@ -114,6 +119,16 @@ export default {
           .catch((err) => err);
       });
     },
+    removeSocketListener(socket) {
+      socket.off("connected");
+      socket.off("registerSuccess");
+      socket.off("joinError");
+      socket.off("startChallenge");
+      socket.off("publishQuestion");
+      socket.off("showCorrectAnswer");
+      socket.off("endChallenge");
+    },
+    removeEventBusListener() {},
   },
 };
 </script>

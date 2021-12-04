@@ -4,13 +4,13 @@
     :answers="answers"
     :answerStatistics="answerStatistics"
   >
-    <template v-slot:showTopStudent> <ShowTopStudent /> </template>
+    <template v-slot:showTopStudent> <ShowTopStudent :theLastQuestion="question.theLastQuestion" /> </template>
   </AnswerResult>
 </template>
 
 <script>
 import AnswerResult from "@/components/answerResult/AnswerResult";
-import ShowTopStudent from "@/components/answerResult/ShowTopStudent";
+import ShowTopStudent from "@/components/organize/show/ShowTopStudent";
 
 export default {
   components: {
@@ -22,6 +22,9 @@ export default {
     answers: Array,
     answerStatistics: Array,
   },
+  created(){
+    console.log("theLastQuestion",this.question.theLastQuestion);
+  }
   
 };
 </script>

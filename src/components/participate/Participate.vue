@@ -10,6 +10,7 @@
         :isCorrectEncrypt="isCorrectEncrypt"
         :totalPointEncrypt="totalPointEncrypt"
         :encryptKey="encryptKey"
+        :theLastQuestion="question.theLastQuestion"
       />
     </FlexLayout>
   </v-main>
@@ -41,7 +42,7 @@ export default {
     this.socket = this.connectSocket();
     this.registerEvent(this.socket);
   },
-  destroyed() {
+  beforeDestroy() {
     this.removeEventBusListener();
     this.removeSocketListener(this.socket);
   },
@@ -100,7 +101,6 @@ export default {
       });
 
       socket.on("showCorrectAnswer", (data) => {
-
         this.answers = data.answers;
         this.answerStatistics = data.answerStatistics;
 
@@ -159,7 +159,6 @@ export default {
       socket.off("showCorrectAnswer");
       socket.off("endChallenge");
       socket.off("kickStudent");
-      socket.off("setTotalPoint");
     },
     removeEventBusListener() {
       this.$eventBus.$off("sentAnswer");

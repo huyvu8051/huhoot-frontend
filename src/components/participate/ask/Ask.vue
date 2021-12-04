@@ -1,6 +1,11 @@
 <template>
   <div>
     <Question :question="question">
+      <template v-slot:topRight>
+        <strong>
+          {{ question.questionOrder }} of {{ question.totalQuestion }} total
+        </strong>
+      </template>
       <template v-slot:topLeft>
         <Answer :selectedIds="selectedIds" />
       </template>
@@ -57,7 +62,9 @@ export default {
   },
   created() {
     // prevent modify father props
-    this.cloneAnswers = this.answers.map((e) => Object.assign({selected: false}, e));
+    this.cloneAnswers = this.answers.map((e) =>
+      Object.assign({ selected: false }, e)
+    );
   },
   computed: {
     selectedIds() {

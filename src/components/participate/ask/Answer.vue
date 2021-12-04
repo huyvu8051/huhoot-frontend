@@ -15,6 +15,15 @@ export default {
     answer() {
       console.log("answer ", this.selectedIds);
 
+      if(this.selectedIds.length == 0){
+        this.$eventBus.$emit("nofication", {
+          message:"Select answer!",
+          status:"error"
+        })
+
+        return;
+      }
+
       StudentPlayService.sentAnswer({
         answerIds: this.selectedIds,
         challengeId: this.$route.query.challengeId,

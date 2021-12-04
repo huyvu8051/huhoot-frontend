@@ -1,0 +1,2 @@
+webpackJsonp([20],{aZag:function(e,t){},"ba/H":function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var o=n("soqp"),s={components:{},created:function(){console.log("get question"),o.a.publishNextQuestion({challengeId:this.$route.query.challengeId})}},u={render:function(){var e=this.$createElement;return(this._self._c||e)("h1",[this._v("Get question...")])},staticRenderFns:[]};var a=n("VU/8")(s,u,!1,function(e){n("aZag")},null,null);t.default=a.exports}});
+//# sourceMappingURL=20.29b2486f5a317d8c85f3.js.map

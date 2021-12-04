@@ -22,7 +22,7 @@ export default {
   mounted() {
     this.countdown(this.answerTimeLimit, this.askDate);
   },
-  destroyed() {
+  beforeDestroy () {
     clearInterval(this.countDownTimer);
   },
   methods: {

@@ -3,7 +3,7 @@
     <Question :question="question" :studentAnswered="studentAnswered">
       <template v-slot:topRight>
         <strong>
-          {{ question.ordinalNumber }} of {{ question.totalQuestion }} total |
+          {{ question.questionOrder }} of {{ question.totalQuestion }} total |
           {{ studentAnswered }} answered
         </strong>
       </template>

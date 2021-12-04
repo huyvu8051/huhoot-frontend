@@ -117,6 +117,11 @@ const router = new Router({
           component: () => import("@/components/organize/ready/Ready")
         },
         {
+          path: "ready",
+          name: "host.preview",
+          component: () => import("@/components/organize/preview/Preview")
+        },
+        {
           path: "ask",
           name: "host.ask",
           component: () => import("@/components/organize/ask/Ask")
@@ -129,7 +134,7 @@ const router = new Router({
         {
           path: "rank",
           name: "host.organize.rank",
-          component: () => import("@/components/organize/ChallengeRank")
+          component: () => import("@/components/organize/rank/Rank")
         },
         {
           path: "finish",
@@ -186,6 +191,11 @@ const router = new Router({
           path: "ready",
           name: "student.ready",
           component: () => import("@/components/participate/ready/Ready")
+        },
+        {
+          path: "preview",
+          name: "student.preview",
+          component: () => import("@/components/participate/preview/Preview")
         },
         {
           path: "ask",
