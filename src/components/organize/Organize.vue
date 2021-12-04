@@ -59,28 +59,32 @@ export default {
     },
     registerEvent(socket) {
       socket.on("startChallenge", () => {
-        this.$router.push({
-          name: "host.start",
-          query: {
-            challengeId: this.$route.query.challengeId,
-          },
-        });
+        this.$router
+          .push({
+            name: "host.start",
+            query: {
+              challengeId: this.$route.query.challengeId,
+            },
+          })
+          .catch((err) => err);
       });
-      this.socket.on("publishQuestion", (data) => {
+      socket.on("publishQuestion", (data) => {
         this.question = data.question;
         this.answers = data.answers;
         this.studentAnswered = 0;
 
-        this.$router.push({
-          name: "host.ready",
-          query: {
-            challengeId: this.$route.query.challengeId,
-            questionId: this.question.id,
-          },
-        });
+        this.$router
+          .push({
+            name: "host.ready",
+            query: {
+              challengeId: this.$route.query.challengeId,
+              questionId: this.question.id,
+            },
+          })
+          .catch((err) => err);
       });
 
-      this.socket.on("showCorrectAnswer", (data) => {
+      socket.on("showCorrectAnswer", (data) => {
         this.answers = data.answers;
         this.answerStatistics = data.answerStatistics;
 
@@ -95,11 +99,11 @@ export default {
           .catch((err) => err);
       });
 
-      this.socket.on("studentAnswer", () => {
+      socket.on("studentAnswer", () => {
         this.studentAnswered++;
         console.log(this.studentAnswered);
       });
-      this.socket.on("endChallenge", () => {
+      socket.on("endChallenge", () => {
         this.$router
           .push({
             name: "host.finish",
