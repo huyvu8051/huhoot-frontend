@@ -32,7 +32,7 @@
           @click="selectAnswer(i)"
         >
           <v-card-text class="flex">
-            <b>{{ i.answerContent + i.id }}</b>
+            <b>{{ i.answerContent}}</b>
           </v-card-text>
         </v-card>
       </v-col>
