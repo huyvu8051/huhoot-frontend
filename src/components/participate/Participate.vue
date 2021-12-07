@@ -6,7 +6,6 @@
         :socket="socket"
         :question="question"
         :answers="answers"
-        :answerStatistics="answerStatistics"
         :isCorrectEncrypt="isCorrectEncrypt"
         :totalPointEncrypt="totalPointEncrypt"
         :encryptKey="encryptKey"
@@ -102,7 +101,6 @@ export default {
 
       socket.on("showCorrectAnswer", (data) => {
         this.answers = data.answers;
-        this.answerStatistics = data.answerStatistics;
 
         // console.log("show correct answer", data);
 

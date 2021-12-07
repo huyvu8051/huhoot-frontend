@@ -5,7 +5,6 @@
         :socket="socket"
         :question="question"
         :answers="answers"
-        :answerStatistics="answerStatistics"
         :studentAnswered="studentAnswered"
         :theLastQuestion="question.theLastQuestion"
       />
@@ -91,7 +90,8 @@ export default {
 
       socket.on("showCorrectAnswer", (data) => {
         this.answers = data.answers;
-        this.answerStatistics = data.answerStatistics;
+        
+        console.log(this.answers)
 
         this.$router
           .push({

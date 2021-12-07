@@ -9,9 +9,9 @@
     </v-card-title>
     <v-card-text>
       <AnswerStatistics
-        :answerStatistic="item"
+        :answers="item"
         :totalStudentAnswer="totalAnswer"
-        v-for="(item, index) in answerStatistics"
+        v-for="(item, index) in answers"
         :key="index"
       />
 
@@ -34,12 +34,11 @@ export default {
   props: {
     question: Object,
     answers: Array,
-    answerStatistics: Array,
   },
   computed: {
     totalAnswer() {
       let total = 0;
-      this.answerStatistics.forEach((e) => (total += e.numberOfStudentSelect));
+      this.answers.forEach((e) => (total += e.numberOfStudentSelect));
       return total;
     },
   },

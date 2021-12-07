@@ -44,11 +44,15 @@
   </v-layout>
 </template>
 <script>
+import FlexLayout from "@/components/FlexLayout";
 import AuthenticationService from "@/services/AuthenticationService";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, minLength } from "vuelidate/lib/validators";
 
 export default {
+  components: {
+    FlexLayout,
+  },
   mixins: [validationMixin],
 
   validations: {
