@@ -15,7 +15,7 @@
 
 <script>
 import FlexLayout from "@/components/FlexLayout";
-
+import io from 'socket.io-client';
 export default {
   components: { FlexLayout },
   data() {

@@ -20,6 +20,7 @@ import Header from "@/components/participate/ChallengeHeader";
 import StudentPlayService from "@/services/StudentPlayService";
 import FlexLayout from "@/components/FlexLayout";
 
+import io from 'socket.io-client';
 export default {
   components: {
     Header,
