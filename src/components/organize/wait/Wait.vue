@@ -37,7 +37,7 @@ export default {
   created() {
     this.updateStudentsLogin();
   },
-  destroyed() {
+  beforeDestroy() {
     clearInterval(this.updateStudentsLoginInterval);
   },
   methods: {

@@ -27,7 +27,7 @@ export default {
   },
   data: () => ({}),
   created(){
-    console.log(this.answers)
+    
   },
   computed: {
     percent() {

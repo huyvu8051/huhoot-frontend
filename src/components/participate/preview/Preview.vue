@@ -16,12 +16,17 @@ export default {
   props: {
     question: Object,
   },
+  data: () => {
+    return {
+      timeout: {},
+    };
+  },
   created() {
     if (this.question.theLastQuestion) {
       this.text = "The last question";
     }
 
-    setTimeout(() => {
+    this.timeout = setTimeout(() => {
       console.log("ask");
       this.$router.push({
         name: "student.ask",
@@ -31,6 +36,10 @@ export default {
         },
       });
     }, 3000);
+  },
+
+  beforeDestroy() {
+    clearTimeout(this.timeout);
   },
 };
 </script>

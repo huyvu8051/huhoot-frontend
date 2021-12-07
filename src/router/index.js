@@ -117,7 +117,7 @@ const router = new Router({
           component: () => import("@/components/organize/ready/Ready")
         },
         {
-          path: "ready",
+          path: "preview",
           name: "host.preview",
           component: () => import("@/components/organize/preview/Preview")
         },

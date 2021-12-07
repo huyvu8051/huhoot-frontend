@@ -7,6 +7,7 @@
         :answers="answers"
         :studentAnswered="studentAnswered"
         :theLastQuestion="question.theLastQuestion"
+        :ready="ready"
       />
     </FlexLayout>
   </v-main>
@@ -24,9 +25,18 @@ export default {
       answers: [],
       answerStatistics: [],
       studentAnswered: 0,
+      ready: false,
     };
   },
+
   created() {
+    var currName = this.$router.currentRoute.name;
+    var challengeId = this.$route.query.challengeId;
+
+    this.joinChallenge(challengeId, currName);
+
+    console.log("after join chall");
+
     this.socket = this.connectSocket();
     this.registerEvent(this.socket);
   },
@@ -35,6 +45,32 @@ export default {
     this.removeSocketListener(this.socket);
   },
   methods: {
+    joinChallenge(challengeId, currName) {
+      console.log("currName", currName);
+
+      var targetName = currName;
+
+      switch (currName) {
+        case "host.ready":
+        case "host.preview":
+        case "host.ask":
+          targetName = "host.ask";
+          break;
+        case "host.get":
+          targetName = "host.wait";
+          break;
+        default:
+          break;
+      }
+      this.$router
+        .push({
+          name: targetName,
+          query: {
+            challengeId: challengeId,
+          },
+        })
+        .catch((err) => err);
+    },
     connectSocket() {
       const socketUrl = this.$socketUrl;
       var socket = io.connect(socketUrl);
@@ -49,6 +85,7 @@ export default {
         .on("registerSuccess", (data) => {
           // console.log(data);
           this.student = data;
+          this.ready = true;
         });
 
       socket.on("joinError", (data) => {
@@ -90,8 +127,8 @@ export default {
 
       socket.on("showCorrectAnswer", (data) => {
         this.answers = data.answers;
-        
-        console.log(this.answers)
+
+        console.log(this.answers);
 
         this.$router
           .push({

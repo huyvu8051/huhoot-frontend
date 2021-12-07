@@ -14,14 +14,18 @@ export default {
   data: () => {
     return {
       text: "Ready",
+      timeout: {},
     };
+  },
+  beforeDestroy() {
+    clearTimeout(this.timeout);
   },
   created() {
     if (this.question.theLastQuestion) {
       this.text = "The last question";
     }
 
-    setTimeout(() => {
+    this.timeout = setTimeout(() => {
       console.log("preview");
       this.$router.push({
         name: "student.preview",

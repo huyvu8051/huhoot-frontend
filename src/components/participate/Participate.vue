@@ -17,7 +17,7 @@
 
 <script>
 import Header from "@/components/participate/ChallengeHeader";
-
+import StudentPlayService from "@/services/StudentPlayService";
 import FlexLayout from "@/components/FlexLayout";
 
 export default {
@@ -38,6 +38,10 @@ export default {
     };
   },
   created() {
+    var challengeId = this.$route.query.challengeId;
+
+    this.joinRoom(challengeId);
+
     this.socket = this.connectSocket();
     this.registerEvent(this.socket);
   },
@@ -46,6 +50,17 @@ export default {
     this.removeSocketListener(this.socket);
   },
   methods: {
+    joinRoom(challengeId) {
+      this.$router
+        .push({
+          name: "student.wait",
+          query: {
+            challengeId: challengeId,
+          },
+        })
+        .catch((err) => err);
+    },
+
     connectSocket() {
       const socketUrl = this.$socketUrl;
       var socket = io.connect(socketUrl);
@@ -74,12 +89,14 @@ export default {
     },
     registerEvent(socket) {
       socket.on("startChallenge", () => {
-        this.$router.push({
-          name: "student.start",
-          query: {
-            challengeId: this.$route.query.challengeId,
-          },
-        });
+        this.$router
+          .push({
+            name: "student.start",
+            query: {
+              challengeId: this.$route.query.challengeId,
+            },
+          })
+          .catch((err) => err);
       });
 
       socket.on("publishQuestion", (data) => {
@@ -90,13 +107,15 @@ export default {
         this.totalPointEncrypt = "";
         this.encryptKey = "";
 
-        this.$router.push({
-          name: "student.ready",
-          query: {
-            challengeId: this.$route.query.challengeId,
-            questionId: this.question.id,
-          },
-        });
+        this.$router
+          .push({
+            name: "student.ready",
+            query: {
+              challengeId: this.$route.query.challengeId,
+              questionId: this.question.id,
+            },
+          })
+          .catch((err) => err);
       });
 
       socket.on("showCorrectAnswer", (data) => {
@@ -133,9 +152,11 @@ export default {
           message: "You're out!!!",
           status: "error",
         });
-        this.$router.push({
-          name: "STUDENT",
-        });
+        this.$router
+          .push({
+            name: "STUDENT",
+          })
+          .catch((err) => err);
       });
 
       this.$eventBus.$on(

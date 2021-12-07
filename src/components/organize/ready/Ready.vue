@@ -14,6 +14,7 @@ export default {
   data: () => {
     return {
       text: "Ready",
+      timeout: {},
     };
   },
   created() {
@@ -21,7 +22,7 @@ export default {
       this.text = "The last question";
     }
 
-    setTimeout(() => {
+    this.timeout = setTimeout(() => {
       console.log("preview");
       this.$router.push({
         name: "host.preview",
@@ -31,6 +32,9 @@ export default {
         },
       });
     }, 2500);
+  },
+  beforeDestroy() {
+    clearTimeout(this.timeout);
   },
 };
 </script>

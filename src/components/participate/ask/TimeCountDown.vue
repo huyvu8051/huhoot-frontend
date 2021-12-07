@@ -22,7 +22,7 @@ export default {
   mounted() {
     this.countdown(this.answerTimeLimit, this.askDate);
   },
-  beforeDestroy () {
+  beforeDestroy() {
     clearInterval(this.countDownTimer);
   },
   methods: {
@@ -38,19 +38,25 @@ export default {
 
         let timeLeft = answerTime - second;
 
-        if (timeLeft <= 0) {
+        if (timeLeft <= 0) { // if timeup -> push to host.wait
           clearInterval(that.countDownTimer);
           that.percent = 0;
           that.timeLeft = "Finished";
-          that.countdownFinish();
+
+          console.log("countdown finish");
+          that.$router
+            .push({
+              name: "student.wait",
+              query: {
+                challengeId: that.$route.query.challengeId,
+              },
+            })
+            .catch((err) => err);
         } else {
           that.percent = Math.ceil((timeLeft / answerTime) * 100);
           that.timeLeft = timeLeft;
         }
       }, 1000);
-    },
-    countdownFinish() {
-      console.log("countdown finish");
     },
   },
 };
