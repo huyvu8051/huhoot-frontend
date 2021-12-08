@@ -29,10 +29,7 @@ export default {
         this.student.studentId,
         this.$route.query.challengeId
       );
-      HostOrganizeService.kickStudent({
-        studentIds: [this.student.studentId],
-        challengeId: this.$route.query.challengeId,
-      });
+      this.$eventBus.$emit("kickStudent", [this.student.studentId]);
     },
   },
 };

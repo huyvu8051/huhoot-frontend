@@ -14,7 +14,7 @@
     >
       Return
     </v-btn>
-    <v-btn class="red white--text mr-2" @click="lockChallenge"> Lock </v-btn>
+    <v-btn class="red white--text mr-2" @click="lockChallenge"> {{lockText}} </v-btn>
 
     <v-btn class="deep-purple white--text" @click="startChallenge">
       Start
@@ -28,7 +28,9 @@ export default {
   props: {
     NumOfStudent: Number,
   },
-  data: () => ({}),
+  data: () => ({
+    lockText: "Lock"
+  }),
   created() {
     this.$eventBus.$on("updateScore", (data) => {
       this.score = data;
@@ -43,6 +45,8 @@ export default {
     },
     lockChallenge() {
       console.log("lock room");
+
+      
     },
   },
 };

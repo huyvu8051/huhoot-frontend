@@ -114,13 +114,9 @@ export default {
 
       let challengeId = this.editedItem.id;
 
-      StudentPlayService.joinRoom({
-        challengeId: challengeId,
-      }).then(() => {
-        this.$router.push({
-          name: "student.wait",
-          query: { challengeId: challengeId },
-        });
+      this.$router.push({
+        name: "student.wait",
+        query: { challengeId: challengeId },
       });
 
       this.dialogPlay = false;

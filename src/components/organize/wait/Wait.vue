@@ -36,9 +36,21 @@ export default {
   },
   created() {
     this.updateStudentsLogin();
+
+    this.$eventBus.$on("kickStudent", (data) => {
+      HostOrganizeService.kickStudent({
+        studentIds: data,
+        challengeId: this.$route.query.challengeId,
+      });
+
+      this.students = this.students.filter((e) => !data.includes(e.studentId));
+
+      console.log(this.students)
+    });
   },
   beforeDestroy() {
     clearInterval(this.updateStudentsLoginInterval);
+    this.$eventBus.$off("kickStudent");
   },
   methods: {
     updateStudentsLogin() {

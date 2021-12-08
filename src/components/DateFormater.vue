@@ -6,7 +6,7 @@
 <script>
 export default {
   props: {
-    date: String,
+    date: Number,
   },
   methods: {
     formatDate(s) {

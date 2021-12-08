@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <canvas id="canvas">Canvas is not supported in your browser.</canvas>
+  <div> 
     <v-row>
       <v-col class="pa-5"> </v-col>
       <v-col class="pa-5"> top 1 </v-col>
@@ -26,6 +25,7 @@
       <v-col class="pa-5 red"> </v-col>
       <v-col class="pa-5 blue"> </v-col>
     </v-row>
+    
   </div>
 </template>
 
@@ -50,11 +50,15 @@ export default {
           fullname: "username3",
         },
       ],
+      fireworks: {},
     };
   },
+  mounted() {
+    
+  },
+ 
 };
 </script>
 
 <style>
-
 </style>

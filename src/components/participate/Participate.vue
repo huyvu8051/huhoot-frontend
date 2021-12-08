@@ -20,7 +20,7 @@ import Header from "@/components/participate/ChallengeHeader";
 import StudentPlayService from "@/services/StudentPlayService";
 import FlexLayout from "@/components/FlexLayout";
 
-import io from 'socket.io-client';
+import io from "socket.io-client";
 export default {
   components: {
     Header,
@@ -83,7 +83,11 @@ export default {
           message: "Cann't connect to room!!!",
           status: "error",
         });
-        throw "Cannot connect socket";
+        this.$router
+          .push({
+            name: "STUDENT",
+          })
+          .catch((err) => err);
       });
 
       return socket;

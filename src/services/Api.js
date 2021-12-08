@@ -12,6 +12,7 @@ export default () => {
     }
   });
 
+
   instance.interceptors.response.use(response => {
     return response;
   }, err => {
@@ -19,7 +20,14 @@ export default () => {
       message: err.response.data,
       status: "error",
     });
+
+
+    return Promise.reject(err);
+
   })
+
+
+
 
   return instance;
 }
