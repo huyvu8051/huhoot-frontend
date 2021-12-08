@@ -26,6 +26,7 @@ import Question from "@/components/Question";
 import Answers from "@/components/Answers";
 import Skip from "@/components/organize/ask/Skip";
 import TimeCountDown from "@/components/organize/ask/TimeCountDown";
+
 export default {
   components: {
     Question,
@@ -38,6 +39,7 @@ export default {
     answers: Array,
     studentAnswered: Number,
   },
+  created() {},
 };
 </script>
 

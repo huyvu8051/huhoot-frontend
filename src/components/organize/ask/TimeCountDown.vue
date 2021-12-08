@@ -21,14 +21,15 @@ export default {
   }),
 
   mounted() {
+    console.log(this.answerTimeLimit, this.askDate);
     this.countdown(this.answerTimeLimit, this.askDate);
   },
-  beforeDestroy () {
+  beforeDestroy() {
     clearInterval(this.countDownTimer);
   },
   methods: {
     countdown(answerTime, askDate) {
-      console.log("start countdown")
+      console.log("start countdown");
 
       clearInterval(this.countDownTimer);
       var that = this;

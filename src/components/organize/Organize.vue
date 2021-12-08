@@ -15,7 +15,7 @@
 
 <script>
 import FlexLayout from "@/components/FlexLayout";
-import io from 'socket.io-client';
+import io from "socket.io-client";
 export default {
   components: { FlexLayout },
   data() {
@@ -54,10 +54,22 @@ export default {
         case "host.ready":
         case "host.preview":
         case "host.ask":
-          targetName = "host.ask";
-          break;
+          targetName = "host.reAsk"; // err
+          this.$router
+            .push({
+              name: targetName,
+              query: {
+                challengeId: challengeId,
+              },
+            })
+            .catch((err) => err);
+
+          return;
         case "host.get":
           targetName = "host.wait";
+          break;
+        case "host.show":
+          targetName = "host.organize.rank";
           break;
         default:
           break;
@@ -155,6 +167,20 @@ export default {
           })
           .catch((err) => err);
       });
+
+      this.$eventBus.$on("reAsk", ({ question, answers }) => {
+        this.question = question;
+        this.answers = answers;
+        this.$router
+          .push({
+            name: "host.ask",
+            query: {
+              challengeId: this.$route.query.challengeId,
+              questionId: this.question.id,
+            },
+          })
+          .catch((err) => err);
+      });
     },
     removeSocketListener(socket) {
       socket.off("connected");
@@ -165,7 +191,9 @@ export default {
       socket.off("showCorrectAnswer");
       socket.off("endChallenge");
     },
-    removeEventBusListener() {},
+    removeEventBusListener() {
+      this.$eventBus.$off("reAsk");
+    },
   },
 };
 </script>

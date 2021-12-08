@@ -22,6 +22,9 @@
     disable-sort
     class="elevation-1"
   >
+    <template v-slot:[`item.score`]="{ item }">
+      {{Math.round(item.score)}}
+    </template>
     <template v-slot:top>
       <v-toolbar flat>
         <v-toolbar-title>Rank Table</v-toolbar-title>

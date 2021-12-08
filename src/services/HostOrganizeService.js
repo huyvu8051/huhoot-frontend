@@ -42,6 +42,11 @@ export default {
             params: params
         })
     },
+    getCurrentQuestion(params) {
+        return Api().get("host/getCurrentQuestion", {
+            params: params
+        })
+    },
     kickStudent(data) {
         return Api().post("host/kickStudent",data);
     }

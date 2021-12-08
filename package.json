@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@mdi/font": "^4.9.95",
     "axios": "^0.21.4",
     "crypto-js": "^4.1.1",
     "express": "^4.17.1",

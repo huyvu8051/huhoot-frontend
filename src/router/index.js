@@ -141,6 +141,16 @@ const router = new Router({
           name: "host.finish",
           component: () => import("@/components/organize/finish/Finish")
         },
+        {
+          path: "reAsk",
+          name: "host.reAsk",
+          component: () => import("@/components/organize/ask/ReAsk")
+        },
+        {
+          path: "podium",
+          name: "host.podium",
+          component: () => import("@/components/organize/finish/Podium")
+        },
 
       ]
     },
