@@ -15,10 +15,8 @@ export default {
     return Api().post("host/answer", data);
   },
 
-  findAllQuestion(params) {
-    return Api().get("host/question", {
-      params: params
-    });
+  findAllQuestion(data) {
+    return Api().post("host/question/findAll", data);
   },
   updateQuestion(data) {
     return Api().patch("host/question", data);
