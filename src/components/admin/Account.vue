@@ -1,5 +1,5 @@
 <template>
-  <v-card class="elevation-12">
+  <v-card class="elevation-1">
     <v-toolbar dark color="primary">
       <v-toolbar-title>Change Password</v-toolbar-title>
     </v-toolbar>
