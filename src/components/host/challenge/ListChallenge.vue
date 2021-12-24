@@ -240,7 +240,7 @@ export default {
     },
     totalDesserts: 0,
     loading: true,
-    options: {} 
+    options: {},
   }),
   computed: {
     titleErrors() {
@@ -364,21 +364,16 @@ export default {
       HostManageService.upload(formData)
         .then((response) => {
           //console.log(response.data);
-          this.editedItem.coverImage = response.data
+          this.editedItem.coverImage = response.data;
         })
         .catch(console.log)
         .finally((this.loading = false));
     },
     play(item) {
       // join a game
-
-      HostOrganizeService.joinChallenge({
-        challengeId: item.id,
-      }).then(() => {
-        this.$router.push({
-          name: "host.wait",
-          query: { challengeId: item.id },
-        });
+      this.$router.push({
+        name: "host.wait",
+        query: { challengeId: item.id },
       });
     },
   },

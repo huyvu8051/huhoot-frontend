@@ -20,12 +20,12 @@
           },
         ],
       }"
-      disable-sort
+      multi-sort
       class="elevation-1"
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>List Student</v-toolbar-title>
+          <v-toolbar-title>List Host</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="1000px">
@@ -57,7 +57,7 @@
                     <v-col cols="12" sm="6" md="6">
                       <v-switch
                         v-model="editedItem.isNonLocked"
-                        label="Non deleted"
+                        label="Non locked"
                       >
                       </v-switch>
                     </v-col>
@@ -91,10 +91,28 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
+          <v-dialog v-model="dialogReset" max-width="500px">
+            <v-card>
+              <v-card-title class="text-h5">
+                Are you sure you want to reset password for this item?
+              </v-card-title>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="closeDelete">
+                  Cancel
+                </v-btn>
+                <v-btn color="blue darken-1" text @click="resetPasswordConfirm">
+                  OK
+                </v-btn>
+                <v-spacer></v-spacer>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-toolbar>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
+        <v-icon small class="mr-2" @click="reset(item)"> lock_reset </v-icon>
         <v-icon small class="mr-2" @click="deleteItem(item)">
           mdi-delete
         </v-icon>
@@ -156,8 +174,10 @@ export default {
 
   // data
   data: () => ({
+    showErrorDialog: false,
     dialog: false,
     dialogDelete: false,
+    dialogReset: false,
     headers: [
       { text: "Id", value: "id", align: "start", sortable: true },
       { text: "Username", value: "username" },
@@ -256,6 +276,7 @@ export default {
     },
 
     closeDelete() {
+      this.dialogReset = false;
       this.dialogDelete = false;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
@@ -273,11 +294,15 @@ export default {
         AdminManageService.updateHost(Object.assign({}, this.editedItem))
           .catch(console.log)
           .finally(() => {
+            this.showAddErrorDialog();
             this.loading = false;
             this.getDataFromApi();
           });
       } else {
-        AdminManageService.addHost(Object.assign({}, this.editedItem))
+        AdminManageService.addHost([Object.assign({}, this.editedItem)])
+          .then((e) => {
+            console.log(e.data);
+          })
           .catch(console.log)
           .finally(() => {
             this.loading = false;
@@ -289,14 +314,37 @@ export default {
     getDataFromApi() {
       //  console.log(this.options);
       this.loading = true;
+
+      console.log(this.options);
+
       AdminManageService.findAllHost(this.options)
         .then((response) => {
-          // console.log(response.data);
+          console.log(response.data);
           this.desserts = response.data.list;
           this.totalDesserts = response.data.totalElements;
         })
         .catch(console.log)
         .finally((this.loading = false));
+    },
+    resetPasswordConfirm() {
+      console.log("reset", this.editedItem);
+      AdminManageService.resetPasswordAdmin([this.editedItem.id])
+        .then((response) => {
+          this.$eventBus.$emit("nofication", {
+            message: "Reset password success",
+          });
+        })
+        .finally(() => {
+          this.dialogReset = false;
+        });
+    },
+    reset(item) {
+      this.editedIndex = this.desserts.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogReset = true;
+    },
+    showAddErrorDialog() {
+      this.showErrorDialog = true;
     },
   },
 };

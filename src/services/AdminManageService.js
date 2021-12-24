@@ -2,14 +2,15 @@ import Api from "@/services/Api";
 
 export default {
 
-    findAllStudent(params) {
-        return Api().get("admin/student", {
-            params: params
-        });
+    findAllStudent(data) {
+        return Api().post("admin/student/findAll", data);
     },
 
     updateStudent(data) {
         return Api().patch("admin/student", data);
+    },
+    resetPasswordStudent(data) {
+        return Api().post("admin/resetPasswordStudent", data);
     },
     addStudent(data) {
         return Api().post("admin/student", data);
@@ -19,16 +20,18 @@ export default {
     },
 
 
-    findAllHost(params) {
-        return Api().get("admin/host", {
-            params: params
-        });
+    findAllHost(data) {
+        return Api().post("admin/host/findAll", data);
     },
     addHost(data) {
         return Api().post("admin/host", data);
     },
     updateHost(data) {
         return Api().patch("admin/host", data);
+    },
+
+    resetPasswordAdmin(data) {
+        return Api().post("admin/resetPasswordAdmin", data);
     },
 
 

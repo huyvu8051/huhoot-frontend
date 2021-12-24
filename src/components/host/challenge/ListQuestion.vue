@@ -418,6 +418,7 @@ export default {
         .then((response) => (this.editedItem.questionImage = response.data))
         .catch(console.log)
         .finally((this.loading = false));
+      console.log(this.editedItem.questionImage);
     },
   },
 };

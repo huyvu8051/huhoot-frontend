@@ -5,6 +5,7 @@
     :options.sync="options"
     :server-items-length="totalDesserts"
     :loading="loading"
+    item-key="studentId"
     :footer-props="{
       'items-per-page-options': [
         5,
@@ -22,8 +23,11 @@
     disable-sort
     class="elevation-1"
   >
+    <template v-slot:[`item.rank`]="{ index }">
+      {{ index + 1 + options.itemsPerPage * (options.page - 1) }}
+    </template>
     <template v-slot:[`item.score`]="{ item }">
-      {{Math.round(item.score)}}
+      {{ Math.round(item.score) }}
     </template>
     <template v-slot:top>
       <v-toolbar flat>
@@ -31,11 +35,11 @@
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer> </v-spacer>
         <slot name="nextQuestion" />
-      </v-toolbar>
+      </v-toolbar> 
     </template>
     <template v-slot:no-data>
-      <v-btn color="primary" @click="getDataFromApi()"> Reset </v-btn>
-    </template>
+  <v-btn color="primary" @click="getDataFromApi()"> Reset </v-btn>
+</template>
   </v-data-table>
 </template>
 
@@ -44,8 +48,7 @@
 import HostOrganizeService from "@/services/HostOrganizeService";
 
 export default {
-  components: {
-  },
+  components: {},
   data() {
     return {
       headers: [
@@ -56,6 +59,7 @@ export default {
           value: "rank",
         },
         { text: "ID", value: "studentId" },
+        { text: "Username", value: "username" },
         { text: "Fullname", value: "studentFullName" },
 
         { text: "Score", value: "score" },
@@ -77,10 +81,12 @@ export default {
   },
   methods: {
     getDataFromApi() {
+      console.log(this.options);
       this.loading = true;
       this.options.challengeId = this.$route.query.challengeId;
       HostOrganizeService.getTopStudent(this.options)
         .then((response) => {
+          console.log(response.data.list);
           this.desserts = response.data.list;
           this.totalDesserts = response.data.totalElements;
         })

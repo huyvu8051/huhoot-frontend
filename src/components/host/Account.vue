@@ -1,70 +1,59 @@
 <template>
-  <div>
-    <Navigation />
-    <v-main>
-      <v-container fluid fill-height rounded-lg>
-        <v-layout align-center justify-center>
-          <v-flex xs12 sm12 md8>
-            <v-card class="elevation-12">
-              <v-toolbar dark color="primary">
-                <v-toolbar-title>Change Password</v-toolbar-title>
-              </v-toolbar>
-              <v-card-text>
-                <v-form>
-                  <v-text-field
-                    prepend-icon="lock"
-                    name="oldPassword"
-                    label="oldPassword"
-                    type="text"
-                    v-model="oldPassword"
-                    required
-                    v-on:keyup.enter.exact="submit"
-                    :error-messages="oldPasswordErrors"
-                    @input="$v.oldPassword.$touch()"
-                    @blur="$v.oldPassword.$touch()"
-                  ></v-text-field>
-                  <v-text-field
-                    id="password"
-                    prepend-icon="lock"
-                    name="password"
-                    label="Password"
-                    type="password"
-                    v-model="password"
-                    required
-                    v-on:keyup.enter.exact="submit"
-                    :error-messages="passwordErrors"
-                    @input="$v.password.$touch()"
-                    @blur="$v.password.$touch()"
-                  ></v-text-field>
-                  <v-text-field
-                    id="confirmPassword"
-                    prepend-icon="lock"
-                    name="confirmPassword"
-                    label="Confirm Password"
-                    type="password"
-                    v-model="confirmPassword"
-                    required
-                    v-on:keyup.enter.exact="submit"
-                    :error-messages="confirmPasswordErrors"
-                    @input="$v.confirmPassword.$touch()"
-                    @blur="$v.confirmPassword.$touch()"
-                  ></v-text-field>
-                </v-form>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer />
-                <v-btn color="primary" @click="submit">Submit</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-main>
-    <Footer />
-  </div>
+  <v-card class="elevation-12">
+    <v-toolbar dark color="primary">
+      <v-toolbar-title>Change Password</v-toolbar-title>
+    </v-toolbar>
+    <v-card-text>
+      <v-form>
+        <v-text-field
+          prepend-icon="lock"
+          name="oldPassword"
+          label="oldPassword"
+          type="text"
+          v-model="oldPassword"
+          required
+          v-on:keyup.enter.exact="submit"
+          :error-messages="oldPasswordErrors"
+          @input="$v.oldPassword.$touch()"
+          @blur="$v.oldPassword.$touch()"
+        ></v-text-field>
+        <v-text-field
+          id="password"
+          prepend-icon="lock"
+          name="password"
+          label="Password"
+          type="password"
+          v-model="password"
+          required
+          v-on:keyup.enter.exact="submit"
+          :error-messages="passwordErrors"
+          @input="$v.password.$touch()"
+          @blur="$v.password.$touch()"
+        ></v-text-field>
+        <v-text-field
+          id="confirmPassword"
+          prepend-icon="lock"
+          name="confirmPassword"
+          label="Confirm Password"
+          type="password"
+          v-model="confirmPassword"
+          required
+          v-on:keyup.enter.exact="submit"
+          :error-messages="confirmPasswordErrors"
+          @input="$v.confirmPassword.$touch()"
+          @blur="$v.confirmPassword.$touch()"
+        >
+        </v-text-field>
+      </v-form>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer />
+      <v-btn color="primary" @click="submit">Submit</v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 <script>
-import PlayerService from "@/services/Player";
+import HostAccountService from "@/services/HostAccountService";
 import Footer from "@/components/Footer";
 import { validationMixin } from "vuelidate";
 import {
@@ -72,7 +61,7 @@ import {
   maxLength,
   minLength,
   email,
-  sameAs
+  sameAs,
 } from "vuelidate/lib/validators";
 
 export default {
@@ -81,14 +70,13 @@ export default {
     oldPassword: {
       required,
       maxLength: maxLength(20),
-      minLength: minLength(5)
+      minLength: minLength(5),
     },
     password: { required, maxLength: maxLength(20), minLength: minLength(5) },
-    confirmPassword: { sameAsPassword: sameAs("password") }
+    confirmPassword: { sameAsPassword: sameAs("password") },
   },
   components: {
     Footer: Footer,
-    Navigation: Navigation
   },
   computed: {
     oldPasswordErrors() {
@@ -113,19 +101,19 @@ export default {
       !this.$v.confirmPassword.sameAsPassword &&
         errors.push("Confirm Password must be same as password.");
       return errors;
-    }
+    },
   },
   data: () => ({
     valid: false,
     oldPassword: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   }),
   methods: {
     submit() {
       this.$v.$touch();
       if (!this.$v.$anyError) {
-        this.login();
+        this.updatePassword();
       }
     },
     clear() {
@@ -134,27 +122,19 @@ export default {
       this.password = "";
       this.confirmPassword = "";
     },
-    async login() {
-      PlayerService.changePassword({
+    async updatePassword() {
+      HostAccountService.updatePassword({
         oldPassword: this.oldPassword,
-        password: this.password
+        password: this.password,
       })
-        .then(response => {
+        .then((response) => {
           this.$eventBus.$emit("nofication", {
-            message: "Change password successful!!!"
+            message: "Change password successful!!!",
           });
           this.clear();
-          this.$router.push({
-            name: "account"
-          });
         })
-        .catch(error => {
-          this.$eventBus.$emit("nofication", {
-            message: error.response.data,
-            status: "error"
-          });
-        });
-    }
-  }
+        .catch((error) => error);
+    },
+  },
 };
 </script>

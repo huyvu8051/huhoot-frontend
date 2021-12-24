@@ -20,7 +20,7 @@
           },
         ],
       }"
-      disable-sort
+      multi-sort
       class="elevation-1"
     >
       <template v-slot:top>
@@ -28,7 +28,7 @@
           <v-toolbar-title>List Student</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
-          <AddManyStudent/>
+          <AddManyStudent />
           <v-dialog v-model="dialog" max-width="1000px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
@@ -70,7 +70,7 @@
                     <v-col cols="12" sm="6" md="4">
                       <v-switch
                         v-model="editedItem.isNonLocked"
-                        label="Non deleted"
+                        label="Non Locked"
                       >
                       </v-switch>
                     </v-col>
@@ -104,6 +104,23 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
+          <v-dialog v-model="dialogReset" max-width="500px">
+            <v-card>
+              <v-card-title class="text-h5">
+                Are you sure you want to reset password for this item?
+              </v-card-title>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="closeDelete">
+                  Cancel
+                </v-btn>
+                <v-btn color="blue darken-1" text @click="resetPasswordConfirm">
+                  OK
+                </v-btn>
+                <v-spacer></v-spacer>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-toolbar>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
@@ -111,6 +128,7 @@
         <v-icon small class="mr-2" @click="deleteItem(item)">
           mdi-delete
         </v-icon>
+        <v-icon small class="mr-2" @click="reset(item)"> lock_reset </v-icon>
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="getDataFromApi()"> Reset </v-btn>
@@ -131,7 +149,6 @@ import AdminManageService from "@/services/AdminManageService";
 import DateFormater from "@/components/DateFormater";
 import AddManyStudent from "@/components/admin/AddManyStudent";
 
-
 import { validationMixin } from "vuelidate";
 import {
   required,
@@ -144,7 +161,7 @@ import {
 export default {
   components: {
     DateFormater,
-    AddManyStudent
+    AddManyStudent,
   },
   // validate
   mixins: [validationMixin],
@@ -165,6 +182,7 @@ export default {
   data: () => ({
     dialog: false,
     dialogDelete: false,
+    dialogReset: false,
     headers: [
       { text: "Id", value: "id", align: "start", sortable: true },
       { text: "Username", value: "username" },
@@ -274,6 +292,7 @@ export default {
     },
 
     closeDelete() {
+      this.dialogReset = false;
       this.dialogDelete = false;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
@@ -296,7 +315,7 @@ export default {
             this.getDataFromApi();
           });
       } else {
-        AdminManageService.addStudent(Object.assign({}, this.editedItem))
+        AdminManageService.addStudent([Object.assign({}, this.editedItem)])
           .catch(console.log)
           .finally(() => {
             this.loading = false;
@@ -316,6 +335,23 @@ export default {
         })
         .catch(console.log)
         .finally((this.loading = false));
+    },
+    resetPasswordConfirm() {
+      console.log("reset", this.editedItem);
+      AdminManageService.resetPasswordStudent([this.editedItem.id])
+        .then((response) => {
+          this.$eventBus.$emit("nofication", {
+            message: "Reset password success",
+          });
+        })
+        .finally(() => {
+          this.dialogReset = false;
+        });
+    },
+    reset(item) {
+      this.editedIndex = this.desserts.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogReset = true;
     },
   },
 };

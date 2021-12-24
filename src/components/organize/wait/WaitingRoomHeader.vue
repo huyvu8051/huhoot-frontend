@@ -14,7 +14,7 @@
     >
       Return
     </v-btn>
-    <v-btn class="red white--text mr-2" @click="lockChallenge"> {{lockText}} </v-btn>
+    <!-- <v-btn class="red white--text mr-2" @click="lockChallenge"> {{lockText}} </v-btn> -->
 
     <v-btn class="deep-purple white--text" @click="startChallenge">
       Start

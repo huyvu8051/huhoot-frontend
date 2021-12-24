@@ -5,7 +5,7 @@
     <FlexLayout>
       <router-view />
     </FlexLayout>
-    <Footer />
+    <!-- <Footer /> -->
   </v-main>
 </template>
 

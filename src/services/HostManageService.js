@@ -27,10 +27,8 @@ export default {
     return Api().post("host/question", data);
   },
 
-  findAllChallenge(params) {
-    return Api().get("host/challenge", {
-      params: params
-    });
+  findAllChallenge(data) {
+    return Api().post("host/challenge/findAll", data);
   },
   updateChallenge(data) {
     return Api().patch("host/challenge", data);

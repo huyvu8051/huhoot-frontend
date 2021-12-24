@@ -36,6 +36,7 @@ export default {
       totalPointEncrypt: "",
       encryptKey: "",
       totalPoint: "0",
+      challenge: {}
     };
   },
   created() {
@@ -75,7 +76,7 @@ export default {
         })
         .on("registerSuccess", (data) => {
           console.log(data);
-          this.student = data;
+          this.challenge = data;
         });
 
       socket.on("joinError", (data) => {

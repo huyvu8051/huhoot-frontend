@@ -2,6 +2,7 @@
   <v-main>
     <FlexLayout>
       <router-view
+        :challenge="challenge"
         :socket="socket"
         :question="question"
         :answers="answers"
@@ -20,10 +21,10 @@ export default {
   components: { FlexLayout },
   data() {
     return {
+      challenge: {},
       socket: {},
       question: {},
       answers: [],
-      answerStatistics: [],
       studentAnswered: 0,
       ready: false,
     };
@@ -93,19 +94,24 @@ export default {
         .emit("registerHostSocket", {
           challengeId: this.$route.query.challengeId,
           token: this.$store.state.token,
-        })
-        .on("registerSuccess", (data) => {
-          // console.log(data);
-          this.student = data;
-          this.ready = true;
         });
+
+      socket.on("registerSuccess", (data) => {
+        // console.log("challenge ", data);
+        this.challenge = data;
+        this.ready = true;
+      });
 
       socket.on("joinError", (data) => {
         this.$eventBus.$emit("nofication", {
           message: "Cann't connect to room!!!",
           status: "error",
         });
-        throw "Cannot connect socket";
+        this.$router
+          .push({
+            name: "HOST",
+          })
+          .catch((err) => err);
       });
 
       return socket;

@@ -2,11 +2,6 @@ import Api from "@/services/Api";
 
 export default {
 
-    joinChallenge(params) {
-        return Api().get("host/joinChallenge", {
-            params: params
-        });
-    },
     getStudentsOnline(params) {
         return Api().get("host/studentOnline", {
             params: params
