@@ -1,4 +1,4 @@
-<template>
+<template >
   <v-img
     :lazy-src="require(`@/assets/img/huhoot-logo.png`)"
     :src="url"
@@ -9,6 +9,8 @@
     :contain="contain"
     class="my-1 rounded"
     v-on:error="url = require(`@/assets/img/huhoot-logo.png`)"
+    v-resize
+    @resize="onResize"
   />
 </template>
 
@@ -20,10 +22,7 @@ export default {
       type: String,
       default: "auto",
     },
-    maxHeight: {
-      type: String,
-      default: "auto",
-    },
+
     width: {
       type: String,
       default: "auto",
@@ -36,23 +35,35 @@ export default {
       type: Boolean,
       default: false,
     },
+    windowRatio: {
+      type: Number,
+      default: null,
+    },
   },
   data: () => {
     return {
       url: "",
+      maxHeight: "auto",
     };
   },
-  watch:{
-    src(val){
-      this.url = this.$backendUrl + '/uploads/' + val;
+  computed: {},
+  watch: {
+    src(val) {
+      this.url = this.$backendUrl + "/uploads/" + val;
 
       console.log(this.url);
-    }
+    },
   },
-  created(){
-    this.url = this.$backendUrl + '/uploads/' + this.src;
-  }
-
+  created() {
+    this.url = this.$backendUrl + "/uploads/" + this.src;
+  },
+  methods: {
+    onResize() {
+      if (this.windowRatio != null) {
+        this.maxHeight = (window.innerHeight / 100) * this.windowRatio + "";
+      }
+    },
+  },
 };
 </script>
 

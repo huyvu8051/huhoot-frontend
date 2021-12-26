@@ -14,10 +14,7 @@ import Participate from "@/components/participate/Participate";
 
 import HostLayout from "@/components/host/HostLayout";
 import HostListChallenge from "@/components/host/challenge/ListChallenge";
-import HostListQuestion from "@/components/host/challenge/ListQuestion";
-import HostListAnswer from "@/components/host/challenge/ListAnswer";
-import ListStudentInChallenge from "@/components/host/challenge/ListStudentInChallenge";
-import ListStudent from "@/components/host/challenge/ListStudent";
+
 
 
 
@@ -63,22 +60,22 @@ const router = new Router({
         {
           path: "question",
           name: "host.listQuestion",
-          component: HostListQuestion
+          component:  () => import("@/components/host/question/ListQuestion")
         },
         {
           path: "answer",
           name: "host.listAnswer",
-          component: HostListAnswer
+          component:  () => import("@/components/host/answer/ListAnswer")
         },
         {
           path: "studentInChallenge",
           name: "host.listStudentInChallenge",
-          component: ListStudentInChallenge
+          component: ()=> import("@/components/host/studentInChallenge/ListStudentInChallenge")
         },
         {
           path: "student",
           name: "host.student",
-          component: ListStudent
+          component: ()=> import("@/components/host/studentInChallenge/ListStudent")
         },
         {
           path: "account",

@@ -135,12 +135,11 @@
 
 <script>
 import HostManageService from "@/services/HostManageService";
-import HostOrganizeService from "@/services/HostOrganizeService";
 
 import ImageDataTable from "@/components/ImageDataTable";
 import DateFormater from "@/components/DateFormater";
-import AddStudentInChallenge from "@/components/host/challenge/AddStudentInChallenge";
-import ListStudent from "@/components/host/challenge/ListStudent";
+import AddStudentInChallenge from "@/components/host/studentInChallenge/AddStudentInChallenge";
+import ListStudent from "@/components/host/studentInChallenge/ListStudent";
 
 
 import ImageWrapper from "@/components/ImageWrapper";
