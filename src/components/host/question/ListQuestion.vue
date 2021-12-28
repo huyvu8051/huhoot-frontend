@@ -28,6 +28,7 @@
           <v-toolbar-title>List Question</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
+          <CreateQuestionDialog />
           <v-dialog v-model="dialog" max-width="1000px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
@@ -178,6 +179,7 @@ import ImageDataTable from "@/components/ImageDataTable";
 import DateFormater from "@/components/DateFormater";
 import Review from "@/components/host/challenge/Review";
 
+import CreateQuestionDialog from "@/components/host/question/CreateQuestionDialog";
 import ImageWrapper from "@/components/ImageWrapper";
 
 import { validationMixin } from "vuelidate";
@@ -194,6 +196,7 @@ export default {
     ImageDataTable,
     Review,
     ImageWrapper,
+    CreateQuestionDialog,
   },
   // validate
   mixins: [validationMixin],
@@ -298,6 +301,14 @@ export default {
       },
       deep: true,
     },
+  },
+  created() {
+    this.$eventBus.$on("api-loading", (data) => {
+      this.loading = data;
+    });
+    this.$eventBus.$on("reloadData", () => {
+      this.getDataFromApi();
+    });
   },
 
   methods: {

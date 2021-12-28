@@ -9,7 +9,7 @@
     actionLeft
   >
     <v-card-title>
-      <span class="text-h5">New Item</span>
+      <span class="text-h5">NEW ITEM</span>
     </v-card-title>
 
     <v-card-text>
@@ -17,41 +17,71 @@
         <v-row>
           <v-col cols="12">
             <v-textarea
-              v-model="editedItem.title"
-              label="Title"
-              counter="255"
-              :error-messages="titleErrors"
+              v-model="editedItem.questionContent"
+              label="Content"
+              :error-messages="questionContentErrors"
+              :counter="255"
               required
-              @input="$v.editedItem.title.$touch()"
-              @blur="$v.editedItem.title.$touch()"
+              @input="$v.editedItem.questionContent.$touch()"
+              @blur="$v.editedItem.questionContent.$touch()"
             >
             </v-textarea>
           </v-col>
-          <v-col cols="12" sm="6" md="3">
-            <v-switch v-model="editedItem.randomAnswer" label="Random Answer">
-            </v-switch>
-          </v-col>
-          <v-col cols="12" sm="6" md="3">
-            <v-switch v-model="editedItem.randomQuest" label="Random Question">
-            </v-switch>
-          </v-col>
-          <v-col cols="12" sm="6" md="3">
-            <v-select
-              :items="challengeStatus"
-              v-model="editedItem.challengeStatus"
-              label="Challenge status"
-              outlined
-            ></v-select>
+
+          <v-col cols="12" sm="6" md="6">
+            <v-text-field
+              v-model="editedItem.ordinalNumber"
+              type="number"
+              min="0"
+              label="Ordinal Number"
+              :error-messages="ordinalNumberErrors"
+              required
+              @input="$v.editedItem.ordinalNumber.$touch()"
+              @blur="$v.editedItem.ordinalNumber.$touch()"
+            >
+            </v-text-field>
           </v-col>
 
-          <v-col cols="12" sm="6" md="3">
-             <UploadFile v-model="editedItem.coverImage" />
-     
+          <v-col cols="12" sm="6" md="6">
+            <v-text-field
+              v-model="editedItem.answerTimeLimit"
+              type="number"
+              min="5"
+              label="Answer time limit"
+              :error-messages="answerTimeLimitErrors"
+              required
+              @input="$v.editedItem.answerTimeLimit.$touch()"
+              @blur="$v.editedItem.answerTimeLimit.$touch()"
+            >
+            </v-text-field>
           </v-col>
-          <v-col>
-            <p>Challenge cover</p>
-            <ImageWrapper
-              :src="editedItem.coverImage"
+
+          <v-col cols="12" sm="4" md="4">
+            <v-select
+              :items="answerOption"
+              v-model="editedItem.answerOption"
+              label="Answer option"
+              outlined
+            >
+            </v-select>
+          </v-col>
+          <v-col cols="12" sm="4" md="4">
+            <v-select
+              :items="point"
+              v-model="editedItem.point"
+              label="Point"
+              outlined
+            >
+            </v-select>
+          </v-col>
+
+          <v-col cols="12" sm="4" md="4">
+            <UploadFile v-model="editedItem.questionImage" />
+          </v-col>
+          <v-col cols="12">
+            <p>Question image</p>
+           <ImageWrapper
+              :src="editedItem.questionImage"
               contain
               :windowRatio="30"
             />
@@ -63,7 +93,6 @@
 </template>
 
 <script>
-
 import UploadFile from "@/components/UploadFile";
 import HostManageService from "@/services/HostManageService";
 import ImageWrapper from "@/components/ImageWrapper";
@@ -80,51 +109,76 @@ export default {
   components: {
     ConfirmDialog,
     ImageWrapper,
-    UploadFile
+    UploadFile,
   },
   mixins: [validationMixin],
   validations: {
     editedItem: {
-      title: { required, maxLength: maxLength(255) },
+      ordinalNumber: { required, minValue: minValue(0) },
+      answerTimeLimit: { required, minValue: minValue(5) },
+      questionContent: {
+        required,
+        maxLength: maxLength(255),
+      },
     },
   },
   data() {
     return {
       value: false,
-      challengeStatus: [
-        "BUILDING",
-        "WAITING",
-        "IN_PROGRESS",
-        "LOCKED",
-        "ENDED",
-      ],
+
       answerOption: ["SINGLE_SELECT", "MULTI_SELECT"],
       point: ["STANDARD", "DOUBLE_POINTS", "NO_POINTS"],
-      radioGroup: 1,
 
       editedItem: {},
       defaultItem: {
         id: 0,
-        title: "",
-        coverImage: "huhoot-logo.png",
-        randomAnswer: false,
-        randomQuest: false,
-        challengeStatus: "BUILDING",
+        questionContent: "",
+        questionImage: "hutech-logo.png",
+        ordinalNumber: 0,
+        answerOption: "SINGLE_SELECT",
+        answerTimeLimit: 10,
+        point: "STANDARD",
       },
       action: {
-        confirm: () => HostManageService.addChallenge(this.editedItem),
+        confirm: () =>
+          HostManageService.addQuestion(
+            Object.assign(
+              {
+                challengeId: this.$route.query.challengeId,
+              },
+              this.editedItem
+            )
+          ),
       },
       imageHeight: "100%",
     };
   },
   computed: {
-    titleErrors() {
+    ordinalNumberErrors() {
       const errors = [];
-      if (!this.$v.editedItem.title.$dirty) return errors;
-      !this.$v.editedItem.title.required &&
-        errors.push("Question title required!");
-      !this.$v.editedItem.title.maxLength &&
-        errors.push("Question title length must less than 255!");
+      if (!this.$v.editedItem.ordinalNumber.$dirty) return errors;
+      !this.$v.editedItem.ordinalNumber.required &&
+        errors.push("Ordinal number required!");
+      !this.$v.editedItem.ordinalNumber.minValue &&
+        errors.push("Ordinal number must greater than 0!");
+      return errors;
+    },
+    answerTimeLimitErrors() {
+      const errors = [];
+      if (!this.$v.editedItem.answerTimeLimit.$dirty) return errors;
+      !this.$v.editedItem.answerTimeLimit.required &&
+        errors.push("Answer time limit required!");
+      !this.$v.editedItem.answerTimeLimit.minValue &&
+        errors.push("Answer time limit must greater than 5!");
+      return errors;
+    },
+    questionContentErrors() {
+      const errors = [];
+      if (!this.$v.editedItem.questionContent.$dirty) return errors;
+      !this.$v.editedItem.questionContent.required &&
+        errors.push("Question content required!");
+      !this.$v.editedItem.questionContent.maxLength &&
+        errors.push("Question content length must less than 255!");
       return errors;
     },
   },
