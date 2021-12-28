@@ -51,6 +51,7 @@
                         required
                         @input="$v.editedItem.username.$touch()"
                         @blur="$v.editedItem.username.$touch()"
+                        id="username-input"
                       >
                       </v-text-field>
                     </v-col>
@@ -292,7 +293,7 @@ export default {
       this.loading = true;
       if (this.editedIndex > -1) {
         AdminManageService.updateHost(Object.assign({}, this.editedItem))
-          .catch(console.log)
+          
           .finally(() => {
             this.showAddErrorDialog();
             this.loading = false;
@@ -300,8 +301,14 @@ export default {
           });
       } else {
         AdminManageService.addHost([Object.assign({}, this.editedItem)])
-          .then((e) => {
-            console.log(e.data);
+          .then((response)=>{
+            console.log("cc", response.data)
+            if(response.data.length > 0){
+              this.$eventBus.$emit("nofication",{
+              message: "Add error",
+              status: "error"
+            })
+            }
           })
           .catch(console.log)
           .finally(() => {

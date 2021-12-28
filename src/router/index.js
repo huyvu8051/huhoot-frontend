@@ -32,6 +32,12 @@ const router = new Router({
   routes: [
 
     {
+      path:"/plugin/login",
+      name:"plugin.login",
+      component: ()=>import("@/components/plugin/LoginBoxed")
+    },
+
+    {
       path: "/",
       name: "login",
       component: Login

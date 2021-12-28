@@ -24,6 +24,7 @@
               required
               @input="$v.editedItem.title.$touch()"
               @blur="$v.editedItem.title.$touch()"
+              id="txtTitle"
             >
             </v-textarea>
           </v-col>
