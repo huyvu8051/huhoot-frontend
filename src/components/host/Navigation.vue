@@ -11,13 +11,6 @@
           </v-list-item-icon>
           <v-list-item-title>Home</v-list-item-title>
         </v-list-item>
-
-        <v-list-item :to="{ name: 'host.student' }">
-          <v-list-item-icon>
-            <v-icon>groups</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>Student</v-list-item-title>
-        </v-list-item>
         <v-list-item :to="{ name: 'host.account' }">
           <v-list-item-icon>
             <v-icon>mdi-account</v-icon>

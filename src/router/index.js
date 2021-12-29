@@ -31,16 +31,12 @@ const router = new Router({
   mode: "history",
   routes: [
 
-    {
-      path:"/plugin/login",
-      name:"plugin.login",
-      component: ()=>import("@/components/plugin/LoginBoxed")
-    },
+    
 
     {
       path: "/",
       name: "login",
-      component: Login
+      component: ()=>import("@/components/plugin/LoginBoxed")
     },
     // host
 
