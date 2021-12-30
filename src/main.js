@@ -12,6 +12,13 @@ import VueConfig from "@/vue.config"
 import resize from "vue-element-resize-detector";
 import VueExcelXlsx from "vue-excel-xlsx";
 
+
+// sweet
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+Vue.use(VueSweetalert2);
+
+
 Vue.use(VueExcelXlsx);
 Vue.use(resize)
 

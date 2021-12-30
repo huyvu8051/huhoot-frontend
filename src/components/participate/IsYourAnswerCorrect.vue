@@ -35,23 +35,32 @@ export default {
     };
   },
   created() {
-    this.snackbar = true;
+    //this.snackbar = true;
     switch (this.isCorrect) {
       case "true":
-        this.message = "Correct";
-        this.color = "success";
-        this.icon = "check_circle";
+        this.$swal({
+          icon: "success",
+          title: "Good job!",
+          text: "Your answer is correct!",
+          timer: 3000,
+        });
 
         break;
       case "false":
-        this.message = "Wrong";
-        this.color = "red";
-        this.icon = "error";
+        this.$swal({
+          icon: "error",
+          title: "Oops...",
+          text: "Incorrect answer!",
+          timer: 3000,
+        });
         break;
       default:
-        this.message = "Timeout";
-        this.color = "yellow";
-        this.icon = "warning";
+        this.$swal({
+          icon: "warning",
+          title: "Timeout",
+          text: "Better luck next time!",
+          timer: 3000,
+        });
         break;
     }
   },

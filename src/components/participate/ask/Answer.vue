@@ -15,11 +15,11 @@ export default {
     answer() {
       console.log("answer ", this.selectedIds);
 
-      if(this.selectedIds.length == 0){
+      if (this.selectedIds.length == 0) {
         this.$eventBus.$emit("nofication", {
-          message:"Select answer!",
-          status:"error"
-        })
+          message: "Select answer!",
+          status: "error",
+        });
 
         return;
       }
@@ -30,11 +30,10 @@ export default {
         questionId: this.$route.query.questionId,
       }).then((response) => {
         this.$eventBus.$emit("storeEncrypted", response.data);
-
-        this.$router.push({
-          name: "student.wait",
-          query: { challengeId: this.$route.query.challengeId },
-        });
+      });
+      this.$router.push({
+        name: "student.wait",
+        query: { challengeId: this.$route.query.challengeId },
       });
     },
   },

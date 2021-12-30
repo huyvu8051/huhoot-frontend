@@ -21,6 +21,8 @@ export default {
     clearTimeout(this.timeout);
   },
   created() {
+    this.text = "Question " + this.question.questionOrder;
+
     if (this.question.theLastQuestion) {
       this.text = "The last question";
     }

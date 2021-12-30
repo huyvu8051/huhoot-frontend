@@ -18,6 +18,7 @@ export default {
     };
   },
   created() {
+    this.text = "Question " + this.question.questionOrder;
     if (this.question.theLastQuestion) {
       this.text = "The last question";
     }
