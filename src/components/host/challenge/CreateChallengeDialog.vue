@@ -51,10 +51,8 @@
           </v-col>
           <v-col>
             <p>Challenge cover</p>
-            <ImageWrapper
+             <FitHeightImage
               :src="editedItem.coverImage"
-              contain
-              :windowRatio="30"
             />
           </v-col>
         </v-row>
@@ -68,6 +66,8 @@
 import UploadFile from "@/components/UploadFile";
 import HostManageService from "@/services/HostManageService";
 import ImageWrapper from "@/components/ImageWrapper";
+
+import FitHeightImage from "@/components/FitHeightImage";
 import { validationMixin } from "vuelidate";
 import {
   required,
@@ -81,7 +81,8 @@ export default {
   components: {
     ConfirmDialog,
     ImageWrapper,
-    UploadFile
+    UploadFile,
+    FitHeightImage
   },
   mixins: [validationMixin],
   validations: {

@@ -21,21 +21,21 @@
         ],
       }"
       multi-sort
-      class="elevation-1"
+      class="elevation-10"
     >
       <template v-slot:top>
         <v-toolbar flat>
           <v-toolbar-title>List Challenge</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
+          <v-text-field
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
           <v-spacer></v-spacer>
-          <DeleteChallengeDialog
-            v-model="deleteDialog"
-            :item="editedItem"
-          />
-          <EditChallengeDialog
-          v-model="editDialog"
-          :item="editedItem"
-          />
+          <DeleteChallengeDialog v-model="deleteDialog" :item="editedItem" />
+          <EditChallengeDialog v-model="editDialog" :item="editedItem" />
           <CreateChallengeDialog />
         </v-toolbar>
       </template>
@@ -83,6 +83,7 @@
       <template v-slot:[`item.modifiedDate`]="{ item }">
         <DateFormater :date="item.modifiedDate" />
       </template>
+      
     </v-data-table>
   </v-flex>
 </template>
@@ -102,7 +103,6 @@ import OpenChallenge from "@/components/host/challenge/OpenChallenge";
 import ImageWrapper from "@/components/ImageWrapper";
 import DataTableRouterIcon from "@/components/DataTableRouterIcon";
 
-
 export default {
   components: {
     DateFormater,
@@ -113,14 +113,13 @@ export default {
     EditChallengeDialog,
     DeleteChallengeDialog,
     ConfirmDialog,
-    CreateChallengeDialog
+    CreateChallengeDialog,
   },
   // data
   data: () => ({
-   
     dialog: false,
     deleteDialog: false,
-    editDialog:false,
+    editDialog: false,
 
     headers: [
       { text: "Id", value: "id", align: "start", sortable: true },
@@ -135,7 +134,7 @@ export default {
       { text: "Actions", value: "actions", sortable: false },
     ],
     desserts: [],
-    editedItem:{},
+    editedItem: {},
 
     totalDesserts: 0,
     loading: true,
@@ -143,7 +142,6 @@ export default {
   }),
 
   watch: {
-
     options: {
       handler() {
         this.getDataFromApi();
@@ -169,12 +167,12 @@ export default {
 
     // =========================
     editItem(item) {
-       this.clone(item);
+      this.clone(item);
       this.editDialog = true;
     },
 
-    clone(item){
-       this.editedIndex = this.desserts.indexOf(item);
+    clone(item) {
+      this.editedIndex = this.desserts.indexOf(item);
       this.editedItem = Object.assign({}, item);
     },
 

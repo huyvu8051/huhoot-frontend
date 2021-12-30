@@ -22,97 +22,71 @@
       }"
       disable-sort
       class="elevation-1"
+      loading-text="Loading... Please wait"
     >
       <template v-slot:top>
         <v-toolbar flat>
           <v-toolbar-title>List Answer</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
+          <v-text-field
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
           <v-spacer></v-spacer>
-          <v-dialog v-model="dialog" max-width="500px">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
-                New Item
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-title>
-                <span class="text-h5">{{ formTitle }}</span>
-              </v-card-title>
-
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col cols="12" sm="6" md="6">
-                      <v-text-field
-                        v-model="editedItem.ordinalNumber"
-                        type="number"
-                        min="0"
-                        label="Ordinal Number"
-                        :error-messages="ordinalNumberErrors"
-                        required
-                        @input="$v.editedItem.ordinalNumber.$touch()"
-                        @blur="$v.editedItem.ordinalNumber.$touch()"
-                      >
-                      </v-text-field>
-                    </v-col>
-
-                    <v-col cols="12" sm="6" md="6">
-                      <v-switch v-model="editedItem.isCorrect" label="Correct">
-                      </v-switch>
-                    </v-col>
-                    <v-col cols="12">
-                      <v-textarea
-                        v-model="editedItem.answerContent"
-                        label="Content"
-                        :error-messages="answerContentErrors"
-                        :counter="255"
-                        required
-                        @input="$v.editedItem.answerContent.$touch()"
-                        @blur="$v.editedItem.answerContent.$touch()"
-                      >
-                      </v-textarea>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="close">
-                  Cancel
-                </v-btn>
-                <v-btn color="blue darken-1" text @click="save"> Save </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-          <v-dialog v-model="dialogDelete" max-width="500px">
-            <v-card>
-              <v-card-title class="text-h5">
-                Are you sure you want to delete this item?
-              </v-card-title>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="closeDelete">
-                  Cancel
-                </v-btn>
-                <v-btn color="blue darken-1" text @click="deleteItemConfirm">
-                  OK
-                </v-btn>
-                <v-spacer></v-spacer>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+          <CreateAnswerDialog />
+          <DeleteAnswerDialog v-model="deleteDialog" :item="editedItem" />
         </v-toolbar>
-      </template>
-      <template v-slot:[`item.actions`]="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
-        <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="getDataFromApi()"> Reset </v-btn>
       </template>
-      <template v-slot:[`item.createdDate`]="{ item }">
-        <DateFormater :date="item.createdDate" />
+
+      <template #body>
+        <draggable
+          v-model="desserts"
+          tag="tbody"
+          @change="onUnpublishedChange"
+          @start="beforeChange"
+        >
+          <tr v-for="(item, index) in desserts" :key="index">
+            <td>{{ item.id }}</td>
+            <td>{{ item.ordinalNumber }}</td>
+            <td>
+              <v-edit-dialog
+                @save="updateContent(editedItem)"
+                @open="editedItem = Object.assign({}, item)"
+              >
+                {{ item.answerContent }}
+                <template v-slot:input>
+                  <v-text-field
+                    v-model="editedItem.answerContent"
+                    :rules="[max255chars]"
+                    label="Edit"
+                    single-line
+                    counter
+                  ></v-text-field>
+                </template>
+              </v-edit-dialog>
+            </td>
+
+            <td><DateFormater :date="item.createdDate" /></td>
+            <td>
+              <v-simple-checkbox
+                v-model="item.isCorrect"
+                @input="updateIsCorrect(item)"
+              ></v-simple-checkbox>
+            </td>
+
+            <td>
+              <!--<Review :question="item" /> -->
+              <v-icon small class="mr-2" @click="deleteItem(item)">
+                mdi-delete
+              </v-icon>
+            </td>
+          </tr>
+        </draggable>
       </template>
     </v-data-table>
   </v-flex>
@@ -120,9 +94,11 @@
 
 <script>
 import HostManageService from "@/services/HostManageService";
-
+import DeleteAnswerDialog from "@/components/host/answer/DeleteAnswerDialog";
+import CreateAnswerDialog from "@/components/host/answer/CreateAnswerDialog";
+import draggable from "vuedraggable";
 import DateFormater from "@/components/DateFormater";
-
+import ManageAnswerService from "@/components/host/answer/ManageAnswerService";
 import { validationMixin } from "vuelidate";
 import {
   required,
@@ -145,20 +121,24 @@ export default {
   },
   components: {
     DateFormater,
+    draggable,
+    CreateAnswerDialog,
+    DeleteAnswerDialog,
   },
   // data
   data: () => ({
-    dialog: false,
-    dialogDelete: false,
+    deleteDialog: false,
+    max255chars: (v) => v.length <= 255 || "Input too long!",
+
     headers: [
-      { text: "Id", value: "id", align: "start", sortable: true },
-      { text: "No", value: "ordinalNumber" },
-      { text: "Content", value: "answerContent" },
-      { text: "Created date", value: "createdDate" },
-      { text: "Correct", value: "isCorrect" },
-      { text: "Actions", value: "actions", sortable: false },
+      { text: "Id", value: "id", align: "center", sortable: true },
+      { text: "ordinalNumber", align: "center", value: "ordinalNumber" },
+      { text: "Created date", align: "center", value: "createdDate" },
+      { text: "Correct", align: "center", value: "isCorrect" },
+      { text: "Actions", align: "center", value: "actions", sortable: false },
     ],
     desserts: [],
+    tempDesserts: [],
     editedIndex: -1,
     editedItem: {
       id: 0,
@@ -166,26 +146,12 @@ export default {
       ordinalNumber: 0,
       isCorrect: false,
     },
-    defaultItem: {
-      id: 0,
-      answerContent: "",
-      ordinalNumber: 0,
-      isCorrect: false,
-    },
+
     totalDesserts: 0,
     loading: true,
     options: {},
   }),
   computed: {
-    ordinalNumberErrors() {
-      const errors = [];
-      if (!this.$v.editedItem.ordinalNumber.$dirty) return errors;
-      !this.$v.editedItem.ordinalNumber.required &&
-        errors.push("Ordinal number required!");
-      !this.$v.editedItem.ordinalNumber.minValue &&
-        errors.push("Ordinal number must greater than 0!");
-      return errors;
-    },
     answerContentErrors() {
       const errors = [];
       if (!this.$v.editedItem.answerContent.$dirty) return errors;
@@ -195,18 +161,9 @@ export default {
         errors.push("Answer content length must less than 255!");
       return errors;
     },
-    formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
-    },
   },
 
   watch: {
-    dialog(val) {
-      val || this.close();
-    },
-    dialogDelete(val) {
-      val || this.closeDelete();
-    },
     options: {
       handler() {
         this.getDataFromApi();
@@ -215,94 +172,61 @@ export default {
     },
   },
 
+  created() {
+    this.$eventBus.$on("api-loading", (data) => {
+      this.loading = data;
+    });
+    this.$eventBus.$on("reloadData", () => {
+      this.getDataFromApi();
+    });
+  },
+
   methods: {
-    editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
+    beforeChange() {
+      this.tempDesserts = JSON.parse(JSON.stringify(this.desserts));
+    },
+    onUnpublishedChange(data) {
+      for (var i = 0; i < this.tempDesserts.length; i++) {
+        this.desserts[i].ordinalNumber = this.tempDesserts[i].ordinalNumber;
+      }
+
+      ManageAnswerService.updateOrdinal({
+        list: this.desserts,
+      }).then((e) => this.getDataFromApi());
+      
+    },
+    updateContent(item) {
+      this.$v.$touch();
+      if (this.$v.$anyError) {
+        return this.$eventBus.$emit("nofication", {
+          message: "Not valid",
+          status: "error",
+        });
+      }
+      HostManageService.updateAnswer(item).then((e) =>
+        this.$eventBus.$emit("reloadData")
+      );
+    },
+    updateIsCorrect(item) {
+      HostManageService.updateAnswer(item).then((e) =>
+        this.$eventBus.$emit("reloadData")
+      );
     },
 
     deleteItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.dialogDelete = true;
+      this.deleteDialog = true;
     },
 
-    deleteItemConfirm() {
-      this.loading = true;
-      HostManageService.updateAnswer({
-        id: this.editedItem.id,
-        isNonDeleted: false,
-      }).finally(() => {
-        this.loading = false;
-        this.getDataFromApi();
-      });
-
-      this.closeDelete();
-      this.loading = false;
-    },
-
-    close() {
-      this.dialog = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-    },
-
-    closeDelete() {
-      this.dialogDelete = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-    },
-
-    save() {
-      this.$v.$touch();
-      if (this.$v.$anyError) {
-        return;
-      }
-
-      this.loading = true;
-
-      console.log("edit", this.editedItem);
-
-      if (this.editedIndex > -1) {
-        HostManageService.updateAnswer(
-          Object.assign(
-            { questionId: this.$route.query.questionId },
-            this.editedItem
-          )
-        ).finally(() => {
-          this.loading = false;
-          this.getDataFromApi();
-        });
-      } else {
-        HostManageService.addAnswer(
-          Object.assign(
-            { questionId: this.$route.query.questionId },
-            this.editedItem
-          )
-        ).finally(() => {
-          this.loading = false;
-          this.getDataFromApi();
-        });
-      }
-
-      this.close();
-    },
     getDataFromApi() {
       // console.log(this.options);
       this.options.questionId = this.$route.query.questionId;
-      this.loading = true;
-      HostManageService.findAllAnswer(this.options)
-        .then((response) => {
-          // console.log(response.data);
-          this.desserts = response.data.list;
-          this.totalDesserts = response.data.totalElements;
-        })
-        .finally((this.loading = false));
+
+      HostManageService.findAllAnswer(this.options).then((response) => {
+        // console.log(response.data);
+        this.desserts = response.data.list;
+        this.totalDesserts = response.data.totalElements;
+      });
     },
   },
 };

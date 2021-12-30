@@ -5,6 +5,7 @@
     label="Upload image"
     @change="uploadFile"
     show-size
+    outlined
   >
   </v-file-input>
 </template>

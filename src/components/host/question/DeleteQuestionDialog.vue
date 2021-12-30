@@ -15,7 +15,7 @@
 
 <script>
 import ConfirmDialog from "@/components/ConfirmDialog";
-import ManageChallengeService from "@/components/host/challenge/ManageChallengeService";
+import ManageQuestionService from "@/components/host/question/ManageQuestionService";
 export default {
   props: {
     item: Object,
@@ -29,7 +29,7 @@ export default {
     return {
       action: {
         confirm: () =>
-          ManageChallengeService.updateChallenge({
+          ManageQuestionService.update({
             id: this.editedItem.id,
             isNonDeleted: false,
           }),
@@ -38,7 +38,6 @@ export default {
     };
   },
   computed: {
-   
     editedItem() {
       return this.item;
     },

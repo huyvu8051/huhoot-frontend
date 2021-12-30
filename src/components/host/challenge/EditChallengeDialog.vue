@@ -25,6 +25,7 @@
               counter="255"
               :error-messages="titleErrors"
               required
+              outlined
               @input="$v.editedItem.title.$touch()"
               @blur="$v.editedItem.title.$touch()"
             >
@@ -52,11 +53,7 @@
           </v-col>
           <v-col>
             <p>Challenge cover</p>
-            <ImageWrapper
-              :src="editedItem.coverImage"
-              contain
-              :windowRatio="30"
-            />
+            <FitHeightImage :src="editedItem.coverImage" />
           </v-col>
         </v-row>
       </v-container>
@@ -66,23 +63,17 @@
 
 <script>
 import HostManageService from "@/services/HostManageService";
-import ImageWrapper from "@/components/ImageWrapper";
-
+import FitHeightImage from "@/components/FitHeightImage";
 import UploadFile from "@/components/UploadFile";
 import { validationMixin } from "vuelidate";
-import {
-  required,
-  maxLength,
-  minLength,
-  minValue,
-} from "vuelidate/lib/validators";
+import { required, maxLength } from "vuelidate/lib/validators";
 
 import ConfirmDialog from "@/components/ConfirmDialog";
 export default {
   components: {
     ConfirmDialog,
-    ImageWrapper,
     UploadFile,
+    FitHeightImage,
   },
   props: {
     item: Object,
@@ -108,14 +99,14 @@ export default {
       action: {
         confirm: () => HostManageService.updateChallenge(this.editedItem),
       },
-      imageHeight: "100%",
     };
   },
   computed: {
+    // on create
     editedItem() {
       return this.item;
     },
-
+    // on error input
     titleErrors() {
       const errors = [];
       if (!this.$v.editedItem.title.$dirty) return errors;
@@ -125,10 +116,6 @@ export default {
         errors.push("Question title length must less than 255!");
       return errors;
     },
-  },
-
-  methods: {
-    // =========================
   },
 };
 </script>

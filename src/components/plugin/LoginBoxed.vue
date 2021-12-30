@@ -53,7 +53,7 @@
                                 color="blue"
                               >
                                 <template v-slot:label>
-                                  <span class="caption"> I agree that </span>
+                                  <span class="caption"> Stay signed in? </span>
                                 </template>
                               </v-checkbox>
                             </v-col>

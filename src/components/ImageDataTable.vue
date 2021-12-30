@@ -1,5 +1,5 @@
 <template>
-  <ImageWrapper :src="src" height="50px" width="90px"/>
+  <ImageWrapper :src="src" height="60px" width="100px" />
 </template>
 
 <script>

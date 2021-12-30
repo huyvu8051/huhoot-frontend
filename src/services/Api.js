@@ -18,6 +18,7 @@ export default () => {
     return request;
 
   }, (error) => {
+    EventBus.$emit("api-loading", false);
     return Promise.reject(error);
 
   });
@@ -28,6 +29,8 @@ export default () => {
     return response;
   }, err => {
 
+    EventBus.$emit("api-loading", false);
+    
     EventBus.$emit("nofication", {
       message: err.response.data,
       status: "error",

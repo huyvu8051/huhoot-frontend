@@ -68,9 +68,11 @@ export default {
       this.$emit("input", false);
     },
     actionConfirm() {
+      
       // check error
       if (this.error !== null && this.error !== undefined) {
         this.error.$touch();
+        //console.log("confirm",this.error)
         if (this.error.$anyError) {
           return;
         }

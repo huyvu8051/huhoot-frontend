@@ -1,38 +1,16 @@
 import Vue from "vue";
 import Router from "vue-router";
-
-import Login from "@/components/Login";
-
-
-
 import ListChallenge from "@/components/student/ListChallenge";
-
-
 import Participate from "@/components/participate/Participate";
-
-
-
 import HostLayout from "@/components/host/HostLayout";
 import HostListChallenge from "@/components/host/challenge/ListChallenge";
 
-
-
-
-
-
-
 import Store from "@/store/store";
-
-
-
 Vue.use(Router);
 
 const router = new Router({
   mode: "history",
   routes: [
-
-    
-
     {
       path: "/",
       name: "login",

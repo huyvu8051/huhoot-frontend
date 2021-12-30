@@ -3,10 +3,8 @@ import Api from "@/services/Api";
 export default {
 
 
-  findAllAnswer(params) {
-    return Api().get("host/answer", {
-      params: params
-    });
+  findAllAnswer(data) {
+    return Api().post("host/answer/findAll", data);
   },
   updateAnswer(data) {
     return Api().patch("host/answer", data);
@@ -20,6 +18,9 @@ export default {
   },
   updateQuestion(data) {
     return Api().patch("host/question", data);
+  },
+  updateOrdinal(data) {
+    return Api().patch("host/question/ordinal", data);
   },
   addQuestion(data) {
     return Api().post("host/question", data);

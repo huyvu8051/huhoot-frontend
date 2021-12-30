@@ -1,6 +1,6 @@
 
 <template>
-  <v-card class="mx-auto" flat v-resize @resize="onResize">
+  <v-card class="mx-auto" flat>
     <v-toolbar color="cyan" dense flat>
       <v-toolbar-title class="text-body-2">
         <slot name="topRight" />
@@ -19,9 +19,7 @@
       <h2>{{ question.questionContent }}</h2>
     </v-card-text>
 
-    <ImageWrapper
-      :maxHeight="imageHeight"
-      :contain="true"
+    <FitHeightImage
       :src="question.questionImage"
     />
   </v-card>
@@ -30,22 +28,19 @@
 <script>
 import ImageWrapper from "@/components/ImageWrapper";
 
+import FitHeightImage from "@/components/FitHeightImage";
 export default {
-  components: { ImageWrapper },
+  components: { ImageWrapper, FitHeightImage },
   props: {
     question: Object,
   },
   data() {
     return {
-      imageHeight: "100%",
     };
   },
 
   methods: {
-    onResize(e) {
-      this.imageHeight = window.innerHeight / 3 + "";
-      // console.log(this.imageHeight);
-    },
+ 
   },
 };
 </script>

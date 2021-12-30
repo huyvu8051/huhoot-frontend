@@ -1,15 +1,18 @@
 <template>
   <ConfirmDialog
-    v-model="value"
-    @input="reset()"
+    :value="value"
+    @input="(e) => $emit('input', e)"
     :action="action"
     :error="$v"
-    btnText="NEW ITEM"
-    actionLeft
     fullscreen
+    actionLeft
   >
+    <template v-slot:activator>
+      <div />
+      <!-- null slot, disable default activator btn-->
+    </template>
     <v-card-title>
-      <span class="text-h5">NEW ITEM</span>
+      <span class="text-h5">EDIT ITEM</span>
     </v-card-title>
 
     <v-card-text>
@@ -94,6 +97,10 @@ export default {
     FitHeightImage,
     UploadFile,
   },
+  props: {
+    item: Object,
+    value: Boolean,
+  },
   mixins: [validationMixin],
   validations: {
     editedItem: {
@@ -106,33 +113,18 @@ export default {
   },
   data() {
     return {
-      value: false,
       answerOption: ["SINGLE_SELECT", "MULTI_SELECT"],
       point: ["STANDARD", "DOUBLE_POINTS", "NO_POINTS"],
-
-      editedItem: {},
-      defaultItem: {
-        id: 0,
-        questionContent: "",
-        questionImage: "hutech-logo.png",
-        answerOption: "SINGLE_SELECT",
-        answerTimeLimit: 10,
-        point: "STANDARD",
-      },
       action: {
         confirm: () =>
-          HostManageService.addQuestion(
-            Object.assign(
-              {
-                challengeId: this.$route.query.challengeId,
-              },
-              this.editedItem
-            )
-          ),
+          HostManageService.updateQuestion(Object.assign(this.editedItem)),
       },
     };
   },
   computed: {
+    editedItem() {
+      return this.item;
+    },
     answerTimeLimitErrors() {
       const errors = [];
       if (!this.$v.editedItem.answerTimeLimit.$dirty) return errors;
@@ -150,12 +142,6 @@ export default {
       !this.$v.editedItem.questionContent.maxLength &&
         errors.push("Question content length must less than 255!");
       return errors;
-    },
-  },
-
-  methods: {
-    reset() {
-      this.editedItem = Object.assign({}, this.defaultItem);
     },
   },
 };
