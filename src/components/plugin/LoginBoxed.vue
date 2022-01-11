@@ -24,6 +24,7 @@
                             autocomplete="false"
                             class="mt-16"
                             name="username"
+                            id="txtUsername"
                             v-model="username"
                             required
                             v-on:keyup.enter.exact="submit"
@@ -38,6 +39,7 @@
                             color="blue"
                             autocomplete="false"
                             type="password"
+                            id="txtPassword"
                             v-model="password"
                             required
                             v-on:keyup.enter.exact="submit"
@@ -69,6 +71,7 @@
                             block
                             @click="submit"
                             rounded
+                            id="btnLogin"
                           >
                             Login
                           </v-btn>
