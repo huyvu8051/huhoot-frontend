@@ -38,7 +38,7 @@ export default {
     };
   },
   created() {
-    this.updateStudentsLogin();
+    //this.updateStudentsLogin();
     this.registEventBus();
   },
   beforeDestroy() {
