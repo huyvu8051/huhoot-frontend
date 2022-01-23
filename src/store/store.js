@@ -13,34 +13,70 @@ export default new Vuex.Store({
 		token: null,
 		username: null,
 		fullName: null,
-		roles: null
+		roles: null,
+		hashCorrectAnswerIds: "",
+		question: null,
+		answers: null,
+		adminSocketId: "",
+		totalPoint: 0
+
 	},
 	mutations: {
-		setToken(state, token) {
-			state.token = token
+		setToken(state, data) {
+			state.token = data
 		},
-		setUsername(state, username) {
-			state.username = username
+		setUsername(state, data) {
+			state.username = data
 		},
-		setFullName(state, fullName) {
-			state.fullName = fullName
+		setFullName(state, data) {
+			state.fullName = data
 		},
-		setRoles(state, roles) {
-			state.roles = roles
+		setRoles(state, data) {
+			state.roles = data
+		},
+		setHashCorrectAnswerIds(state, data) {
+			state.hashCorrectAnswerIds = data
+		},
+		setQuestion(state, data) {
+			state.question = data
+		},
+		setAnswers(state, data) {
+			state.answers = data
+		},
+		setAdminSocketId(state, data) {
+			state.adminSocketId = data
+		},
+		setTotalPoint(state, data) {
+			state.totalPoint = data
 		}
 	},
 	actions: {
-		setToken({ commit }, token) {
-			commit('setToken', token)
+		setToken({ commit }, data) {
+			commit('setToken', data)
 		},
-		setUsername({ commit }, username) {
-			commit('setUsername', username)
+		setUsername({ commit }, data) {
+			commit('setUsername', data)
 		},
-		setFullName({ commit }, fullName) {
-			commit('setFullName', fullName)
+		setFullName({ commit }, data) {
+			commit('setFullName', data)
 		},
-		setRoles({ commit }, roles) {
-			commit('setRoles', roles)
-		}
+		setRoles({ commit }, data) {
+			commit('setRoles', data)
+		},
+		setHashCorrectAnswerIds({ commit }, data) {
+			commit('setHashCorrectAnswerIds', data)
+		},
+		setQuestion({ commit }, data) {
+			commit('setQuestion', data)
+		},
+		setAnswers({ commit }, data) {
+			commit('setAnswers', data)
+		},
+		setAdminSocketId({ commit }, data) {
+			commit('setAdminSocketId', data)
+		},
+		setTotalPoint({ commit }, data) {
+			commit('setTotalPoint', data)
+		},
 	}
 })

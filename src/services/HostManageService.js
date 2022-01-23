@@ -51,16 +51,12 @@ export default {
     });
   },
 
-  findAllStudent(params) {
-    return Api().get("host/student", {
-      params: params
-    });
+  findAllStudent(data) {
+    return Api().post("host/student", data);
   },
 
-  findAllStudentInChallenge(params) {
-    return Api().get("host/studentChallenge", {
-      params: params
-    });
+  findAllStudentInChallenge(data) {
+    return Api().post("host/studentChallenge/findAll", data);
   },
   addStudentInChallenge(data) {
     return Api().post("host/studentChallenge", data);

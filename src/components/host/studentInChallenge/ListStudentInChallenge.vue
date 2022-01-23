@@ -303,6 +303,7 @@ export default {
       //  console.log(this.options);
       this.loading = true;
       this.options.challengeId = this.$route.query.challengeId;
+      console.log(this.options)
       HostManageService.findAllStudentInChallenge(this.options)
         .then((response) => {
           console.log(response.data);

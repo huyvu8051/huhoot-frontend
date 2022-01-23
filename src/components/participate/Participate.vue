@@ -36,7 +36,7 @@ export default {
       totalPointEncrypt: "",
       encryptKey: "",
       totalPoint: "0",
-      challenge: {}
+      challenge: {},
     };
   },
   created() {
@@ -112,6 +112,14 @@ export default {
         this.isCorrectEncrypt = "";
         this.totalPointEncrypt = "";
         this.encryptKey = "";
+
+        this.$store.dispatch(
+          "setHashCorrectAnswerIds",
+          data.hashCorrectAnswerIds
+        );
+        this.$store.dispatch("setQuestion", data.question);
+        this.$store.dispatch("setAnswers", data.answers);
+        this.$store.dispatch("setAdminSocketId", data.adminSocketId);
 
         this.$router
           .push({

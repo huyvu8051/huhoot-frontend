@@ -192,6 +192,7 @@ export default {
           //  console.log(response.data.list);
           this.desserts = response.data.list;
           this.totalDesserts = response.data.totalElements;
+          console.log(this.desserts);
         })
         .catch(console.log);
     },

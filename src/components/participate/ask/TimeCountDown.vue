@@ -56,7 +56,7 @@ export default {
           that.percent = Math.ceil((timeLeft / answerTime) * 100);
           that.timeLeft = timeLeft;
         }
-      }, 1000);
+      }, 200);
     },
   },
 };

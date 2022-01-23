@@ -28,6 +28,9 @@ export default {
         answerIds: this.selectedIds,
         challengeId: this.$route.query.challengeId,
         questionId: this.$route.query.questionId,
+        hashCorrectAnswerIds: this.$store.state.hashCorrectAnswerIds,
+        adminSocketId: this.$store.state.adminSocketId
+     
       }).then((response) => {
         this.$eventBus.$emit("storeEncrypted", response.data);
       });
