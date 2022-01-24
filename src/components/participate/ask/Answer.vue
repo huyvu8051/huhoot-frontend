@@ -33,6 +33,9 @@ export default {
      
       }).then((response) => {
         this.$eventBus.$emit("storeEncrypted", response.data);
+
+        this.$store.dispatch("setHashPointsReceived", response.data.pointsReceived);
+
       });
       this.$router.push({
         name: "student.wait",

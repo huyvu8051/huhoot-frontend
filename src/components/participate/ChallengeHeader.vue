@@ -1,26 +1,28 @@
 <template>
-  <div >
-    <v-btn dark color="primary" fixed left bottom style="z-index: 1;" >
+  <div>
+    <v-btn dark color="primary" fixed left bottom style="z-index: 1">
       {{ $store.state.username }}
     </v-btn>
-    <v-btn dark color="primary" fixed right bottom style="z-index: 1;" >
-      {{ point }}
+    <v-btn dark color="primary" fixed right bottom style="z-index: 1">
+      {{ totalPoints }}
     </v-btn>
   </div>
 </template>
 
 <script>
 export default {
-  props: {
-    point: String,
-    submitable: Boolean,
-  },
-  data: () => ({}),
+  data: () => ({
+    totalPoints: 0,
+  }),
   components: {},
-  methods: {
-    sentAnswer() {
-      this.$eventBus.$emit("sentAnswer");
-    },
+  created() {
+    this.$eventBus.$on("updateTotalPoints", () => {
+      var totalPoints = this.$store.state.totalPoints;
+      this.totalPoints = parseInt(totalPoints);
+    });
+  },
+  beforeDestroy() {
+    this.$eventBus.$off("updateTotalPoints");
   },
 };
 </script>

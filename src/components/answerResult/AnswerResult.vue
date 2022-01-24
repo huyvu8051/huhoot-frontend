@@ -31,9 +31,17 @@ export default {
     Answers,
     ShowQuestion,
   },
-  props: {
-    question: Object,
-    answers: Array,
+
+  data() {
+    return {
+      question: {},
+      answers: [],
+    };
+  },
+
+  created(){
+    this.question = this.$store.state.question;
+    this.answers = this.$store.state.answers;
   },
   computed: {
     totalAnswer() {

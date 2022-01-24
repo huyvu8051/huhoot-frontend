@@ -18,7 +18,9 @@ export default new Vuex.Store({
 		question: null,
 		answers: null,
 		adminSocketId: "",
-		totalPoint: 0
+		totalPoints: 0,
+		hashPointsReceived: "",
+		pointsReceived: ""
 
 	},
 	mutations: {
@@ -28,9 +30,7 @@ export default new Vuex.Store({
 		setUsername(state, data) {
 			state.username = data
 		},
-		setFullName(state, data) {
-			state.fullName = data
-		},
+		
 		setRoles(state, data) {
 			state.roles = data
 		},
@@ -46,8 +46,15 @@ export default new Vuex.Store({
 		setAdminSocketId(state, data) {
 			state.adminSocketId = data
 		},
-		setTotalPoint(state, data) {
-			state.totalPoint = data
+		setTotalPoints(state, data) {
+			state.totalPoints = data
+		},
+		setHashPointsReceived(state, data) {
+			state.hashPointsReceived = data
+		},
+	
+		setPointsReceived(state, data) {
+			state.pointsReceived = data
 		}
 	},
 	actions: {
@@ -57,9 +64,7 @@ export default new Vuex.Store({
 		setUsername({ commit }, data) {
 			commit('setUsername', data)
 		},
-		setFullName({ commit }, data) {
-			commit('setFullName', data)
-		},
+		
 		setRoles({ commit }, data) {
 			commit('setRoles', data)
 		},
@@ -75,8 +80,15 @@ export default new Vuex.Store({
 		setAdminSocketId({ commit }, data) {
 			commit('setAdminSocketId', data)
 		},
-		setTotalPoint({ commit }, data) {
-			commit('setTotalPoint', data)
+		setTotalPoints({ commit }, data) {
+			commit('setTotalPoints', data)
+		},
+		setHashPointsReceived({ commit }, data) {
+			commit('setHashPointsReceived', data)
+		},
+		
+		setPointsReceived({ commit }, data) {
+			commit('setPointsReceived', data)
 		},
 	}
 })

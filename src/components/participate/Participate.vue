@@ -1,14 +1,11 @@
 <template>
   <v-main>
-    <Header :point="totalPoint" />
+    <Header />
     <FlexLayout>
       <router-view
         :socket="socket"
         :question="question"
         :answers="answers"
-        :isCorrectEncrypt="isCorrectEncrypt"
-        :totalPointEncrypt="totalPointEncrypt"
-        :encryptKey="encryptKey"
         :theLastQuestion="question.theLastQuestion"
       />
     </FlexLayout>
@@ -17,10 +14,11 @@
 
 <script>
 import Header from "@/components/participate/ChallengeHeader";
-import StudentPlayService from "@/services/StudentPlayService";
 import FlexLayout from "@/components/FlexLayout";
 
 import io from "socket.io-client";
+import DecryptUtil from "@/services/DecryptUtil";
+
 export default {
   components: {
     Header,
@@ -32,11 +30,6 @@ export default {
       question: {},
       answers: [],
       answerStatistics: [],
-      isCorrectEncrypt: "",
-      totalPointEncrypt: "",
-      encryptKey: "",
-      totalPoint: "0",
-      challenge: {},
     };
   },
   created() {
@@ -75,8 +68,10 @@ export default {
           token: this.$store.state.token,
         })
         .on("registerSuccess", (data) => {
-          console.log(data);
-          this.challenge = data;
+          console.log("registerSuccess", data);
+          this.$store.dispatch("setTotalPoints", data.totalPoints);
+
+          this.$eventBus.$emit("updateTotalPoints");
         });
 
       socket.on("joinError", (data) => {
@@ -109,10 +104,6 @@ export default {
         this.question = data.question;
         this.answers = data.answers;
 
-        this.isCorrectEncrypt = "";
-        this.totalPointEncrypt = "";
-        this.encryptKey = "";
-
         this.$store.dispatch(
           "setHashCorrectAnswerIds",
           data.hashCorrectAnswerIds
@@ -120,6 +111,10 @@ export default {
         this.$store.dispatch("setQuestion", data.question);
         this.$store.dispatch("setAnswers", data.answers);
         this.$store.dispatch("setAdminSocketId", data.adminSocketId);
+
+        // reset hash points received and key
+        this.$store.dispatch("setHashPointsReceived", "");
+        this.$store.dispatch("setEncryptKey", "");
 
         this.$router
           .push({
@@ -132,12 +127,22 @@ export default {
           .catch((err) => err);
       });
 
+      // =============== show correct answer =================
       socket.on("showCorrectAnswer", (data) => {
-        this.answers = data.answers;
+        // decrypt points received
+        var pointsReceived = DecryptUtil.encryptResponse(
+          this.$store.state.hashPointsReceived,
+          data.encryptKey
+        );
 
-        // console.log("show correct answer", data);
+        // recalculate total points
+        var totalPoints = this.$store.state.totalPoints;
+        totalPoints = parseFloat(totalPoints) + parseFloat(pointsReceived);
 
-        this.encryptKey = data.encryptKey;
+        this.$store.dispatch("setAnswers", data.answers);
+        this.$store.dispatch("setPointsReceived", pointsReceived);
+        this.$store.dispatch("setTotalPoints", totalPoints);
+        this.$eventBus.$emit("updateTotalPoints");
 
         this.$router
           .push({
@@ -173,10 +178,6 @@ export default {
           .catch((err) => err);
       });
 
-      this.$eventBus.$on(
-        "setTotalPoint",
-        (totalPoint) => (this.totalPoint = totalPoint)
-      );
       this.$eventBus.$on("storeEncrypted", ({ isCorrect, totalPoint }) => {
         this.isCorrectEncrypt = isCorrect;
         this.totalPointEncrypt = totalPoint;
@@ -195,7 +196,7 @@ export default {
     },
     removeEventBusListener() {
       this.$eventBus.$off("sentAnswer");
-      this.$eventBus.$off("setTotalPoint");
+      this.$eventBus.$off("storeEncrypted");
     },
   },
 };

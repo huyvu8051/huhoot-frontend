@@ -1,57 +1,59 @@
 <template>
-  <AnswerResult
-    :question="question"
-    :answers="answers"
-    :answerStatistics="answerStatistics"
-  >
-    <template v-slot:showTopStudent>
-      <IsYourAnswerCorrect :isCorrect="isCorrect" />
-    </template>
-  </AnswerResult>
+  <AnswerResult/>
 </template>
 
 <script>
 import AnswerResult from "@/components/answerResult/AnswerResult";
-import IsYourAnswerCorrect from "@/components/participate/IsYourAnswerCorrect";
 
-import DecryptUtil from "@/services/DecryptUtil";
 
 export default {
   components: {
     AnswerResult,
-    IsYourAnswerCorrect,
-  },
-  props: {
-    question: Object,
-    answers: Array,
-    answerStatistics: Array,
-    isCorrectEncrypt: String,
-    totalPointEncrypt: String,
-    encryptKey: String,
-  },
-  data: () => {
-    return {
-      isCorrect: null,
-    };
   },
 
   created() {
-    this.isCorrect = DecryptUtil.encryptResponse(
-      this.isCorrectEncrypt,
-      this.encryptKey
-    );
-    console.log("show answer", this.isCorrect);
+    var pointsReceived = this.$store.state.pointsReceived;
 
-    var totalPoint = DecryptUtil.encryptResponse(
-      this.totalPointEncrypt,
-      this.encryptKey
-    );
+    switch (pointsReceived) {
+      case "":
+        this.timeout();
+        break;
 
-    if (!isNaN(totalPoint) && totalPoint != "") {
-      this.$eventBus.$emit("setTotalPoint", totalPoint);
+      case "0.0":
+        this.incorrect();
+        break;
+
+      default:
+        this.correct(pointsReceived);
+        break;
     }
   },
-  methods: {},
+  methods: {
+    correct(point) {
+      this.$swal({
+        icon: "success",
+        title: "Good job!",
+        text: "Your answer is correct! \n Points received +" + parseInt(point),
+        timer: 3000,
+      });
+    },
+    incorrect() {
+      this.$swal({
+        icon: "error",
+        title: "Oops...",
+        text: "Incorrect answer!",
+        timer: 3000,
+      });
+    },
+    timeout() {
+      this.$swal({
+        icon: "warning",
+        title: "Timeout",
+        text: "Better luck next time!",
+        timer: 3000,
+      });
+    },
+  },
 };
 </script>
 
