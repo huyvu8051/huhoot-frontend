@@ -1,5 +1,5 @@
 <template>
-  <ImageWrapper
+  <h-image-wrapper
     :src="src"
     :contain="true"
     :height="height"
@@ -9,11 +9,7 @@
 </template>
 
 <script>
-import ImageWrapper from "@/components/ImageWrapper";
 export default {
-  components: {
-    ImageWrapper,
-  },
   props: {
     src: String,
     windowRatio: {

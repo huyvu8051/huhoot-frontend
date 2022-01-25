@@ -32,10 +32,7 @@ export default {
         adminSocketId: this.$store.state.adminSocketId
      
       }).then((response) => {
-        this.$eventBus.$emit("storeEncrypted", response.data);
-
         this.$store.dispatch("setHashPointsReceived", response.data.pointsReceived);
-
       });
       this.$router.push({
         name: "student.wait",

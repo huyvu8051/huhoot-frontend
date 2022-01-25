@@ -23,17 +23,12 @@
 
 <script>
 export default {
-  props: {
-    //answers: Array,
-  },
   data(){
     return {
       answers: []
     }
   },
   created(){
-    // console.log(this.answers);
-
     this.answers = this.$store.state.answers;
   }
 };

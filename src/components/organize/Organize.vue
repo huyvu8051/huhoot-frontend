@@ -1,24 +1,14 @@
 <template>
   <v-main>
-    <FlexLayout>
-      <router-view
-        :challenge="challenge"
-        :socket="socket"
-        :question="question"
-        :answers="answers"
-        :studentAnswered="studentAnswered"
-        :theLastQuestion="question.theLastQuestion"
-        :ready="ready"
-      />
-    </FlexLayout>
+    <h-flex-layout>
+      <router-view :studentAnswered="studentAnswered" :ready="ready" />
+    </h-flex-layout>
   </v-main>
 </template>
 
 <script>
-import FlexLayout from "@/components/FlexLayout";
 import io from "socket.io-client";
 export default {
-  components: { FlexLayout },
   data() {
     return {
       challenge: {},
@@ -31,11 +21,6 @@ export default {
   },
 
   created() {
-    var currName = this.$router.currentRoute.name;
-    var challengeId = this.$route.query.challengeId;
-
-    this.joinChallenge(challengeId, currName);
-
     console.log("after join chall");
 
     this.socket = this.connectSocket();
@@ -46,44 +31,6 @@ export default {
     this.removeSocketListener(this.socket);
   },
   methods: {
-    joinChallenge(challengeId, currName) {
-      console.log("currName", currName);
-
-      var targetName = currName;
-
-      switch (currName) {
-        case "host.ready":
-        case "host.preview":
-        case "host.ask":
-          targetName = "host.reAsk"; // err
-          this.$router
-            .push({
-              name: targetName,
-              query: {
-                challengeId: challengeId,
-              },
-            })
-            .catch((err) => err);
-
-          return;
-        case "host.get":
-          targetName = "host.wait";
-          break;
-        case "host.show":
-          targetName = "host.organize.rank";
-          break;
-        default:
-          break;
-      }
-      this.$router
-        .push({
-          name: targetName,
-          query: {
-            challengeId: challengeId,
-          },
-        })
-        .catch((err) => err);
-    },
     connectSocket() {
       const socketUrl = this.$socketUrl;
       var socket = io.connect(socketUrl);
@@ -132,6 +79,9 @@ export default {
         this.answers = data.answers;
         this.studentAnswered = 0;
 
+        this.$store.dispatch("setQuestion", data.question);
+        this.$store.dispatch("setAnswers", data.answers);
+
         this.$router
           .push({
             name: "host.ready",
@@ -144,10 +94,7 @@ export default {
       });
 
       socket.on("showCorrectAnswer", (data) => {
-        this.answers = data.answers;
-
-        console.log(this.answers);
-
+        this.$store.dispatch("setAnswers", data.answers);
         this.$router
           .push({
             name: "host.show",

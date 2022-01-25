@@ -7,17 +7,17 @@
 
 <script>
 export default {
-  props: {
-    question: Object,
-  },
   components: {},
   data: () => {
     return {
       text: "Ready",
       timeout: {},
+      question: {},
     };
   },
   created() {
+    this.question = this.$store.state.question;
+
     this.text = "Question " + this.question.questionOrder;
     if (this.question.theLastQuestion) {
       this.text = "The last question";

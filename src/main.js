@@ -12,6 +12,8 @@ import VueConfig from "@/vue.config"
 import resize from "vue-element-resize-detector";
 import VueExcelXlsx from "vue-excel-xlsx";
 
+import GlobalComponents from "./plugins/GlobalComponents"
+
 
 // sweet
 import VueSweetalert2 from 'vue-sweetalert2';
@@ -31,6 +33,8 @@ Vue.prototype.$socketUrl = VueConfig.socketUrl
 
 Vue.use(Vuelidate)
 Vue.prototype.$eventBus = EventBus;
+
+Vue.use(GlobalComponents);
 
 new Vue({
   el: '#app',

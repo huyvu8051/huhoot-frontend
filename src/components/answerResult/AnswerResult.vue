@@ -3,7 +3,7 @@
     <v-card-title>
       Statistics
       <v-spacer>
-        <ShowQuestion :question="question" />
+        <ShowQuestion />
       </v-spacer>
       <slot name="showTopStudent" />
     </v-card-title>
@@ -15,7 +15,7 @@
         :key="index"
       />
 
-      <Answers :answers="answers" />
+      <Answers/>
     </v-card-text>
   </v-card>
 </template>
@@ -34,13 +34,11 @@ export default {
 
   data() {
     return {
-      question: {},
       answers: [],
     };
   },
 
   created(){
-    this.question = this.$store.state.question;
     this.answers = this.$store.state.answers;
   },
   computed: {

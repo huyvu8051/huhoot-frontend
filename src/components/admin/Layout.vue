@@ -2,15 +2,14 @@
   <v-main>
     <Navigation />
     <Header />
-    <FlexLayout>
+    <h-flex-layout>
       <router-view />
-    </FlexLayout>
+    </h-flex-layout>
     <!-- <Footer /> -->
   </v-main>
 </template>
 
 <script>
-import FlexLayout from "@/components/FlexLayout";
 import Footer from "@/components/Footer";
 import Header from "@/components/admin/Header";
 import Navigation from "@/components/admin/Navigation";
@@ -19,7 +18,6 @@ export default {
     Navigation,
     Header,
     Footer,
-    FlexLayout,
   },
 };
 </script>

@@ -124,10 +124,10 @@
         <v-btn color="primary" @click="getDataFromApi()"> Reset </v-btn>
       </template>
       <template v-slot:[`item.createdDate`]="{ item }">
-        <DateFormater :date="item.createdDate" />
+        <h-date-formater :date="item.createdDate" />
       </template>
       <template v-slot:[`item.modifiedDate`]="{ item }">
-        <DateFormater :date="item.createdDate" />
+        <h-date-formater :date="item.createdDate" />
       </template>
     </v-data-table>
   </v-flex>
@@ -136,19 +136,12 @@
 <script>
 import HostManageService from "@/services/HostManageService";
 
-import ImageDataTable from "@/components/ImageDataTable";
-import DateFormater from "@/components/DateFormater";
 import AddStudentInChallenge from "@/components/host/studentInChallenge/AddStudentInChallenge";
 import ListStudent from "@/components/host/studentInChallenge/ListStudent";
 
 
-import ImageWrapper from "@/components/ImageWrapper";
-
 export default {
   components: {
-    DateFormater,
-    ImageDataTable,
-    ImageWrapper,
     AddStudentInChallenge,
     ListStudent,
   },

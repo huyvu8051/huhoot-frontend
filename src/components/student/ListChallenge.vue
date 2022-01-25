@@ -6,10 +6,10 @@
     class="elevation-1"
   >
     <template v-slot:[`item.coverImage`]="{ item }">
-      <ImageDataTable :src="item.coverImage" />
+      <h-image-data-table :src="item.coverImage" />
     </template>
     <template v-slot:[`item.createdDate`]="{ item }">
-      <DateFormater :date="item.createdDate" />
+      <h-date-formater :date="item.createdDate" />
     </template>
     <template v-slot:no-data>
       <v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -44,15 +44,8 @@
 </template>
 <script>
 import StudentManageService from "@/services/StudentManageService";
-import StudentPlayService from "@/services/StudentPlayService";
 
-import ImageDataTable from "@/components/ImageDataTable";
-import DateFormater from "@/components/DateFormater";
 export default {
-  components: {
-    DateFormater,
-    ImageDataTable,
-  },
   data: () => ({
     search: "",
     dialogPlay: false,

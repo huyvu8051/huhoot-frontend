@@ -47,17 +47,17 @@
       <!-- item format -->
 
       <template v-slot:[`item.actions`]="{ item }">
-        <DataTableRouterIcon
+        <h-data-table-router-icon
           icon="poll"
           name="host.rank"
           :query="{ challengeId: item.id }"
         />
-        <DataTableRouterIcon
+        <h-data-table-router-icon
           icon="view_list"
           name="host.listQuestion"
           :query="{ challengeId: item.id }"
         />
-        <DataTableRouterIcon
+        <h-data-table-router-icon
           icon="group"
           name="host.listStudentInChallenge"
           :query="{ challengeId: item.id }"
@@ -67,7 +67,7 @@
         <v-icon small class="mr-2" @click="deleteItem(item)"> delete </v-icon>
         <OpenChallenge :challengeId="item.id" />
 
-        <DataTableRouterIcon
+        <h-data-table-router-icon
           icon="play_arrow"
           name="host.wait"
           :query="{ challengeId: item.id }"
@@ -75,13 +75,13 @@
       </template>
 
       <template v-slot:[`item.coverImage`]="{ item }">
-        <ImageDataTable :src="item.coverImage" />
+        <h-image-data-table :src="item.coverImage" />
       </template>
       <template v-slot:[`item.createdDate`]="{ item }">
-        <DateFormater :date="item.createdDate" />
+        <h-date-formater :date="item.createdDate" />
       </template>
       <template v-slot:[`item.modifiedDate`]="{ item }">
-        <DateFormater :date="item.modifiedDate" />
+        <h-date-formater :date="item.modifiedDate" />
       </template>
       
     </v-data-table>
@@ -94,25 +94,16 @@ import EditChallengeDialog from "@/components/host/challenge/EditChallengeDialog
 
 import CreateChallengeDialog from "@/components/host/challenge/CreateChallengeDialog";
 
-import ConfirmDialog from "@/components/ConfirmDialog";
 import DeleteChallengeDialog from "@/components/host/challenge/DeleteChallengeDialog";
-import ImageDataTable from "@/components/ImageDataTable";
-import DateFormater from "@/components/DateFormater";
 import OpenChallenge from "@/components/host/challenge/OpenChallenge";
 
-import ImageWrapper from "@/components/ImageWrapper";
-import DataTableRouterIcon from "@/components/DataTableRouterIcon";
+
 
 export default {
   components: {
-    DateFormater,
-    ImageDataTable,
-    ImageWrapper,
     OpenChallenge,
-    DataTableRouterIcon,
     EditChallengeDialog,
     DeleteChallengeDialog,
-    ConfirmDialog,
     CreateChallengeDialog,
   },
   // data

@@ -71,7 +71,7 @@
               </v-edit-dialog>
             </td>
 
-            <td><DateFormater :date="item.createdDate" /></td>
+            <td><h-date-formater :date="item.createdDate" /></td>
             <td>
               <v-simple-checkbox
                 v-model="item.isCorrect"
@@ -97,7 +97,6 @@ import HostManageService from "@/services/HostManageService";
 import DeleteAnswerDialog from "@/components/host/answer/DeleteAnswerDialog";
 import CreateAnswerDialog from "@/components/host/answer/CreateAnswerDialog";
 import draggable from "vuedraggable";
-import DateFormater from "@/components/DateFormater";
 import ManageAnswerService from "@/components/host/answer/ManageAnswerService";
 import { validationMixin } from "vuelidate";
 import {
@@ -120,7 +119,6 @@ export default {
     },
   },
   components: {
-    DateFormater,
     draggable,
     CreateAnswerDialog,
     DeleteAnswerDialog,

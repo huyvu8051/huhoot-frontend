@@ -58,17 +58,17 @@
             <td>{{ item.id }}</td>
             <td>{{ item.questionContent }}</td>
             <td class="text-center">
-              <ImageDataTable
+              <h-image-data-table
                 class="justify-center align-center"
                 :src="item.questionImage"
               />
             </td>
-            <td><DateFormater :date="item.createdDate" /></td>
+            <td><h-date-formater :date="item.createdDate" /></td>
             <td>{{ item.answerOption }}</td>
             <td>{{ item.answerTimeLimit }}</td>
             <td>{{ item.point }}</td>
             <td>
-              <DataTableRouterIcon
+              <h-data-table-router-icon
                 icon="view_list"
                 name="host.listAnswer"
                 :query="{ questionId: item.id }"
@@ -94,26 +94,18 @@
 import draggable from "vuedraggable";
 import HostManageService from "@/services/HostManageService";
 
-import ImageDataTable from "@/components/ImageDataTable";
-import DateFormater from "@/components/DateFormater";
 import Review from "@/components/host/challenge/Review";
 import EditQuestionDialog from "@/components/host/question/EditQuestionDialog";
 import CreateQuestionDialog from "@/components/host/question/CreateQuestionDialog";
-import ImageWrapper from "@/components/ImageWrapper";
 import DeleteQuestionDialog from "@/components/host/question/DeleteQuestionDialog";
 
-import DataTableRouterIcon from "@/components/DataTableRouterIcon";
 export default {
   components: {
-    DateFormater,
-    ImageDataTable,
     Review,
-    ImageWrapper,
     CreateQuestionDialog,
     draggable,
     EditQuestionDialog,
-    DeleteQuestionDialog,
-    DataTableRouterIcon,
+    DeleteQuestionDialog, 
   },
 
   // data

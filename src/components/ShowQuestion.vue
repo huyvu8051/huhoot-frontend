@@ -17,7 +17,7 @@
         <v-container>
           <v-row>
             <v-col cols="12">
-              <Question :question="question" />
+              <Question/>
             </v-col>
           </v-row>
         </v-container>
@@ -29,9 +29,7 @@
 <script>
 import Question from "@/components/Question";
 export default {
-  props: {
-    question: Object,
-  },
+
   components: {
     Question,
   },

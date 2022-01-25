@@ -1,5 +1,5 @@
 <template>
-  <ConfirmDialog
+  <h-confirm-dialog
     v-model="value"
     @input="reset()"
     :action="action"
@@ -46,28 +46,25 @@
           </v-col>
 
           <v-col cols="12" sm="6" md="3">
-             <UploadFile v-model="editedItem.coverImage" />
+             <h-upload-file v-model="editedItem.coverImage" />
      
           </v-col>
           <v-col>
             <p>Challenge cover</p>
-             <FitHeightImage
+             <h-fit-height-image
               :src="editedItem.coverImage"
             />
           </v-col>
         </v-row>
       </v-container>
     </v-card-text>
-  </ConfirmDialog>
+  </h-confirm-dialog>
 </template>
 
 <script>
 
-import UploadFile from "@/components/UploadFile";
 import HostManageService from "@/services/HostManageService";
-import ImageWrapper from "@/components/ImageWrapper";
 
-import FitHeightImage from "@/components/FitHeightImage";
 import { validationMixin } from "vuelidate";
 import {
   required,
@@ -76,14 +73,7 @@ import {
   minValue,
 } from "vuelidate/lib/validators";
 
-import ConfirmDialog from "@/components/ConfirmDialog";
 export default {
-  components: {
-    ConfirmDialog,
-    ImageWrapper,
-    UploadFile,
-    FitHeightImage
-  },
   mixins: [validationMixin],
   validations: {
     editedItem: {

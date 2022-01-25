@@ -1,5 +1,5 @@
 <template>
-  <ConfirmDialog
+  <h-confirm-dialog
     :value="value"
     @input="(e) => $emit('input', e)"
     maxWidth="550px"
@@ -10,11 +10,10 @@
       <div />
       <!-- null slot, disable default activator btn-->
     </template>
-  </ConfirmDialog>
+  </h-confirm-dialog>
 </template>
 
 <script>
-import ConfirmDialog from "@/components/ConfirmDialog";
 import ManageQuestionService from "@/components/host/question/ManageQuestionService";
 export default {
   props: {
@@ -22,9 +21,6 @@ export default {
     value: Boolean,
   },
 
-  components: {
-    ConfirmDialog,
-  },
   data() {
     return {
       action: {

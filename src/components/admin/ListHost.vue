@@ -122,10 +122,10 @@
         <v-btn color="primary" @click="getDataFromApi()"> Reset </v-btn>
       </template>
       <template v-slot:[`item.createdDate`]="{ item }">
-        <DateFormater :date="item.createdDate" />
+        <h-date-formater :date="item.createdDate" />
       </template>
       <template v-slot:[`item.modifiedDate`]="{ item }">
-        <DateFormater :date="item.modifiedDate" />
+        <h-date-formater :date="item.modifiedDate" />
       </template>
     </v-data-table>
   </v-flex>
@@ -134,12 +134,8 @@
 <script>
 import AdminManageService from "@/services/AdminManageService";
 
-import ImageDataTable from "@/components/ImageDataTable";
-import DateFormater from "@/components/DateFormater";
 import OpenChallenge from "@/components/host/challenge/OpenChallenge";
 
-import ImageWrapper from "@/components/ImageWrapper";
-import DataTableRouterIcon from "@/components/DataTableRouterIcon";
 
 import { validationMixin } from "vuelidate";
 import {
@@ -152,11 +148,7 @@ import {
 
 export default {
   components: {
-    DateFormater,
-    ImageDataTable,
-    ImageWrapper,
     OpenChallenge,
-    DataTableRouterIcon,
   },
   // validate
   mixins: [validationMixin],

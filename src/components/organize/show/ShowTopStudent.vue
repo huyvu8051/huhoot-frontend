@@ -7,12 +7,18 @@
 <script>
 import HostOrganizeService from "@/services/HostOrganizeService";
 export default {
-  props: {
-    theLastQuestion: Boolean,
+  data() {
+    return {
+      question: {},
+    };
   },
+  created() {
+    this.question = this.$store.state.question;
+  },
+
   methods: {
     showTopStudent() {
-      if (this.theLastQuestion) {
+      if (this.question.theLastQuestion) {
         console.log("finish");
         HostOrganizeService.endChallenge({
           challengeId: this.$route.query.challengeId,

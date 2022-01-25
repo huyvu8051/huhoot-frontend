@@ -1,5 +1,5 @@
 <template>
-  <FlexLayout>
+  <h-flex-layout>
     <v-container>
       <v-row align="center" justify="center">
         <v-col cols="12" sm="10">
@@ -170,18 +170,14 @@
         </v-col>
       </v-row>
     </v-container>
-  </FlexLayout>
+  </h-flex-layout>
 </template>
 
 <script>
-import FlexLayout from "@/components/FlexLayout";
 import AuthenticationService from "@/services/AuthenticationService";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, minLength } from "vuelidate/lib/validators";
 export default {
-  components: {
-    FlexLayout,
-  },
   props: {
     source: String,
   },

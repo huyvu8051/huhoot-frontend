@@ -1,10 +1,8 @@
 <template>
-  <AnswerResult
-    :question="question"
-    :answers="answers"
-    :answerStatistics="answerStatistics"
-  >
-    <template v-slot:showTopStudent> <ShowTopStudent :theLastQuestion="question.theLastQuestion" /> </template>
+  <AnswerResult>
+    <template v-slot:showTopStudent>
+      <ShowTopStudent/>
+    </template>
   </AnswerResult>
 </template>
 
@@ -17,15 +15,6 @@ export default {
     AnswerResult,
     ShowTopStudent,
   },
-  props: {
-    question: Object,
-    answers: Array,
-    answerStatistics: Array,
-  },
-  created(){
-    console.log("theLastQuestion",this.question.theLastQuestion);
-  }
-  
 };
 </script>
 

@@ -3,31 +3,30 @@
     <h1>
       {{ question.questionContent }}
     </h1>
-    <Progress />
+    <h-process-bar :finish="doFinish" :time-limit="3000" />
   </div>
 </template>
 
 <script>
-import Progress from "@/components/Progress";
 export default {
-  components: {
-    Progress,
-  },
-  props: {
-    question: Object,
-  },
   data: () => {
     return {
       timeout: {},
+      question: {},
     };
   },
   created() {
+    this.question = this.$store.state.question;
+
     if (this.question.theLastQuestion) {
       this.text = "The last question";
     }
-
-    this.timeout = setTimeout(() => {
-      console.log("ask");
+  },
+  beforeDestroy() {
+    clearTimeout(this.timeout);
+  },
+  methods: {
+    doFinish() {
       this.$router.push({
         name: "host.ask",
         query: {
@@ -35,10 +34,7 @@ export default {
           questionId: this.$route.query.questionId,
         },
       });
-    }, 3000);
-  },
-  beforeDestroy() {
-    clearTimeout(this.timeout);
+    },
   },
 };
 </script>

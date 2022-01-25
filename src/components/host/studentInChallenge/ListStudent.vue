@@ -35,18 +35,14 @@
       </v-toolbar>
     </template>
     <template v-slot:[`item.createdDate`]="{ item }">
-      <DateFormater :date="item.createdDate" />
+      <h-date-formater :date="item.createdDate" />
     </template>
   </v-data-table>
 </template>
 
 <script>
-import DateFormater from "@/components/DateFormater";
 import HostManageService from "@/services/HostManageService";
 export default {
-  components: {
-    DateFormater,
-  },
   data: () => ({
     selected: [],
     headers: [

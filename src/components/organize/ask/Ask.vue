@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Question :question="question" :studentAnswered="studentAnswered">
+    <Question>
       <template v-slot:topRight>
         <strong>
           {{ question.questionOrder }} of {{ question.totalQuestion }} total |
@@ -13,11 +13,10 @@
     </Question>
 
     <TimeCountDown
-      :answerTimeLimit="question.answerTimeLimit"
-      :askDate="question.askDate"
+      :finish="doFinish"
       class="py-2"
     />
-    <Answers :answers="answers" />
+    <Answers />
   </div>
 </template>
 
@@ -25,7 +24,10 @@
 import Question from "@/components/Question";
 import Answers from "@/components/Answers";
 import Skip from "@/components/organize/ask/Skip";
-import TimeCountDown from "@/components/organize/ask/TimeCountDown";
+import TimeCountDown from "@/components/TimeCountDown";
+
+
+import HostOrganizeService from "@/services/HostOrganizeService";
 
 export default {
   components: {
@@ -35,11 +37,24 @@ export default {
     Answers,
   },
   props: {
-    question: Object,
-    answers: Array,
     studentAnswered: Number,
   },
-  created() {},
+  data() {
+    return {
+      question: {},
+    };
+  },
+  created() {
+    this.question = this.$store.state.question;
+  },
+  methods:{
+    doFinish(){
+      console.log("countdown finish");
+      HostOrganizeService.showCorrectAnswer({
+        questionId: this.$route.query.questionId,
+      });
+    }
+  }
 };
 </script>
 

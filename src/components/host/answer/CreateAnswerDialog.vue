@@ -1,5 +1,5 @@
 <template>
-  <ConfirmDialog
+  <h-confirm-dialog
     v-model="value"
     @input="reset()"
     :action="action"
@@ -34,12 +34,11 @@
         </v-row>
       </v-container>
     </v-card-text>
-  </ConfirmDialog>
+  </h-confirm-dialog>
 </template>
 
 <script>
 import HostManageService from "@/services/HostManageService";
-import FitHeightImage from "@/components/FitHeightImage";
 import { validationMixin } from "vuelidate";
 import {
   required,
@@ -48,12 +47,7 @@ import {
   minValue,
 } from "vuelidate/lib/validators";
 
-import ConfirmDialog from "@/components/ConfirmDialog";
 export default {
-  components: {
-    ConfirmDialog,
-    FitHeightImage,
-  },
   mixins: [validationMixin],
   validations: {
     editedItem: {

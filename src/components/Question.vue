@@ -1,4 +1,3 @@
-
 <template>
   <v-card class="mx-auto" flat>
     <v-toolbar color="cyan" dense flat>
@@ -19,28 +18,19 @@
       <h2>{{ question.questionContent }}</h2>
     </v-card-text>
 
-    <FitHeightImage
-      :src="question.questionImage"
-    />
+    <h-fit-height-image :src="question.questionImage" />
   </v-card>
 </template>
 
 <script>
-import ImageWrapper from "@/components/ImageWrapper";
-
-import FitHeightImage from "@/components/FitHeightImage";
 export default {
-  components: { ImageWrapper, FitHeightImage },
-  props: {
-    question: Object,
-  },
   data() {
     return {
+      question: {},
     };
   },
-
-  methods: {
- 
+  created() {
+    this.question = this.$store.state.question;
   },
 };
 </script>

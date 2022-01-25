@@ -1,19 +1,14 @@
 <template>
   <v-app>
     <router-view />
-    <Nofication />
+    <h-nofication />
   </v-app>
 </template>
 
 <script>
-import Nofication from "@/components/Nofication";
 
 export default {
   name: "App",
-  components: {
-    Nofication,
-  },
-  data: () => ({}),
 };
 </script>
 

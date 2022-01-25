@@ -8,21 +8,18 @@
   </div>
 </template>
 <script>
-import HostOrganizeService from "@/services/HostOrganizeService";
 export default {
   props: {
-    answerTimeLimit: Number,
-    askDate: Number,
+    finish: Function
   },
   data: () => ({
     timeLeft: 0,
-    percent: 0,
+    percent: 100,
     countDownTimer: {},
   }),
 
   mounted() {
-    console.log(this.answerTimeLimit, this.askDate);
-    this.countdown(this.answerTimeLimit, this.askDate);
+    this.countdown(this.$store.state.question.answerTimeLimit, this.$store.state.question.askDate);
   },
   beforeDestroy() {
     clearInterval(this.countDownTimer);
@@ -44,19 +41,15 @@ export default {
           clearInterval(that.countDownTimer);
           that.percent = 0;
           that.timeLeft = "Finished";
-          that.countdownFinish();
+
+          that.finish();
         } else {
           that.percent = Math.ceil((timeLeft / answerTime) * 100);
           that.timeLeft = timeLeft;
         }
-      }, 1000);
+      }, 200);
     },
-    countdownFinish() {
-      console.log("countdown finish");
-      HostOrganizeService.showCorrectAnswer({
-        questionId: this.$route.query.questionId,
-      });
-    },
+   
   },
 };
 </script>

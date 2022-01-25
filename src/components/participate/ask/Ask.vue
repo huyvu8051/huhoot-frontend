@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Question :question="question">
+    <Question>
       <template v-slot:topRight>
         <strong>
           {{ question.questionOrder }} of {{ question.totalQuestion }} total
@@ -11,11 +11,7 @@
       </template>
     </Question>
 
-    <TimeCountDown
-      class="py-2"
-      :answerTimeLimit="question.answerTimeLimit"
-      :askDate="question.askDate"
-    />
+    <TimeCountDown :finish="doFinish" class="py-2" />
     <v-row>
       <v-col
         cols="12"
@@ -32,7 +28,7 @@
           @click="selectAnswer(i)"
         >
           <v-card-text class="flex">
-            <b>{{ i.content}}</b>
+            <b>{{ i.content }}</b>
           </v-card-text>
         </v-card>
       </v-col>
@@ -43,24 +39,27 @@
 <script>
 import Answer from "@/components/participate/ask/Answer";
 import Question from "@/components/Question";
-import TimeCountDown from "@/components/participate/ask/TimeCountDown";
+import TimeCountDown from "@/components/TimeCountDown";
 export default {
   components: {
     Question,
     TimeCountDown,
     Answer,
   },
-  props: {
-    question: Object,
-    answers: Array,
-  },
+ 
 
   data: () => {
     return {
       cloneAnswers: [],
+      answers:[],
+      question:{}
     };
   },
   created() {
+
+    this.answers = this.$store.state.answers;
+    this.question = this.$store.state.question;
+
     // prevent modify father props
     this.cloneAnswers = this.answers.map((e) =>
       Object.assign({ selected: false }, e)
@@ -79,6 +78,16 @@ export default {
   methods: {
     selectAnswer(item) {
       item.selected = !item.selected;
+    },
+    doFinish() {
+      this.$router
+        .push({
+          name: "student.wait",
+          query: {
+            challengeId: this.$route.query.challengeId,
+          },
+        })
+        .catch((err) => err);
     },
   },
 };

@@ -134,10 +134,10 @@
         <v-btn color="primary" @click="getDataFromApi()"> Reset </v-btn>
       </template>
       <template v-slot:[`item.createdDate`]="{ item }">
-        <DateFormater :date="item.createdDate" />
+        <h-date-formater :date="item.createdDate" />
       </template>
       <template v-slot:[`item.modifiedDate`]="{ item }">
-        <DateFormater :date="item.modifiedDate" />
+        <h-date-formater :date="item.modifiedDate" />
       </template>
     </v-data-table>
   </v-flex>
@@ -146,7 +146,6 @@
 <script>
 import AdminManageService from "@/services/AdminManageService";
 
-import DateFormater from "@/components/DateFormater";
 import AddManyStudent from "@/components/admin/AddManyStudent";
 
 import { validationMixin } from "vuelidate";
@@ -160,7 +159,6 @@ import {
 
 export default {
   components: {
-    DateFormater,
     AddManyStudent,
   },
   // validate
