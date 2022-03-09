@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	strict: true,
-	modules:{
+	modules: {
 
 	},
 	plugins: [
@@ -23,7 +23,10 @@ export default new Vuex.Store({
 		adminSocketId: "",
 		totalPoints: 0,
 		hashPointsReceived: "",
-		pointsReceived: ""
+		pointsReceived: "",
+		studentAnswered: 0,
+
+
 
 	},
 	mutations: {
@@ -33,7 +36,7 @@ export default new Vuex.Store({
 		setUsername(state, data) {
 			state.username = data
 		},
-		
+
 		setRoles(state, data) {
 			state.roles = data
 		},
@@ -55,9 +58,21 @@ export default new Vuex.Store({
 		setHashPointsReceived(state, data) {
 			state.hashPointsReceived = data
 		},
-	
+
 		setPointsReceived(state, data) {
 			state.pointsReceived = data
-		}
+		},
+
+		//===========================
+
+		publishExam(state, data) {
+			state.studentAnswered = 0;
+			state.question = data.question;
+			state.answers = data.answers;
+		},
+		aStudentSubmitedAnswer(state) {
+			state.studentAnswered++;
+		},
+
 	}
 })

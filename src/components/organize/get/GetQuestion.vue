@@ -7,17 +7,24 @@ import HostOrganizeService from "@/services/HostOrganizeService";
 
 export default {
   props: {
-    ready: Boolean,
+    connected: Boolean,
   },
-  components: {},
   created() {
-    if (this.ready) {
+    if (this.connected) {
       console.log("get question");
       HostOrganizeService.publishNextQuestion({
         challengeId: this.$route.query.challengeId,
       });
-    }else{
-      console.log("socket not ready!")
+    } else {
+      console.log("socket not connected!");
+      this.$router
+        .push({
+          name: "host.start",
+          query: {
+            challengeId: this.$route.query.challengeId,
+          },
+        })
+        .catch((err) => err);
     }
   },
 };

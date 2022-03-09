@@ -4,7 +4,7 @@
       <template v-slot:topRight>
         <strong>
           {{ question.questionOrder }} of {{ question.totalQuestion }} total |
-          {{ studentAnswered }} answered
+          {{ $store.state.studentAnswered }} answered
         </strong>
       </template>
       <template v-slot:topLeft>
@@ -35,9 +35,6 @@ export default {
     TimeCountDown,
     Skip,
     Answers,
-  },
-  props: {
-    studentAnswered: Number,
   },
   data() {
     return {

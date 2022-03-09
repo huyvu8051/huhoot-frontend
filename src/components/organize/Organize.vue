@@ -1,7 +1,7 @@
 <template>
   <v-main>
     <h-flex-layout>
-      <router-view :studentAnswered="studentAnswered" :ready="ready" />
+      <router-view :connected="connected"/>
     </h-flex-layout>
   </v-main>
 </template>
@@ -11,12 +11,8 @@ import io from "socket.io-client";
 export default {
   data() {
     return {
-      challenge: {},
       socket: {},
-      question: {},
-      answers: [],
-      studentAnswered: 0,
-      ready: false,
+      connected: false
     };
   },
 
@@ -44,9 +40,9 @@ export default {
         });
 
       socket.on("registerSuccess", (data) => {
-        // console.log("challenge ", data);
+        console.log("challenge ", data);
         this.challenge = data;
-        this.ready = true;
+        this.connected = true;
       });
 
       socket.on("joinError", (data) => {
@@ -75,19 +71,14 @@ export default {
           .catch((err) => err);
       });
       socket.on("publishQuestion", (data) => {
-        this.question = data.question;
-        this.answers = data.answers;
-        this.studentAnswered = 0;
-
-        this.$store.commit("setQuestion", data.question);
-        this.$store.commit("setAnswers", data.answers);
+        this.$store.commit("publishExam", data);
 
         this.$router
           .push({
             name: "host.ready",
             query: {
               challengeId: this.$route.query.challengeId,
-              questionId: this.question.id,
+              questionId: this.$store.state.question.id,
             },
           })
           .catch((err) => err);
@@ -107,8 +98,7 @@ export default {
       });
 
       socket.on("studentAnswer", () => {
-        this.studentAnswered++;
-        console.log(this.studentAnswered);
+        this.$store.commit("aStudentSubmitedAnswer");
       });
       socket.on("endChallenge", () => {
         this.$router
