@@ -11,19 +11,11 @@
 
 <script>
 export default {
-  data: () => ({
-    totalPoints: 0,
-  }),
-  components: {},
-  created() {
-    this.$eventBus.$on("updateTotalPoints", () => {
-      var totalPoints = this.$store.state.totalPoints;
-      this.totalPoints = parseInt(totalPoints);
-    });
-  },
-  beforeDestroy() {
-    this.$eventBus.$off("updateTotalPoints");
-  },
+  computed: {
+    totalPoints() {
+      return parseInt(this.$store.state.totalPoints);
+    },
+  }
 };
 </script>
 

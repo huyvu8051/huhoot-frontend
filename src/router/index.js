@@ -164,12 +164,7 @@ const router = new Router({
         requiresAuth: true
       },
       children: [
-        {
-          path: "connect",
-          name: "student.connect",
-          component: () => import("@/components/participate/connect/Connect")
-        },
-        {
+           {
           path: "wait",
           name: "student.wait",
           component: () => import("@/components/participate/wait/Wait")

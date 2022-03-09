@@ -1,6 +1,6 @@
 <template>
   <v-progress-linear
-    v-model="percent"
+    :value="percent"
     color="blue"
     height="40"
     class="my-5"

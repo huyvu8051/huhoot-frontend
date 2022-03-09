@@ -213,7 +213,6 @@ export default {
   created() {
     this.$store.dispatch("setToken", null);
     this.$store.dispatch("setUsername", null);
-    this.$store.dispatch("setFullName", null);
     this.$store.dispatch("setRoles", null);
   },
   methods: {

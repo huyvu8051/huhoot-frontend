@@ -32,7 +32,7 @@ export default {
         adminSocketId: this.$store.state.adminSocketId
      
       }).then((response) => {
-        this.$store.dispatch("setHashPointsReceived", response.data.pointsReceived);
+        this.$store.commit("setHashPointsReceived", response.data.pointsReceived);
       });
       this.$router.push({
         name: "student.wait",

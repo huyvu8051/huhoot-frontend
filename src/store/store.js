@@ -6,6 +6,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	strict: true,
+	modules:{
+
+	},
 	plugins: [
 		createPersistedState()
 	],
@@ -56,39 +59,5 @@ export default new Vuex.Store({
 		setPointsReceived(state, data) {
 			state.pointsReceived = data
 		}
-	},
-	actions: {
-		setToken({ commit }, data) {
-			commit('setToken', data)
-		},
-		setUsername({ commit }, data) {
-			commit('setUsername', data)
-		},
-		
-		setRoles({ commit }, data) {
-			commit('setRoles', data)
-		},
-		setHashCorrectAnswerIds({ commit }, data) {
-			commit('setHashCorrectAnswerIds', data)
-		},
-		setQuestion({ commit }, data) {
-			commit('setQuestion', data)
-		},
-		setAnswers({ commit }, data) {
-			commit('setAnswers', data)
-		},
-		setAdminSocketId({ commit }, data) {
-			commit('setAdminSocketId', data)
-		},
-		setTotalPoints({ commit }, data) {
-			commit('setTotalPoints', data)
-		},
-		setHashPointsReceived({ commit }, data) {
-			commit('setHashPointsReceived', data)
-		},
-		
-		setPointsReceived({ commit }, data) {
-			commit('setPointsReceived', data)
-		},
 	}
 })

@@ -79,8 +79,8 @@ export default {
         this.answers = data.answers;
         this.studentAnswered = 0;
 
-        this.$store.dispatch("setQuestion", data.question);
-        this.$store.dispatch("setAnswers", data.answers);
+        this.$store.commit("setQuestion", data.question);
+        this.$store.commit("setAnswers", data.answers);
 
         this.$router
           .push({
@@ -94,7 +94,7 @@ export default {
       });
 
       socket.on("showCorrectAnswer", (data) => {
-        this.$store.dispatch("setAnswers", data.answers);
+        this.$store.commit("setAnswers", data.answers);
         this.$router
           .push({
             name: "host.show",

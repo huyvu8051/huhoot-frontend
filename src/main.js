@@ -13,6 +13,7 @@ import resize from "vue-element-resize-detector";
 import VueExcelXlsx from "vue-excel-xlsx";
 
 import GlobalComponents from "./plugins/GlobalComponents"
+import Nofication from "./plugins/Nofication"
 
 
 // sweet
@@ -35,6 +36,7 @@ Vue.use(Vuelidate)
 Vue.prototype.$eventBus = EventBus;
 
 Vue.use(GlobalComponents);
+Vue.use(Nofication);
 
 new Vue({
   el: '#app',

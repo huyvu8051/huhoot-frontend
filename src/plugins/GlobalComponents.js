@@ -9,6 +9,7 @@ import FitHeightImage from '@/components/global/FitHeightImage.vue'
 import DataTableRouterIcon from '@/components/global/DataTableRouterIcon.vue'
 import ConfirmDialog from '@/components/global/ConfirmDialog.vue'
 import Timeout from '@/components/global/Timeout.vue'
+import ThreeDot from '@/components/global/ThreeDot.vue'
 
 const GlobalComponents = {
     install(app) {
@@ -23,6 +24,7 @@ const GlobalComponents = {
         app.component('h-data-table-router-icon', DataTableRouterIcon);
         app.component('h-confirm-dialog', ConfirmDialog);
         app.component('h-timeout', Timeout);
+        app.component('h-three-dot', ThreeDot);
     }
 }
 

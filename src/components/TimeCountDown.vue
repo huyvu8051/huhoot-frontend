@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-progress-linear v-model="percent" color="yellow" height="25">
+    <v-progress-linear :value="percent" color="yellow" height="25">
       <template v-slot:default="">
         <strong>{{ timeLeft }}</strong>
       </template>
