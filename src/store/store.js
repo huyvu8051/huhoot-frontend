@@ -2,13 +2,13 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 
+
+import DecryptUtil from "@/services/DecryptUtil";
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
 	strict: true,
-	modules: {
-
-	},
 	plugins: [
 		createPersistedState()
 	],
@@ -40,18 +40,12 @@ export default new Vuex.Store({
 		setRoles(state, data) {
 			state.roles = data
 		},
-		setHashCorrectAnswerIds(state, data) {
-			state.hashCorrectAnswerIds = data
-		},
-		setQuestion(state, data) {
-			state.question = data
-		},
+	
+		
 		setAnswers(state, data) {
 			state.answers = data
 		},
-		setAdminSocketId(state, data) {
-			state.adminSocketId = data
-		},
+	
 		setTotalPoints(state, data) {
 			state.totalPoints = data
 		},
@@ -59,19 +53,41 @@ export default new Vuex.Store({
 			state.hashPointsReceived = data
 		},
 
-		setPointsReceived(state, data) {
-			state.pointsReceived = data
-		},
-
+		
 		//===========================
 
 		publishExam(state, data) {
-			state.studentAnswered = 0;
-			state.question = data.question;
+			state.studentAnswered = 0
+			state.question = data.question
+			state.answers = data.answers
+
+			// student only
+			state.hashCorrectAnswerIds = data.hashCorrectAnswerIds
+			state.adminSocketId = data.adminSocketId
+
+			// reset hash points received and key
+			state.hashPointsReceived = ""
+		},
+
+		calculatePointReceived(state, data) {
 			state.answers = data.answers;
+			
+			// decrypt points received
+			var pointsReceived = DecryptUtil.encryptResponse(
+				state.hashPointsReceived,
+				data.encryptKey
+			);
+			state.pointsReceived = pointsReceived;
+
+
+			// recalculate total points
+			var totalPoints = state.totalPoints;
+			console.log("calculate points", totalPoints, pointsReceived);
+			totalPoints = parseFloat(totalPoints) + parseFloat(pointsReceived);
+			state.totalPoints = totalPoints;
 		},
 		aStudentSubmitedAnswer(state) {
-			state.studentAnswered++;
+			state.studentAnswered++
 		},
 
 	}

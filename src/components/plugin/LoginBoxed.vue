@@ -211,9 +211,9 @@ export default {
     password: "",
   }),
   created() {
-    this.$store.dispatch("setToken", null);
-    this.$store.dispatch("setUsername", null);
-    this.$store.dispatch("setRoles", null);
+    this.$store.commit("setToken", null);
+    this.$store.commit("setUsername", null);
+    this.$store.commit("setRoles", null);
   },
   methods: {
     submit() {
@@ -232,9 +232,9 @@ export default {
         username: this.username,
         password: this.password,
       }).then((response) => {
-        this.$store.dispatch("setToken", "Bearer " + response.data.jwt);
-        this.$store.dispatch("setUsername", response.data.username);
-        this.$store.dispatch("setRoles", response.data.authorities);
+        this.$store.commit("setToken", "Bearer " + response.data.jwt);
+        this.$store.commit("setUsername", response.data.username);
+        this.$store.commit("setRoles", response.data.authorities);
 
         this.$router.push({
           name: response.data.authorities[0].authority,

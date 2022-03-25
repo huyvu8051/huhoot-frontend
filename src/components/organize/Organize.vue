@@ -17,19 +17,15 @@ export default {
   },
 
   created() {
-    console.log("after join chall");
-
     this.socket = this.connectSocket();
     this.registerEvent(this.socket);
   },
   beforeDestroy() {
-    this.removeEventBusListener();
     this.removeSocketListener(this.socket);
   },
   methods: {
     connectSocket() {
-      const socketUrl = this.$socketUrl;
-      var socket = io.connect(socketUrl);
+      var socket = io.connect(this.$socketUrl);
       socket
         .on("connected", (data) => {
           console.log(data);
@@ -110,20 +106,6 @@ export default {
           })
           .catch((err) => err);
       });
-
-      this.$eventBus.$on("reAsk", ({ question, answers }) => {
-        this.question = question;
-        this.answers = answers;
-        this.$router
-          .push({
-            name: "host.ask",
-            query: {
-              challengeId: this.$route.query.challengeId,
-              questionId: this.question.id,
-            },
-          })
-          .catch((err) => err);
-      });
     },
     removeSocketListener(socket) {
       socket.off("connected");
@@ -133,10 +115,7 @@ export default {
       socket.off("publishQuestion");
       socket.off("showCorrectAnswer");
       socket.off("endChallenge");
-    },
-    removeEventBusListener() {
-      this.$eventBus.$off("reAsk");
-    },
+    }
   },
 };
 </script>
