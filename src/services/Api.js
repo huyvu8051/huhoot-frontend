@@ -7,7 +7,7 @@ import config from '@/vue.config'
 export default () => {
 
   var instance = axios.create({
-    baseURL: config.backendUrl,
+    baseURL: "http://localhost:8081",
     headers: {
       Authorization: `${store.state.token}`,
     }
