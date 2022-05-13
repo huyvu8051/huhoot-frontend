@@ -5,15 +5,24 @@
       xs="12"
       sm="6"
       class="pa-3 d-flex flex-column"
-      v-for="i in answers"
+      v-for="(i, index) in answers"
       :key="i.id"
     >
+      <!-- v-bind:class="{
+          green: i.isCorrect,
+        }" -->
       <v-card
         outlined
         class="flex d-flex flex-column"
-        v-bind:class="{ green: i.isCorrect }"
+        :style="getColor(index, i.isCorrect)"
       >
-        <v-card-text class="flex">
+        <!-- color: i.isCorrect ? 'white' : 'black', -->
+
+        <v-card-text
+          class="flex"
+          style="color: white"
+
+        >
           <b>{{ i.content }}</b>
         </v-card-text>
       </v-card>
@@ -22,15 +31,21 @@
 </template>
 
 <script>
+import AnswerColorSchemes from "@/services/AnswerColorSchemes";
 export default {
-  data(){
+  data() {
     return {
-      answers: []
-    }
+      answers: [],
+    };
   },
-  created(){
+  created() {
     this.answers = this.$store.state.answers;
-  }
+  },
+  methods: {
+    getColor(index, isCorrect) {
+      return AnswerColorSchemes.getColor(index, isCorrect);
+    },
+  },
 };
 </script>
 

@@ -19,6 +19,8 @@ export default {
   created() {
     this.socket = this.connectSocket();
     this.registerEvent(this.socket);
+
+  
   },
   beforeDestroy() {
     this.removeSocketListener(this.socket);
@@ -81,7 +83,7 @@ export default {
       });
 
       socket.on("showCorrectAnswer", (data) => {
-        this.$store.commit("setAnswers", data.answers);
+        this.$store.commit("showCorrectAnswer", data);
         this.$router
           .push({
             name: "host.show",

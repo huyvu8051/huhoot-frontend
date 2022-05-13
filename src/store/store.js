@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 
 
+
 import DecryptUtil from "@/services/DecryptUtil";
 
 Vue.use(Vuex)
@@ -23,8 +24,14 @@ export default new Vuex.Store({
 		adminSocketId: "",
 		totalPoints: 0,
 		hashPointsReceived: "",
+		comboToken: "",
+		combo: "",
+		currCombo: "",
 		pointsReceived: "",
 		studentAnswered: 0,
+		totalStudent: 0,
+		totalStudentCorrect: 0,
+		totalStudentWrong: 0,
 
 
 
@@ -40,20 +47,25 @@ export default new Vuex.Store({
 		setRoles(state, data) {
 			state.roles = data
 		},
-	
-		
-		setAnswers(state, data) {
-			state.answers = data
-		},
-	
+
+
 		setTotalPoints(state, data) {
 			state.totalPoints = data
 		},
 		setHashPointsReceived(state, data) {
 			state.hashPointsReceived = data
 		},
+		setAnswerResultToken(state, data) {
+			state.answerResultToken = data
+		},
+		setComboToken(state, data) {
+			state.comboToken = data
+		},
+		setCombo(state, data) {
+			state.combo = data
+		},
 
-		
+
 		//===========================
 
 		publishExam(state, data) {
@@ -70,8 +82,9 @@ export default new Vuex.Store({
 		},
 
 		calculatePointReceived(state, data) {
+
 			state.answers = data.answers;
-			
+
 			// decrypt points received
 			var pointsReceived = DecryptUtil.encryptResponse(
 				state.hashPointsReceived,
@@ -85,10 +98,29 @@ export default new Vuex.Store({
 			console.log("calculate points", totalPoints, pointsReceived);
 			totalPoints = parseFloat(totalPoints) + parseFloat(pointsReceived);
 			state.totalPoints = totalPoints;
+
+			console.log(state.combo);
+
+			var currCombo = DecryptUtil.encryptResponse(
+				state.combo,
+				data.encryptKey
+			);
+
+			state.currCombo = currCombo;
+
+
 		},
 		aStudentSubmitedAnswer(state) {
 			state.studentAnswered++
 		},
+		showCorrectAnswer(state, data) {
+			state.answers = data.answers
+			state.totalStudent = data.totalStudent
+			state.totalStudentCorrect = data.totalStudentCorrect
+			state.totalStudentWrong = data.totalStudentWrong
+
+			console.log(data);
+		}
 
 	}
 })
