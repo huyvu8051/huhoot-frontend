@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import AnswerResult from "@/components/answerResult/AnswerResult";
+import AnswerResult from "@/components/answerResult/AnswerResult2";
 import ShowTopStudent from "@/components/organize/show/ShowTopStudent";
 
 export default {

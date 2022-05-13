@@ -18,16 +18,18 @@
         xs="12"
         sm="6"
         class="pa-3 d-flex flex-column"
-        v-for="i in cloneAnswers"
+        v-for="i, index in cloneAnswers"
         :key="i.id"
       >
+      <!-- v-bind:class="{ green: i.correct, yellow: i.selected }" -->
         <v-card
           outlined
           class="flex d-flex flex-column"
-          v-bind:class="{ green: i.correct, yellow: i.selected }"
+          
           @click="selectAnswer(i)"
+          :style="getColor(index, i.isCorrect, i.selected)"
         >
-          <v-card-text class="flex">
+          <v-card-text class="flex" style="color: white">
             <b>{{ i.content }}</b>
           </v-card-text>
         </v-card>
@@ -40,6 +42,8 @@
 import Answer from "@/components/participate/ask/Answer";
 import Question from "@/components/Question";
 import TimeCountDown from "@/components/TimeCountDown";
+
+import AnswerColorSchemes from "@/services/AnswerColorSchemes";
 export default {
   components: {
     Question,
@@ -76,6 +80,9 @@ export default {
   },
 
   methods: {
+    getColor(index, isCorrect, isSelected) {
+      return AnswerColorSchemes.getColor(index, isCorrect, isSelected);
+    },
     selectAnswer(item) {
       item.selected = !item.selected;
     },

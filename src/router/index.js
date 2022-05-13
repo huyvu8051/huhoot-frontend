@@ -109,6 +109,11 @@ const router = new Router({
           component: () => import("@/components/organize/show/Show")
         },
         {
+          path: "statistic",
+          name: "host.statistic",
+          component: () => import("@/components/organize/statistic/Statistic")
+        },
+        {
           path: "rank",
           name: "host.organize.rank",
           component: () => import("@/components/organize/rank/Rank")

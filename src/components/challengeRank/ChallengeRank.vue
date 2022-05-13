@@ -35,11 +35,11 @@
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer> </v-spacer>
         <slot name="nextQuestion" />
-      </v-toolbar> 
+      </v-toolbar>
     </template>
     <template v-slot:no-data>
-  <v-btn color="primary" @click="getDataFromApi()"> Reset </v-btn>
-</template>
+      <v-btn color="primary" @click="getDataFromApi()"> Reset </v-btn>
+    </template>
   </v-data-table>
 </template>
 
