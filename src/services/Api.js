@@ -5,6 +5,8 @@ import EventBus from '@/EventBus'
 
 export default () => {
 
+  
+
   var instance = axios.create({
     baseURL: "http://localhost:8081",
     headers: {

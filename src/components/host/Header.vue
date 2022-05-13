@@ -4,9 +4,9 @@
     <router-link :to="{ name: 'HOST' }">
       <v-img
         class="mx-2 background-color:white"
-        :src="require('@/assets/img/huhoot-logo-text.png')"
-        max-height="150"
-        max-width="150"
+        :src="require('@/assets/img/logo_ithoot.png')"
+        max-height="100"
+        max-width="100"
         contain
       >
       </v-img>
