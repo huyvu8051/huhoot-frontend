@@ -6,6 +6,8 @@ import config from '@/vue.config'
 
 export default () => {
 
+  
+
   var instance = axios.create({
     baseURL: config.backendUrl,
     headers: {

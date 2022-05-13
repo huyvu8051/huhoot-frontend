@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <router-view />
-    <h-nofication />
+    <h-nofication/>
   </v-app>
 </template>
 

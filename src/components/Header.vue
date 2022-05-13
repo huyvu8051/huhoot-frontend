@@ -21,6 +21,7 @@
 <script>
 import AccountPanel from "@/components/host/AccountPanel";
 export default {
+  name: Header,
   components: {
     AccountPanel: AccountPanel,
   },

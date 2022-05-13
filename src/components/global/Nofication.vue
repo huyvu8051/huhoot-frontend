@@ -4,6 +4,7 @@
     :timeout="timeout"
     :color="color"
     :top="true"
+    :right="true"
     :multi-line="true"
   >
     <v-layout align-center pr-4>
