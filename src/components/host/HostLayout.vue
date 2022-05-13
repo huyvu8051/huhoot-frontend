@@ -19,6 +19,9 @@ export default {
     Header,
     Footer,
   },
+  created(){
+    //console.log(process.env.VUE_APP_BACKEND_URL);
+  }
 };
 </script>
 

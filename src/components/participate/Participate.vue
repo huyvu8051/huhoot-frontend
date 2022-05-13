@@ -24,6 +24,9 @@ export default {
   created() {
     this.socket = this.connectSocket();
     this.registerEvent(this.socket);
+
+
+   
     /*
     this.$router
       .push({

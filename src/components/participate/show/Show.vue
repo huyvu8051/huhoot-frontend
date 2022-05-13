@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import AnswerResult from "@/components/answerResult/AnswerResult";
+import AnswerResult from "@/components/answerResult/AnswerResult2";
 
 
 export default {
@@ -13,6 +13,7 @@ export default {
 
   created() {
     var pointsReceived = this.$store.state.pointsReceived;
+    var currCombo = this.$store.state.currCombo;
 
     switch (pointsReceived) {
       case "":
@@ -24,16 +25,16 @@ export default {
         break;
 
       default:
-        this.correct(pointsReceived);
+        this.correct(pointsReceived, currCombo);
         break;
     }
   },
   methods: {
-    correct(point) {
+    correct(point, currCombo) {
       this.$swal({
         icon: "success",
         title: "Good job!",
-        text: "Your answer is correct! \n Points received +" + parseInt(point),
+        text: "Your answer is correct! \n Points received +" + parseInt(point) + " combo: " + currCombo,
         timer: 3000,
       });
     },
