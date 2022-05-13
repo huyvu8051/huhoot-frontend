@@ -7,7 +7,7 @@
         </strong>
       </template>
       <template v-slot:topLeft>
-        <StatisticBtn />
+        <slot name="topLeft"/>
       </template>
     </Question>
 
@@ -18,13 +18,11 @@
 <script>
 import Answers from "@/components/Answers";
 import Question from "@/components/Question";
-import StatisticBtn from "@/components/organize/show/StatisticBtn";
 
 export default {
   components: {
     Answers,
     Question,
-    StatisticBtn,
   },
 
   data() {

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import AnswerResult from "@/components/answerResult/AnswerResult";
+import AnswerResult from "@/components/answerResult/AnswerResult2";
 
 
 export default {

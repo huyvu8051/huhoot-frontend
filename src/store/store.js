@@ -118,6 +118,8 @@ export default new Vuex.Store({
 			state.totalStudent = data.totalStudent
 			state.totalStudentCorrect = data.totalStudentCorrect
 			state.totalStudentWrong = data.totalStudentWrong
+
+			console.log(data);
 		}
 
 	}
