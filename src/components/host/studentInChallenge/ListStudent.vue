@@ -46,10 +46,9 @@ export default {
   data: () => ({
     selected: [],
     headers: [
-      { text: "Id", value: "id", align: "start", sortable: true },
-      { text: "Username", value: "username" },
-      { text: "Full name", value: "fullName" },
-      { text: "Created date", value: "createdDate" },
+      { text: "ID", value: "id", align: "start", sortable: true },
+      { text: "MSSV", value: "username" },
+      { text: "Họ Tên", value: "fullName" }
     ],
     desserts: [],
     totalDesserts: 0,

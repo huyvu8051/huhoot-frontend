@@ -1,5 +1,5 @@
 <template>
-  <v-icon small class="mr-2" @click="route"> {{ icon }} </v-icon>
+  <v-icon big class="mr-2" @click="route"> {{ icon }} </v-icon>
 </template>
 
 <script>

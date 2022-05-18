@@ -21,17 +21,18 @@
         ],
       }"
       multi-sort
-      class="elevation-10"
+      class=""
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>List Challenge</v-toolbar-title>
+          <v-toolbar-title>Danh sách cuộc thi</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-text-field
             append-icon="mdi-magnify"
-            label="Search"
+            label="Tìm kiếm"
             single-line
             hide-details
+            color="#262766"
           ></v-text-field>
           <v-spacer></v-spacer>
           <DeleteChallengeDialog v-model="deleteDialog" :item="editedItem" />
@@ -41,7 +42,9 @@
       </template>
 
       <template v-slot:no-data>
-        <v-btn color="primary" @click="getDataFromApi()"> Reset </v-btn>
+        <v-btn color="primary" @click="getDataFromApi()">
+          <v-icon>mdi-reload</v-icon>
+        </v-btn>
       </template>
 
       <!-- item format -->
@@ -63,27 +66,42 @@
           :query="{ challengeId: item.id }"
         />
 
-        <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-        <v-icon small class="mr-2" @click="deleteItem(item)"> delete </v-icon>
+        <v-icon medium class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+        <v-icon medium class="mr-2" @click="deleteItem(item)"
+          >mdi-delete
+        </v-icon>
         <OpenChallenge :challengeId="item.id" />
 
         <h-data-table-router-icon
-          icon="play_arrow"
+          icon="mdi-play-circle"
           name="host.wait"
           :query="{ challengeId: item.id }"
         />
       </template>
 
       <template v-slot:[`item.coverImage`]="{ item }">
-        <h-image-data-table :src="item.coverImage" />
+        <h-image-data-table :src="item.coverImage" style="margin: 0 auto" />
       </template>
+
       <template v-slot:[`item.createdDate`]="{ item }">
         <h-date-formater :date="item.createdDate" />
       </template>
+
+      <template v-slot:[`item.randomAnswer`]="{ item }">
+        <h-true-false :condition="item.randomAnswer" />
+      </template>
+
+      <template v-slot:[`item.challengeStatus`]="{ item }">
+        <h-status-icon :item="item" />
+      </template>
+
+      <template v-slot:[`item.randomQuest`]="{ item }">
+        <h-true-false :condition="item.randomQuest" />
+      </template>
+
       <template v-slot:[`item.modifiedDate`]="{ item }">
         <h-date-formater :date="item.modifiedDate" />
       </template>
-      
     </v-data-table>
   </v-flex>
 </template>
@@ -96,8 +114,6 @@ import CreateChallengeDialog from "@/components/host/challenge/CreateChallengeDi
 
 import DeleteChallengeDialog from "@/components/host/challenge/DeleteChallengeDialog";
 import OpenChallenge from "@/components/host/challenge/OpenChallenge";
-
-
 
 export default {
   components: {
@@ -113,16 +129,20 @@ export default {
     editDialog: false,
 
     headers: [
-      { text: "Id", value: "id", align: "start", sortable: true },
-      { text: "Title", value: "title" },
-      { text: "Cover", value: "coverImage" },
-      { text: "Created date", value: "createdDate" },
-      { text: "Modified date", value: "modifiedDate" },
+      { text: "Mã", value: "id", align: "center", sortable: true },
+      { text: "Ảnh", value: "coverImage", align: "center" },
+      { text: "Tiêu Đề", value: "title", align: "center" },
+      // { text: "Created date", value: "createdDate" },
+      // { text: "Modified date", value: "modifiedDate" },
       // { text: "Owner", value: "owner" },
-      { text: "Random answer", value: "randomAnswer" },
-      { text: "Random quest", value: "randomQuest" },
-      { text: "Status", value: "challengeStatus" },
-      { text: "Actions", value: "actions", sortable: false },
+      {
+        text: "Câu trả lời ngẫu nhiên",
+        value: "randomAnswer",
+        align: "center",
+      },
+      { text: "Câu hỏi ngẫu nhiên", value: "randomQuest", align: "center" },
+      { text: "Trạng thái", value: "challengeStatus", align: "center" },
+      { text: "Thao tác", value: "actions", sortable: false },
     ],
     desserts: [],
     editedItem: {},
