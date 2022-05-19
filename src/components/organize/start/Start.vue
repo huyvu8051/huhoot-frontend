@@ -6,7 +6,7 @@
 export default {
   data: () => {
     return {
-      timeleft: "Start challenge",
+      timeleft: "Chuẩn bị bắt đầu",
       timeleftCountDown: null,
     };
   },

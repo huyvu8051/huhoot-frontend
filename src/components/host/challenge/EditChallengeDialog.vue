@@ -22,7 +22,7 @@
             <v-text-field
               v-model="editedItem.title"
               label="Tiêu Đề"
-              counter="50"
+              counter="255"
               :error-messages="titleErrors"
               required
               @input="$v.editedItem.title.$touch()"

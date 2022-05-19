@@ -201,3 +201,13 @@ export default {
   },
 };
 </script>
+
+<style>
+.text-center,
+.v-data-table__mobile-row__cell {
+  max-width: 10em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>

@@ -1,23 +1,28 @@
 <template>
-  <v-app-bar app flat hide-on-scroll class="cyan">
-    <b>{{ NumOfStudent }} Student</b>
+  <v-app-bar
+    app
+    flat
+    hide-on-scroll
+    style="background-color: #262766; color: #fff"
+  >
+    <b>Số lượng tham gia: {{ NumOfStudent }}</b>
 
     <v-spacer>
-      <b>Challenge id: {{ $route.query.challengeId }}</b>
     </v-spacer>
 
     <v-btn
-      class="black white--text mr-2"
+      style="background-color: #fff; color: #262766"
+      class="mr-2"
       :to="{
         name: 'HOST',
       }"
     >
-      Return
+      <v-icon>mdi-keyboard-backspace</v-icon>
     </v-btn>
     <!-- <v-btn class="red white--text mr-2" @click="lockChallenge"> {{lockText}} </v-btn> -->
 
-    <v-btn class="deep-purple white--text" @click="startChallenge">
-      Start
+    <v-btn class="green white--text" @click="startChallenge">
+      <v-icon>mdi-play</v-icon>
     </v-btn>
   </v-app-bar>
 </template>
@@ -29,7 +34,7 @@ export default {
     NumOfStudent: Number,
   },
   data: () => ({
-    lockText: "Lock"
+    lockText: "Lock",
   }),
   created() {
     this.$eventBus.$on("updateScore", (data) => {
@@ -45,11 +50,10 @@ export default {
     },
     lockChallenge() {
       console.log("lock room");
-
-      
     },
   },
 };
 </script>
 
-<style></style>
+<style>
+</style>

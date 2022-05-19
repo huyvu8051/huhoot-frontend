@@ -19,7 +19,7 @@
             <v-text-field
               v-model="editedItem.title"
               label="Tiêu Đề"
-              counter="50"
+              counter="255"
               :error-messages="titleErrors"
               required
               @input="$v.editedItem.title.$touch()"
@@ -73,7 +73,7 @@ export default {
   mixins: [validationMixin],
   validations: {
     editedItem: {
-      title: { required, minLength: minLength(2), maxLength: maxLength(50) },
+      title: { required, minLength: minLength(2), maxLength: maxLength(255) },
     },
   },
   data() {
@@ -114,7 +114,7 @@ export default {
       !this.$v.editedItem.title.minLength &&
         errors.push("Tiêu đề cuộc thi phải có 2 ký tự trở lên");
       !this.$v.editedItem.title.maxLength &&
-        errors.push("Tiêu đề cuộc thi không quá 50 ký tự");
+        errors.push("Tiêu đề cuộc thi không quá 255 ký tự");
       return errors;
     },
   },

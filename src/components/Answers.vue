@@ -1,10 +1,11 @@
 <template>
   <v-row>
     <v-col
-      cols="12"
-      xs="12"
+      cols="6"
+      xs="6"
       sm="6"
-      class="pa-3 d-flex flex-column"
+      class="d-flex flex-column"
+      style="padding: 0.5rem 0.1rem"
       v-for="(i, index) in answers"
       :key="i.id"
     >
@@ -18,11 +19,7 @@
       >
         <!-- color: i.isCorrect ? 'white' : 'black', -->
 
-        <v-card-text
-          class="flex"
-          style="color: white"
-
-        >
+        <v-card-text style="padding: 0.25rem 0.1rem; color: white; font-size: 10px" class="flex">
           <b>{{ i.content }}</b>
         </v-card-text>
       </v-card>

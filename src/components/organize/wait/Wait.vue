@@ -1,7 +1,9 @@
 <template>
-  <v-main>
+  <v-main style="padding: 0">
     <WaitingRoomHeader :NumOfStudent="students.length" :challenge="challenge" />
-    <v-container fluid rounded-lg>
+    <v-container fluid class="wait-bg">
+      <!-- <div class="wait-img">let's play a challenge</div> -->
+      <v-img :src="require('@/assets/img/19629.jpg')" class="wait-img"></v-img>
       <v-layout align-center justify-center>
         <v-row>
           <v-col>
@@ -82,4 +84,23 @@ export default {
 </script>
 
 <style>
+@font-face {
+  font-family: "Smooch";
+  src: url("../../../font/Smooch-Regular.ttf");
+}
+.wait-bg {
+  padding: 0;
+}
+/* .wait-img {
+  font-family: "Smooch", cursive;
+  max-width: 100%;
+  height: 100px;
+  font-size: 4rem;
+} */
+
+@media screen and (min-width: 1092px) {
+  .wait-img {
+    height: 70vh;
+  }
+}
 </style>
