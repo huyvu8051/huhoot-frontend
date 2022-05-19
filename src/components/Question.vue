@@ -1,6 +1,6 @@
 <template>
   <v-card class="mx-auto" flat>
-    <v-toolbar color="cyan" dense flat>
+    <v-toolbar color="#262766" style="color: white" dense flat>
       <v-toolbar-title class="text-body-2">
         <slot name="topRight" />
       </v-toolbar-title>

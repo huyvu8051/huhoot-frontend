@@ -2,12 +2,12 @@
   <v-dialog v-model="dialog" max-width="550px">
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
-        Add all
+        Thêm tất cả 
       </v-btn>
     </template>
     <v-card>
       <v-card-title class="text-h5">
-        Are you sure you want to add all this items?
+       Bạn có chắc thêm hết tất cả không?
       </v-card-title>
       <v-card-actions>
         <v-spacer></v-spacer>

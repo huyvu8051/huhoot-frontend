@@ -1,17 +1,16 @@
 <template>
   <v-dialog v-model="dialog" max-width="550px">
     <template v-slot:activator="{ on, attrs }">
-      <v-icon small class="mr-2" v-bind="attrs" v-on="on"> sync </v-icon>
+      <v-icon medium class="mr-2" v-bind="attrs" v-on="on"> mdi-reload </v-icon>
     </template>
     <v-card>
       <v-card-title class="text-h5">
-        Are you sure you want to open this challenge
+        Bạn có muốn mở cuộc thi này không
       </v-card-title>
-      <v-card-text> This may lose student answer data! </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue darken-1" text @click="dialog = false">
-          Cancel
+          Đóng
         </v-btn>
         <v-btn color="blue darken-1" text @click="openChallenge()"> OK </v-btn>
         <v-spacer></v-spacer>
@@ -35,9 +34,12 @@ export default {
     openChallenge() {
       HostManageService.openChallenge({
         challengeId: this.challengeId,
-      }).then(this.$eventBus.$emit("nofication", {
-        message: "Success!"
-      }))
+      })
+        .then(
+          this.$eventBus.$emit("nofication", {
+            message: "Success!",
+          })
+        )
         .catch(console.log)
         .finally((this.dialog = false));
     },

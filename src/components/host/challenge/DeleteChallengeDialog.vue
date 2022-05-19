@@ -30,7 +30,7 @@ export default {
             isNonDeleted: false,
           }),
       },
-      confirmMessage: "Are you sure you want to delete this item?",
+      confirmMessage: "Bạn có muốn xóa không?",
     };
   },
   computed: {

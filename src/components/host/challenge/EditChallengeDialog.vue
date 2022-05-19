@@ -11,39 +11,45 @@
       <div />
       <!-- null slot, disable default activator btn-->
     </template>
-    <v-card-title>
-      <span class="text-h5">Edit Item</span>
+    <v-card-title style="background: #262766; color: white">
+      <span class="text-h5">Cập nhật cuộc thi</span>
     </v-card-title>
 
     <v-card-text>
       <v-container>
         <v-row>
           <v-col cols="12">
-            <v-textarea
+            <v-text-field
               v-model="editedItem.title"
-              label="Title"
+              label="Tiêu Đề"
               counter="255"
               :error-messages="titleErrors"
               required
-              outlined
               @input="$v.editedItem.title.$touch()"
               @blur="$v.editedItem.title.$touch()"
+              id="txtTitle"
             >
-            </v-textarea>
+            </v-text-field>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <v-switch v-model="editedItem.randomAnswer" label="Random Answer">
+            <v-switch
+              v-model="editedItem.randomAnswer"
+              label="Câu trả lời ngẫu nhiên"
+            >
             </v-switch>
           </v-col>
           <v-col cols="12" sm="6" md="3">
-            <v-switch v-model="editedItem.randomQuest" label="Random Question">
+            <v-switch
+              v-model="editedItem.randomQuest"
+              label="Câu hỏi ngẫu nhiên"
+            >
             </v-switch>
           </v-col>
           <v-col cols="12" sm="6" md="3">
             <v-select
               :items="challengeStatus"
               v-model="editedItem.challengeStatus"
-              label="Challenge status"
+              label="Trạng thái"
               outlined
             ></v-select>
           </v-col>
@@ -52,7 +58,7 @@
             <h-upload-file v-model="editedItem.coverImage" />
           </v-col>
           <v-col>
-            <p>Challenge cover</p>
+            <h3>Ảnh cuộc thi</h3>
             <h-fit-height-image :src="editedItem.coverImage" />
           </v-col>
         </v-row>
@@ -65,7 +71,6 @@
 import HostManageService from "@/services/HostManageService";
 import { validationMixin } from "vuelidate";
 import { required, maxLength } from "vuelidate/lib/validators";
-
 
 export default {
   props: {

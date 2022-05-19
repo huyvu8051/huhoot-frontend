@@ -1,5 +1,5 @@
 <template>
-  <v-progress-linear :value="process" color="yellow" height="25">
+  <v-progress-linear :value="process" color="#262766" height="25" style="color: white">
     <template v-slot:default>
       <strong>{{ parseInt(process) }}</strong>
     </template>

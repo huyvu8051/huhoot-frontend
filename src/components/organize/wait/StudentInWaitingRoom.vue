@@ -1,5 +1,9 @@
 <template>
-  <v-btn class="ma-1" :class="{ 'text-decoration-line-through': onHover }">
+  <v-btn
+    class="ma-1"
+    :class="{ 'text-decoration-line-through': onHover }"
+    style="background: #262766; color: #fff"
+  >
     <b
       @mouseover="onHover = true"
       @mouseleave="onHover = false"

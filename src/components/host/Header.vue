@@ -13,14 +13,9 @@
     </router-link>
     <v-spacer></v-spacer>
 
-    <v-btn
-      elevation="2"
-      small
-      class="primary white--text"
-      :to="{ name: 'login' }"
-    >
-      {{ $store.state.username }}
-    </v-btn>
+    <div>
+      Xin chào {{ $store.state.username }}
+    </div>
   </v-app-bar>
 </template>
 

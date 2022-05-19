@@ -1,5 +1,14 @@
 <template>
-  <h-flex-layout>
+  <div
+    class="login-bg"
+    style="
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    "
+  >
     <v-container>
       <v-row align-content="center" justify="center">
         <v-col cols="12" sm="10">
@@ -89,7 +98,7 @@
         </v-col>
       </v-row>
     </v-container>
-  </h-flex-layout>
+  </div>
 </template>
 
 <script>
@@ -176,6 +185,9 @@ export default {
 @media screen and (max-width: 975px) {
   .login__banner {
     display: none;
+  }
+  .login-bg {
+    background-color: #262766;
   }
 }
 </style>
