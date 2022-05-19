@@ -5,10 +5,10 @@
       xs="6"
       sm="6"
       class="d-flex flex-column"
-      style="padding: 0.5rem 0.1rem"
       v-for="(i, index) in answers"
       :key="i.id"
     >
+      <!-- style="padding: 0.5rem 0.1rem" -->
       <!-- v-bind:class="{
           green: i.isCorrect,
         }" -->
@@ -18,8 +18,8 @@
         :style="getColor(index, i.isCorrect)"
       >
         <!-- color: i.isCorrect ? 'white' : 'black', -->
-
-        <v-card-text style="padding: 0.25rem 0.1rem; color: white; font-size: 10px" class="flex">
+        <!-- style="padding: 0.25rem 0.1rem; color: white" -->
+        <v-card-text class="flex white--text">
           <b>{{ i.content }}</b>
         </v-card-text>
       </v-card>
