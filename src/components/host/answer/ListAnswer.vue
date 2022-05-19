@@ -130,7 +130,8 @@ export default {
 
     headers: [
       { text: "Id", value: "id", align: "center", sortable: true },
-      { text: "ordinalNumber", align: "center", value: "ordinalNumber" },
+      { text: "Ordinal number", align: "center", value: "ordinalNumber" },
+      { text: "Content", align: "center", value: "answerContent" },
       { text: "Created date", align: "center", value: "createdDate" },
       { text: "Correct", align: "center", value: "isCorrect" },
       { text: "Actions", align: "center", value: "actions", sortable: false },
@@ -223,6 +224,7 @@ export default {
       HostManageService.findAllAnswer(this.options).then((response) => {
         // console.log(response.data);
         this.desserts = response.data.list;
+        console.log(this.desserts);
         this.totalDesserts = response.data.totalElements;
       });
     },

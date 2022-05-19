@@ -27,15 +27,14 @@ export default {
       StudentPlayService.sentAnswer({
         answerIds: this.selectedIds,
         questionId: this.$route.query.questionId,
-        hashCorrectAnswerIds: this.$store.state.hashCorrectAnswerIds,
         adminSocketId: this.$store.state.adminSocketId,
-        comboToken: this.$store.state.comboToken
+        comboToken: this.$store.state.comboToken,
+        questionToken: this.$store.state.questionToken,
      
       }).then((response) => {
-        this.$store.commit("setHashPointsReceived", response.data.pointsReceived);
-        this.$store.commit("setComboToken", response.data.comboToken);
-        this.$store.commit("setCombo", response.data.combo);
-        // console.log("combo", response.data.combo);
+        
+        this.$store.commit("saveStudentAnswerResponse", response.data);
+ 
       });
       this.$router.push({
         name: "student.wait",
