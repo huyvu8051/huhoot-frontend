@@ -18,6 +18,9 @@ export default {
     
     StatisticBtn,
   },
+  created(){
+    this.$store.state.getNextQuestion(this.$route.query.challengeId)
+  }
 };
 </script>
 

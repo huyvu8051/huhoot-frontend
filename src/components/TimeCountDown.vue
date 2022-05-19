@@ -10,7 +10,7 @@
 <script>
 export default {
   props: {
-    finish: Function
+    finish: Function,
   },
   data: () => ({
     timeLeft: 0,
@@ -19,7 +19,10 @@ export default {
   }),
 
   mounted() {
-    this.countdown(this.$store.state.question.answerTimeLimit, this.$store.state.question.askDate);
+    this.countdown(
+      this.$store.state.question.answerTimeLimit,
+      this.$store.state.question.askDate
+    );
   },
   beforeDestroy() {
     clearInterval(this.countDownTimer);
@@ -30,7 +33,7 @@ export default {
 
       clearInterval(this.countDownTimer);
       var that = this;
-      this.countDownTimer = setInterval(function () {
+      this.countDownTimer = setInterval(() => {
         let now = new Date().getTime();
         let diff = now - askDate;
         const second = Math.floor((diff / 1000) % 60);
@@ -49,7 +52,6 @@ export default {
         }
       }, 200);
     },
-   
   },
 };
 </script>

@@ -2,8 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 
-
-
+import AutoOrganizeService from "@/services/AutoOrganizeService";
 import DecryptUtil from "@/services/DecryptUtil";
 
 Vue.use(Vuex)
@@ -33,7 +32,9 @@ export default new Vuex.Store({
 		totalStudentCorrect: 0,
 		totalStudentWrong: 0,
 		encryptedResponse: "",
-		questionToken: null
+		questionToken: null,
+		publishNextQuestion: (challengeId) => { console.log("publish next question ", challengeId) },
+		getCorrectAnswer: (questionId) => { console.log("get correct answer", questionId) },
 
 
 
@@ -80,7 +81,7 @@ export default new Vuex.Store({
 
 			// student only
 			state.hashCorrectAnswerIds = data.hashCorrectAnswerIds
-			state.adminSocketId = data.adminSocketId
+
 			state.questionToken = data.questionToken;
 
 			// reset hash points received and key
@@ -124,6 +125,14 @@ export default new Vuex.Store({
 		saveStudentAnswerResponse(state, data) {
 			state.comboToken = data.comboToken;
 			state.encryptedResponse = data.encryptedResponse;
+		},
+		enableAutoOrganize(state, data) {
+			state.publishNextQuestion = AutoOrganizeService.autoPublishNextQuestion
+			state.getCorrectAnswer = AutoOrganizeService.showCorrectAnswer
+		},
+		disableAutoOrganize(state, data) {
+			state.publishNextQuestion = (challengeId) => console.log("publish next question ", challengeId)
+			state.getCorrectAnswer = (questionId) => console.log("show correct answer", questionId)
 		}
 
 

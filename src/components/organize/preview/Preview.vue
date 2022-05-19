@@ -3,7 +3,7 @@
     <h1>
       {{ question.questionContent }}
     </h1>
-    <h-process-bar :finish="doFinish" :time-limit="3000" />
+    <h-process-bar :finish="doFinish" />
   </div>
 </template>
 

@@ -44,6 +44,9 @@ import Question from "@/components/Question";
 import TimeCountDown from "@/components/TimeCountDown";
 
 import AnswerColorSchemes from "@/services/AnswerColorSchemes";
+
+
+
 export default {
   components: {
     Question,
@@ -87,6 +90,7 @@ export default {
       item.selected = !item.selected;
     },
     doFinish() {
+
       this.$router
         .push({
           name: "student.wait",

@@ -6,12 +6,16 @@
 import AnswerResult from "@/components/answerResult/AnswerResult2";
 
 
+
 export default {
   components: {
     AnswerResult,
   },
 
   created() {
+
+    this.$store.state.publishNextQuestion(this.$route.query.challengeId)
+
     var pointsReceived = this.$store.state.pointsReceived;
     var currCombo = this.$store.state.currCombo;
 

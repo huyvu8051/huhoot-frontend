@@ -25,8 +25,6 @@ export default {
     this.socket = this.connectSocket();
     this.registerEvent(this.socket);
 
-
-   
     /*
     this.$router
       .push({
@@ -98,8 +96,6 @@ export default {
       socket.on("showCorrectAnswer", (data) => {
         this.$store.commit("calculatePointReceived", data);
 
-      
-
         this.$router
           .push({
             name: "student.show",
@@ -130,6 +126,15 @@ export default {
           })
           .catch((err) => err);
       });
+
+      socket.on("hostDisconnect", (data) => {
+        console.log("hostDisconnect", data);
+        this.$store.commit("enableAutoOrganize", data)
+      });
+      socket.on("disableAutoOrganize", (data) => {
+        console.log("disableAutoOrganize", data);
+        this.$store.commit("disableAutoOrganize", data)
+      });
     },
     removeSocketListener(socket) {
       socket.off("connected");
@@ -140,6 +145,8 @@ export default {
       socket.off("showCorrectAnswer");
       socket.off("endChallenge");
       socket.off("kickStudent");
+      socket.off("hostDisconnect");
+      socket.off("disableAutoOrganize");
     },
   },
 };

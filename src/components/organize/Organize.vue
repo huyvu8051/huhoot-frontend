@@ -38,7 +38,7 @@ export default {
         });
 
       socket.on("registerSuccess", (data) => {
-        console.log("challenge ", data);
+       // console.log("challenge ", data);
         this.challenge = data;
         this.connected = true;
       });
@@ -108,6 +108,9 @@ export default {
           })
           .catch((err) => err);
       });
+       socket.on("hostDisconnect", (data) => {
+         console.log("hostDisconnect", data);
+      })
     },
     removeSocketListener(socket) {
       socket.off("connected");
@@ -117,6 +120,7 @@ export default {
       socket.off("publishQuestion");
       socket.off("showCorrectAnswer");
       socket.off("endChallenge");
+      socket.off("hostDisconnect");
     }
   },
 };
