@@ -98,6 +98,8 @@ export default {
       socket.on("showCorrectAnswer", (data) => {
         this.$store.commit("calculatePointReceived", data);
 
+      
+
         this.$router
           .push({
             name: "student.show",

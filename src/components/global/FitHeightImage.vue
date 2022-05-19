@@ -25,7 +25,7 @@ export default {
   methods: {
       onResize() {
         this.height = (window.innerHeight / 100) * this.windowRatio + "px";
-        console.log(this.height);
+        //console.log(this.height);
       },
     },
 };

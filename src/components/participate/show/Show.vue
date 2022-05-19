@@ -16,11 +16,11 @@ export default {
     var currCombo = this.$store.state.currCombo;
 
     switch (pointsReceived) {
-      case "":
+      case null:
         this.timeout();
         break;
 
-      case "0.0":
+      case 0:
         this.incorrect();
         break;
 

@@ -32,6 +32,8 @@ export default new Vuex.Store({
 		totalStudent: 0,
 		totalStudentCorrect: 0,
 		totalStudentWrong: 0,
+		encryptedResponse: "",
+		questionToken: null
 
 
 
@@ -64,6 +66,9 @@ export default new Vuex.Store({
 		setCombo(state, data) {
 			state.combo = data
 		},
+		setEncryptedResponse(state, data) {
+			state.encryptedResponse = data
+		},
 
 
 		//===========================
@@ -76,6 +81,7 @@ export default new Vuex.Store({
 			// student only
 			state.hashCorrectAnswerIds = data.hashCorrectAnswerIds
 			state.adminSocketId = data.adminSocketId
+			state.questionToken = data.questionToken;
 
 			// reset hash points received and key
 			state.hashPointsReceived = ""
@@ -85,28 +91,22 @@ export default new Vuex.Store({
 
 			state.answers = data.answers;
 
-			// decrypt points received
-			var pointsReceived = DecryptUtil.encryptResponse(
-				state.hashPointsReceived,
-				data.encryptKey
-			);
-			state.pointsReceived = pointsReceived;
+			try {
+				var result = JSON.parse(DecryptUtil.decrypt(state.encryptedResponse, data.encryptKey))
+				state.pointsReceived = result.pointsReceived;
+				state.currCombo = result.comboCount;
+
+				state.totalPoints = parseFloat(state.totalPoints) + parseFloat(state.pointsReceived);
+			} catch (error) {
+				console.error(error)
+				state.pointsReceived = null;
+				state.currCombo = 0;
+			}
 
 
-			// recalculate total points
-			var totalPoints = state.totalPoints;
-			console.log("calculate points", totalPoints, pointsReceived);
-			totalPoints = parseFloat(totalPoints) + parseFloat(pointsReceived);
-			state.totalPoints = totalPoints;
+			console.log("cal", state.pointsReceived, state.currCombo);
 
-			console.log(state.combo);
 
-			var currCombo = DecryptUtil.encryptResponse(
-				state.combo,
-				data.encryptKey
-			);
-
-			state.currCombo = currCombo;
 
 
 		},
@@ -120,7 +120,13 @@ export default new Vuex.Store({
 			state.totalStudentWrong = data.totalStudentWrong
 
 			console.log(data);
+		},
+		saveStudentAnswerResponse(state, data) {
+			state.comboToken = data.comboToken;
+			state.encryptedResponse = data.encryptedResponse;
 		}
+
+
 
 	}
 })
