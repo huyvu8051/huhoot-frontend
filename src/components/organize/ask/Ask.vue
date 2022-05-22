@@ -40,14 +40,17 @@ export default {
   created() {
     this.question = this.$store.state.question;
   },
-  methods: {
-    doFinish() {
-      console.log("countdown finish");
-      HostOrganizeService.showCorrectAnswer({
-        questionId: this.$route.query.questionId,
-      });
-    },
-  },
+
+  methods:{
+    doFinish(){
+      this.$store.state.getCorrectAnswer(this.$route.query.questionId);
+      // console.log("countdown finish");
+      // HostOrganizeService.showCorrectAnswer({
+      //   questionId: this.$route.query.questionId,
+      // });
+    }
+  }
+
 };
 </script>
 

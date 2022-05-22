@@ -1,5 +1,6 @@
 <template>
   <v-main>
+    
     <Header />
     <h-flex-layout>
       <router-view />
@@ -9,6 +10,7 @@
 
 <script>
 import Header from "@/components/participate/ChallengeHeader";
+import TimeCountDown from "@/components/TimeCountDown";
 
 import io from "socket.io-client";
 
@@ -24,24 +26,15 @@ export default {
   created() {
     this.socket = this.connectSocket();
     this.registerEvent(this.socket);
-
-
-   
-    /*
-    this.$router
-      .push({
-        name: "student.wait",
-        query: {
-          challengeId: this.$route.query.challengeId,
-        },
-      })
-      .catch((err) => err);
-      */
+    
   },
   beforeDestroy() {
+    
     this.removeSocketListener(this.socket);
+    this.socket.disconnect()
   },
   methods: {
+   
     connectSocket() {
       var socket = io.connect(this.$socketUrl);
 
@@ -54,6 +47,7 @@ export default {
         .on("registerSuccess", (data) => {
           console.log("connect success!", data);
           this.$store.commit("setTotalPoints", data.totalPoints);
+          this.$store.commit("disableAutoOrganize");
           this.$eventBus.$emit("connected", socket);
         });
 
@@ -82,7 +76,6 @@ export default {
 
       socket.on("publishQuestion", (data) => {
         this.$store.commit("publishExam", data);
-
         this.$router
           .push({
             name: "student.ready",
@@ -97,8 +90,6 @@ export default {
       // =============== show correct answer =================
       socket.on("showCorrectAnswer", (data) => {
         this.$store.commit("calculatePointReceived", data);
-
-      
 
         this.$router
           .push({
@@ -130,6 +121,15 @@ export default {
           })
           .catch((err) => err);
       });
+
+      socket.on("enableAutoOrganize", (data) => {
+        this.$success("enableAutoOrganize");
+        this.$store.commit("enableAutoOrganize", data);
+      });
+      socket.on("disableAutoOrganize", (data) => {
+        this.$success("disableAutoOrganize");
+        this.$store.commit("disableAutoOrganize", data);
+      });
     },
     removeSocketListener(socket) {
       socket.off("connected");
@@ -140,6 +140,8 @@ export default {
       socket.off("showCorrectAnswer");
       socket.off("endChallenge");
       socket.off("kickStudent");
+      socket.off("enableAutoOrganize");
+      socket.off("disableAutoOrganize");
     },
   },
 };

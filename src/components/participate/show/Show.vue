@@ -1,14 +1,18 @@
 <template>
-  <AnswerResult/>
+  <AnswerResult />
 </template>
 
 <script>
 import AnswerResult from "@/components/answerResult/AnswerResult2";
 
-
 export default {
   components: {
     AnswerResult,
+  },
+  data() {
+    return {
+      afterShow: {},
+    };
   },
 
   created() {
@@ -28,13 +32,24 @@ export default {
         this.correct(pointsReceived, currCombo);
         break;
     }
+
+    this.afterShow = setTimeout(() => {
+      this.$store.state.publishNextQuestion(this.$route.query.challengeId);
+    }, 5000);
+  },
+  beforeDestroy() {
+    clearTimeout(this.afterShow);
   },
   methods: {
     correct(point, currCombo) {
       this.$swal({
         icon: "success",
         title: "Good job!",
-        text: "Your answer is correct! \n Points received +" + parseInt(point) + " combo: " + currCombo,
+        text:
+          "Your answer is correct! \n Points received +" +
+          parseInt(point) +
+          " combo: " +
+          currCombo,
         timer: 3000,
       });
     },

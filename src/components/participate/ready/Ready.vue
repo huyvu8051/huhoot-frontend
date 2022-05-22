@@ -7,6 +7,9 @@
 </template>
 
 <script>
+
+import AutoOrganizeService from "@/services/AutoOrganizeService";
+
 export default {
   data: () => {
     return {
@@ -16,6 +19,7 @@ export default {
   },
 
   created() {
+    // AutoOrganizeService.autoShowCorrectAnswer(this.$route.query.questionId)
     this.question = this.$store.state.question;
 
     this.text = "Question " + this.question.questionOrder;
