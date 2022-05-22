@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     countdown(answerTime, askDate) {
-      console.log("start countdown");
+      //console.log("start countdown");
 
       clearInterval(this.countDownTimer);
       var that = this;

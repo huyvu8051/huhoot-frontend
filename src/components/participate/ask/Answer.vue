@@ -1,5 +1,5 @@
 <template>
-  <v-btn color="green" @click="answer"> <b> Submit </b> </v-btn>
+  <v-btn color="green" :disabled="disable" @click="answer"> <b> Submit </b> </v-btn>
 </template>
 
 <script>
@@ -9,11 +9,13 @@ export default {
     selectedIds: Array,
   },
   data: () => {
-    return {};
+    return {
+      disable: false
+    };
   },
   methods: {
     answer() {
-      console.log("answer ", this.selectedIds);
+      // console.log("answer ", this.selectedIds);
 
       if (this.selectedIds.length == 0) {
         this.$eventBus.$emit("nofication", {
@@ -36,10 +38,13 @@ export default {
         this.$store.commit("saveStudentAnswerResponse", response.data);
  
       });
-      this.$router.push({
-        name: "student.wait",
-        query: { challengeId: this.$route.query.challengeId },
-      });
+
+      this.disable = true;
+      this.$eventBus.$emit('answered');
+      // this.$router.push({
+      //   name: "student.wait",
+      //   query: { challengeId: this.$route.query.challengeId },
+      // });
     },
   },
 };

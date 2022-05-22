@@ -16,7 +16,6 @@ export default {
     };
   },
   created() {
-    this.$store.state.getCorrectAnswer(this.$route.query.questionId);
 
     this.question = this.$store.state.question;
 

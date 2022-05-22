@@ -2,6 +2,7 @@ import Api from "@/services/Api";
 import store from '@/store/store'
 
 var publishNextQuestion = (challengeId) => {
+    console.log("auto publishNextQuestion");
     return Api().get("autoOrganize/publishNextQuestion", {
         params: {
             challengeId: challengeId
@@ -9,9 +10,24 @@ var publishNextQuestion = (challengeId) => {
     })
 }
 var showCorrectAnswer = (questionId) => {
+    console.log("auto showCorrectAnswer");
     return Api().get("autoOrganize/showCorrectAnswer", {
         params: {
             questionId: questionId
+        }
+    })
+}
+var enableAutoOrganize = (challengeId) => {
+    return Api().get("autoOrganize/enableAutoOrganize", {
+        params: {
+            challengeId: challengeId
+        }
+    })
+}
+var disableAutoOrganize = (challengeId) => {
+    return Api().get("autoOrganize/disableAutoOrganize", {
+        params: {
+            challengeId: challengeId
         }
     })
 }
@@ -21,32 +37,8 @@ var showCorrectAnswer = (questionId) => {
 export default {
     publishNextQuestion,
     showCorrectAnswer,
-    autoPublishNextQuestion(challengeId) {
-        setTimeout(() => {
-            publishNextQuestion(challengeId)
+    enableAutoOrganize,
+    disableAutoOrganize,
+   
 
-
-        }, 5000);
-    },
-    autoShowCorrectAnswer(questionId) {
-        var question = store.state.question;
-
-        if (question !== null) {
-            var time = question.askDate + question.answerTimeLimit * 1000;
-
-            var interval = setInterval(() => {
-                var currTime = new Date().getTime();
-
-                console.log(currTime, time);
-
-                if (currTime >= time) {
-
-                    showCorrectAnswer(questionId);
-                    clearInterval(interval);
-                }
-            }, 200)
-        }
-
-
-    }
 };

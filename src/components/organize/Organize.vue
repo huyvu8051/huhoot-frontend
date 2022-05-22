@@ -1,31 +1,63 @@
 <template>
   <v-main>
+    <v-btn
+      dark
+      color="cyan"
+      fixed
+      left
+      bottom
+      style="z-index: 1"
+      @click="enableAutoOrganize()"
+    >
+      enable
+    </v-btn>
+    <v-btn
+      dark
+      color="cyan"
+      fixed
+      right
+      bottom
+      style="z-index: 1"
+      @click="disableAutoOrganize()"
+    >
+      disable
+    </v-btn>
     <h-flex-layout>
-      <router-view :connected="connected"/>
+      <router-view :connected="connected" />
     </h-flex-layout>
   </v-main>
 </template>
 
 <script>
 import io from "socket.io-client";
+import TimeCountDown from "@/components/TimeCountDown";
+import AutoOrganizeService from "@/services/AutoOrganizeService";
 export default {
+  components: {
+    TimeCountDown,
+  },
   data() {
     return {
       socket: {},
-      connected: false
+      connected: false,
     };
   },
 
   created() {
     this.socket = this.connectSocket();
     this.registerEvent(this.socket);
-
-  
   },
   beforeDestroy() {
     this.removeSocketListener(this.socket);
+    this.socket.disconnect();
   },
   methods: {
+    enableAutoOrganize() {
+      AutoOrganizeService.enableAutoOrganize(this.$route.query.challengeId);
+    },
+    disableAutoOrganize() {
+      AutoOrganizeService.disableAutoOrganize(this.$route.query.challengeId);
+    },
     connectSocket() {
       var socket = io.connect(this.$socketUrl);
       socket
@@ -38,7 +70,8 @@ export default {
         });
 
       socket.on("registerSuccess", (data) => {
-       // console.log("challenge ", data);
+        this.$store.commit("disableAutoOrganize");
+        this.$store.commit("organizeJoinSuccess", data);
         this.challenge = data;
         this.connected = true;
       });
@@ -70,7 +103,6 @@ export default {
       });
       socket.on("publishQuestion", (data) => {
         this.$store.commit("publishExam", data);
-
         this.$router
           .push({
             name: "host.ready",
@@ -95,9 +127,6 @@ export default {
           .catch((err) => err);
       });
 
-      socket.on("studentAnswer", () => {
-        this.$store.commit("aStudentSubmitedAnswer");
-      });
       socket.on("endChallenge", () => {
         this.$router
           .push({
@@ -108,9 +137,14 @@ export default {
           })
           .catch((err) => err);
       });
-       socket.on("hostDisconnect", (data) => {
-         console.log("hostDisconnect", data);
-      })
+      socket.on("enableAutoOrganize", (data) => {
+        this.$success("enableAutoOrganize");
+        this.$store.commit("enableAutoOrganize", data);
+      });
+      socket.on("disableAutoOrganize", (data) => {
+        this.$success("disableAutoOrganize");
+        this.$store.commit("disableAutoOrganize", data);
+      });
     },
     removeSocketListener(socket) {
       socket.off("connected");
@@ -120,8 +154,9 @@ export default {
       socket.off("publishQuestion");
       socket.off("showCorrectAnswer");
       socket.off("endChallenge");
-      socket.off("hostDisconnect");
-    }
+      socket.off("enableAutoOrganize");
+      socket.off("disableAutoOrganize");
+    },
   },
 };
 </script>

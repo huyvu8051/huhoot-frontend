@@ -46,10 +46,11 @@ export default {
   },
   methods:{
     doFinish(){
-      console.log("countdown finish");
-      HostOrganizeService.showCorrectAnswer({
-        questionId: this.$route.query.questionId,
-      });
+      this.$store.state.getCorrectAnswer(this.$route.query.questionId);
+      // console.log("countdown finish");
+      // HostOrganizeService.showCorrectAnswer({
+      //   questionId: this.$route.query.questionId,
+      // });
     }
   }
 };

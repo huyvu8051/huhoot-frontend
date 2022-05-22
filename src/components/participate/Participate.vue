@@ -1,5 +1,6 @@
 <template>
   <v-main>
+    
     <Header />
     <h-flex-layout>
       <router-view />
@@ -9,6 +10,7 @@
 
 <script>
 import Header from "@/components/participate/ChallengeHeader";
+import TimeCountDown from "@/components/TimeCountDown";
 
 import io from "socket.io-client";
 
@@ -24,22 +26,15 @@ export default {
   created() {
     this.socket = this.connectSocket();
     this.registerEvent(this.socket);
-
-    /*
-    this.$router
-      .push({
-        name: "student.wait",
-        query: {
-          challengeId: this.$route.query.challengeId,
-        },
-      })
-      .catch((err) => err);
-      */
+    
   },
   beforeDestroy() {
+    
     this.removeSocketListener(this.socket);
+    this.socket.disconnect()
   },
   methods: {
+   
     connectSocket() {
       var socket = io.connect(this.$socketUrl);
 
@@ -52,6 +47,7 @@ export default {
         .on("registerSuccess", (data) => {
           console.log("connect success!", data);
           this.$store.commit("setTotalPoints", data.totalPoints);
+          this.$store.commit("disableAutoOrganize");
           this.$eventBus.$emit("connected", socket);
         });
 
@@ -80,7 +76,6 @@ export default {
 
       socket.on("publishQuestion", (data) => {
         this.$store.commit("publishExam", data);
-
         this.$router
           .push({
             name: "student.ready",
@@ -127,13 +122,13 @@ export default {
           .catch((err) => err);
       });
 
-      socket.on("hostDisconnect", (data) => {
-        console.log("hostDisconnect", data);
-        this.$store.commit("enableAutoOrganize", data)
+      socket.on("enableAutoOrganize", (data) => {
+        this.$success("enableAutoOrganize");
+        this.$store.commit("enableAutoOrganize", data);
       });
       socket.on("disableAutoOrganize", (data) => {
-        console.log("disableAutoOrganize", data);
-        this.$store.commit("disableAutoOrganize", data)
+        this.$success("disableAutoOrganize");
+        this.$store.commit("disableAutoOrganize", data);
       });
     },
     removeSocketListener(socket) {
@@ -145,7 +140,7 @@ export default {
       socket.off("showCorrectAnswer");
       socket.off("endChallenge");
       socket.off("kickStudent");
-      socket.off("hostDisconnect");
+      socket.off("enableAutoOrganize");
       socket.off("disableAutoOrganize");
     },
   },
