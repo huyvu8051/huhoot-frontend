@@ -3,8 +3,8 @@
     <Question>
       <template v-slot:topRight>
         <strong>
-          {{ question.questionOrder }} of {{ question.totalQuestion }} total |
-          {{ $store.state.studentAnswered }} answered
+          Câu hỏi: {{ question.questionOrder }} of {{ question.totalQuestion }}
+          <br />Đã trả lời: {{ $store.state.studentAnswered }}
         </strong>
       </template>
       <template v-slot:topLeft>
@@ -12,10 +12,7 @@
       </template>
     </Question>
 
-    <TimeCountDown
-      :finish="doFinish"
-      class="py-2"
-    />
+    <TimeCountDown :finish="doFinish" class="py-2" />
     <Answers />
   </div>
 </template>
@@ -25,7 +22,6 @@ import Question from "@/components/Question";
 import Answers from "@/components/Answers";
 import Skip from "@/components/organize/ask/Skip";
 import TimeCountDown from "@/components/TimeCountDown";
-
 
 import HostOrganizeService from "@/services/HostOrganizeService";
 
@@ -44,6 +40,7 @@ export default {
   created() {
     this.question = this.$store.state.question;
   },
+
   methods:{
     doFinish(){
       this.$store.state.getCorrectAnswer(this.$route.query.questionId);
@@ -53,6 +50,7 @@ export default {
       // });
     }
   }
+
 };
 </script>
 

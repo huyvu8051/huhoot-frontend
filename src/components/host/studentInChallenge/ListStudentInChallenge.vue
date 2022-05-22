@@ -25,8 +25,9 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>List student in challenge</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider>
+          <v-toolbar-title
+            >Danh sách sinh viên tham gia cuộc thi</v-toolbar-title
+          >
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="1000px">
             <v-card>
@@ -38,13 +39,13 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12" sm="6" md="6">
-                      <v-switch v-model="editedItem.isKicked" label="Is kicked">
+                      <v-switch v-model="editedItem.isKicked" label="Kich">
                       </v-switch>
                     </v-col>
                     <v-col cols="12" sm="6" md="6">
                       <v-switch
                         v-model="editedItem.isNonDeleted"
-                        label="Is non deleted"
+                        label="Hoạt động"
                       >
                       </v-switch>
                     </v-col>
@@ -64,7 +65,7 @@
           <v-dialog v-model="dialogAdd" max-width="1000px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
-                Add student
+                THÊM MỚI
               </v-btn>
             </template>
             <v-card>
@@ -98,7 +99,7 @@
           <v-dialog v-model="dialogDelete" max-width="500px">
             <v-card>
               <v-card-title class="text-h5">
-                Are you sure you want to delete this item?
+                Bạn có muốn chắc xóa không?
               </v-card-title>
               <v-card-actions>
                 <v-spacer></v-spacer>
@@ -129,6 +130,12 @@
       <template v-slot:[`item.modifiedDate`]="{ item }">
         <h-date-formater :date="item.createdDate" />
       </template>
+      <template v-slot:[`item.isKicked`]="{ item }">
+        {{ item.isKicked ? "Có" : "Không" }}
+      </template>
+      <template v-slot:[`item.isNonDeleted`]="{ item }">
+        {{ item.isNonDeleted ? "Được tham gia" : "Không được tham gia" }}
+      </template>
     </v-data-table>
   </v-flex>
 </template>
@@ -138,7 +145,6 @@ import HostManageService from "@/services/HostManageService";
 
 import AddStudentInChallenge from "@/components/host/studentInChallenge/AddStudentInChallenge";
 import ListStudent from "@/components/host/studentInChallenge/ListStudent";
-
 
 export default {
   components: {
@@ -157,18 +163,12 @@ export default {
     dialogAdd: false,
     dialogDelete: false,
     headers: [
-      { text: "Id", value: "studentId", align: "start", sortable: true },
-      { text: "Username", value: "studentUsername" },
-      { text: "Full name", value: "studentFullName" },
-      { text: "Created date", value: "createdDate" },
-      { text: "Created By", value: "createdBy" },
-      { text: "Modified date", value: "modifiedDate" },
-      { text: "Modified by", value: "modifiedBy" },
+      { text: "ID", value: "studentId", align: "start", sortable: true },
+      { text: "MSSV", value: "studentUsername" },
+      { text: "Họ Tên", value: "studentFullName" },
       { text: "Kick", value: "isKicked" },
-      { text: "Login", value: "isLogin" },
-      { text: "Online", value: "isOnline" },
-      { text: "Non deleted", value: "isNonDeleted" },
-      { text: "Actions", value: "actions", sortable: false },
+      { text: "Trạng thái", value: "isNonDeleted" },
+      { text: "Thao tác", value: "actions", sortable: false },
     ],
     desserts: [],
     editedIndex: -1,
@@ -188,7 +188,7 @@ export default {
   }),
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
+      return this.editedIndex === -1 ? "Thêm mới" : "Cập nhật";
     },
   },
 
@@ -296,7 +296,7 @@ export default {
       //  console.log(this.options);
       this.loading = true;
       this.options.challengeId = this.$route.query.challengeId;
-      console.log(this.options)
+      console.log(this.options);
       HostManageService.findAllStudentInChallenge(this.options)
         .then((response) => {
           console.log(response.data);
