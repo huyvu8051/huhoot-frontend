@@ -26,7 +26,7 @@ export default {
       } else {
         console.log("show rank");
         this.$router.push({
-          name: "host.organize.rank",
+          name: "organize.rank",
           query: {
             challengeId: this.$route.query.challengeId,
           },

@@ -7,7 +7,7 @@ export default {
   methods: {
     nextQuestion() {
       this.$router.push({
-        name: "host.get",
+        name: "organize.get",
         query: {
           challengeId: this.$route.query.challengeId,
         },

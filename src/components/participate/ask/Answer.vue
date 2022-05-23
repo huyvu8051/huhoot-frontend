@@ -43,11 +43,6 @@ export default {
       });
 
       this.$store.commit("studentSubmited");
-
-      // this.$router.push({
-      //   name: "student.wait",
-      //   query: { challengeId: this.$route.query.challengeId },
-      // });
     },
   },
 };

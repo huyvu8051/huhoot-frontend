@@ -29,7 +29,7 @@ export default {
   methods: {
     doFinish() {
       this.$router.push({
-        name: "student.ask",
+        name: "participate.ask",
         query: {
           challengeId: this.$route.query.challengeId,
           questionId: this.$route.query.questionId,

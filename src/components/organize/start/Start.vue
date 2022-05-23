@@ -20,7 +20,7 @@ export default {
     startChallenge() {
       console.log("start challenge");
       this.$router.push({
-        name: "host.get",
+        name: "organize.get",
         query: {
           challengeId: this.$route.query.challengeId,
         },

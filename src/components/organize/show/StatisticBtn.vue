@@ -8,7 +8,7 @@ export default {
     showStatistic() {
       console.log("show statistic");
       this.$router.push({
-        name: "host.statistic",
+        name: "organize.statistic",
         query: {
           challengeId: this.$route.query.challengeId,
         },

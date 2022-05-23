@@ -12,7 +12,7 @@
       </template>
     </Question>
 
-    <TimeCountDown :finish="doFinish" class="py-2" />
+    <TimeCountDown class="py-2" />
     <Answers disable />
   </div>
 </template>
@@ -25,6 +25,8 @@ import TimeCountDown from "@/components/TimeCountDown";
 
 import HostOrganizeService from "@/services/HostOrganizeService";
 
+import { mapState } from "vuex";
+
 export default {
   components: {
     Question,
@@ -32,25 +34,9 @@ export default {
     Skip,
     Answers,
   },
-  data() {
-    return {
-      question: {},
-    };
-  },
-  created() {
-    this.question = this.$store.state.question;
-  },
-
-  methods:{
-    doFinish(){
-      this.$store.state.getCorrectAnswer(this.$route.query.questionId);
-      // console.log("countdown finish");
-      // HostOrganizeService.showCorrectAnswer({
-      //   questionId: this.$route.query.questionId,
-      // });
-    }
-  }
-
+  computed: mapState({
+    question: (state) => state.question,
+  }),
 };
 </script>
 

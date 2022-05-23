@@ -59,37 +59,31 @@ export default {
     getColor(id, index) {
       if (index < 0 || index > this.colors.length - 1) return {};
 
-      var opacity;
-      if (
-        this.$store.state.correctAnswerIds.includes(id) ||
-        this.$store.state.question.timeout > new Date().getTime()
-      ) {
-        opacity = 1;
-      } else {
-        opacity = 0.2;
-      }
+      var state = this.$store.state;
+
+      var opacity =
+        state.correctAnswerIds.includes(id) ||
+        state.question.timeout > new Date().getTime()
+          ? 1
+          : 0.2;
+
+      var s =
+        state.question.timeout > new Date().getTime()
+          ? state.selectedAnswerIds.includes(id)
+          : state.submitedAnswerIds.includes(id);
+
       var scale;
       var rotate;
 
-      if (this.$store.state.question.timeout > new Date().getTime()) {
-        if (this.$store.state.selectedAnswerIds.includes(id)) {
-          scale = 0.8;
-          rotate = "20deg";
-        } else {
-          scale = 1;
-          rotate = "0deg";
-        }
-      } else {
-        if (this.$store.state.submitedAnswerIds.includes(id)) {
-          scale = 0.8;
-          rotate = "20deg";
-        } else {
-          scale = 1;
-          rotate = "0deg";
-        }
-      }
+      if (s) {
+        // map selected answer style
 
-      //  console.log(isSelected,scale);
+        scale = 0.8;
+        rotate = "20deg";
+      } else {
+        scale = 1;
+        rotate = "0deg";
+      }
 
       var result = {
         "background-color": this.colors.at(index),

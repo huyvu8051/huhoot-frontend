@@ -9,7 +9,6 @@
 
 <script>
 import Header from "@/components/participate/ChallengeHeader";
-import TimeCountDown from "@/components/TimeCountDown";
 
 import io from "socket.io-client";
 
@@ -22,6 +21,12 @@ export default {
       socket: null,
     };
   },
+  watch: {
+    $route(newVal, oldVal) {
+      console.log("route change");
+      this.refreshRoute();
+    },
+  },
   created() {
     this.socket = this.connectSocket();
     this.registerEvent(this.socket);
@@ -31,6 +36,28 @@ export default {
     this.socket.disconnect();
   },
   methods: {
+    refreshRoute() {
+      var askRoute = [
+        "participate.ready",
+        "participate.preview",
+        "participate.ask",
+      ];
+
+      if (
+        this.$store.state.question.timeout > new Date().getTime() &&
+        !askRoute.includes(this.$route.name)
+      ) {
+        this.$router
+          .push({
+            name: "participate.preview",
+            query: {
+              challengeId: this.$route.query.challengeId,
+              questionId: this.$store.state.question.id,
+            },
+          })
+          .catch((err) => err);
+      }
+    },
     connectSocket() {
       var socket = io.connect(this.$socketUrl);
 
@@ -44,6 +71,7 @@ export default {
           this.$store.commit("disableAutoOrganize");
           this.$store.commit("saveChallengeData", data.currentExam);
           this.$store.commit("setTotalPoints", data.totalPoints);
+          this.refreshRoute();
         });
 
       socket.on("joinError", () => {
@@ -61,7 +89,7 @@ export default {
       socket.on("startChallenge", () => {
         this.$router
           .push({
-            name: "student.start",
+            name: "participate.start",
             query: {
               challengeId: this.$route.query.challengeId,
             },
@@ -73,7 +101,7 @@ export default {
         this.$store.commit("publishExam", data);
         this.$router
           .push({
-            name: "student.ready",
+            name: "participate.ready",
             query: {
               challengeId: this.$route.query.challengeId,
               questionId: this.$store.state.question.id,
@@ -91,7 +119,7 @@ export default {
       socket.on("endChallenge", () => {
         this.$router
           .push({
-            name: "student.finish",
+            name: "participate.finish",
             query: {
               challengeId: this.$route.query.challengeId,
             },

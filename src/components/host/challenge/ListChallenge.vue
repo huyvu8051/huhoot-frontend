@@ -74,7 +74,7 @@
 
         <h-data-table-router-icon
           icon="mdi-play-circle"
-          name="host.wait"
+          name="organize.wait"
           :query="{ challengeId: item.id }"
         />
       </template>

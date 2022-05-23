@@ -18,7 +18,7 @@ export default {
       console.log("socket not connected!");
       this.$router
         .push({
-          name: "host.start",
+          name: "organize.start",
           query: {
             challengeId: this.$route.query.challengeId,
           },

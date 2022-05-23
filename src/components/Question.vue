@@ -23,15 +23,12 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
-  data() {
-    return {
-      question: {},
-    };
-  },
-  created() {
-    this.question = this.$store.state.question;
-  },
+  computed: mapState({
+    question: (state) => state.question,
+  }),
 };
 </script>
 

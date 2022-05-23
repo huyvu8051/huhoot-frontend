@@ -28,7 +28,7 @@ export default {
   methods: {
     doFinish() {
       this.$router.push({
-        name: "host.ask",
+        name: "organize.ask",
         query: {
           challengeId: this.$route.query.challengeId,
           questionId: this.$route.query.questionId,

@@ -7,8 +7,6 @@ import DecryptUtil from "@/services/DecryptUtil";
 
 import router from "@/router"
 
-import EventBus from "@/EventBus"
-
 Vue.use(Vuex)
 
 var store = new Vuex.Store({
@@ -49,6 +47,9 @@ var store = new Vuex.Store({
 
 	},
 	mutations: {
+		pnq(state) {
+			state.publishNextQuestion(state.challenge.id)
+		},
 		studentSubmited(state) {
 			state.studentSubmited = true;
 		},
@@ -90,6 +91,8 @@ var store = new Vuex.Store({
 		},
 		timeout(state) {
 			state.question.timeout++;
+
+			state.getCorrectAnswer(state.question.id)
 		},
 
 		calculatePointReceived(state, data) {
@@ -101,11 +104,9 @@ var store = new Vuex.Store({
 
 				state.totalPoints = parseFloat(state.totalPoints) + parseFloat(state.pointsReceived);
 			} catch (error) {
-				// console.error(error)
 				state.pointsReceived = null;
 				state.currCombo = 0;
 			}
-
 
 			switch (state.pointsReceived) {
 				case null:
@@ -154,6 +155,8 @@ var store = new Vuex.Store({
 			}
 
 
+			
+
 		},
 		saveStudentAnswerResponse(state, data) {
 			state.comboToken = data.comboToken;
@@ -161,27 +164,21 @@ var store = new Vuex.Store({
 		},
 
 		saveChallengeData(state, data) {
-
-
 			state.challenge = data.challenge;
 			state.question = data.question
 			state.answers = data.answers
-
-			// if (state.question && state.question.timeout) {
-			// 	state.notSubmitable = state.question.timeout < new Date().getTime();
-			// }
-
-
 		},
 		enableAutoOrganize(state, data) {
 			state.publishNextQuestion = AutoOrganizeService.publishNextQuestion
 			state.getCorrectAnswer = AutoOrganizeService.showCorrectAnswer
 
-			console.log(data);
 			state.challenge = data.challenge
 			state.question = data.question
 			state.answers = data.answers
 			state.questionToken = data.questionToken
+
+
+
 
 		},
 		disableAutoOrganize(state) {

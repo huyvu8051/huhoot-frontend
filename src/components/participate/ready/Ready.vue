@@ -8,8 +8,6 @@
 
 <script>
 
-import AutoOrganizeService from "@/services/AutoOrganizeService";
-
 export default {
   data: () => {
     return {
@@ -19,7 +17,7 @@ export default {
   },
 
   created() {
-    // AutoOrganizeService.autoShowCorrectAnswer(this.$route.query.questionId)
+    
     this.question = this.$store.state.question;
 
     this.text = "Question " + this.question.questionOrder;
@@ -31,7 +29,7 @@ export default {
   methods: {
     doFinish() {
       this.$router.push({
-        name: "student.preview",
+        name: "participate.preview",
         query: {
           challengeId: this.$route.query.challengeId,
           questionId: this.$route.query.questionId,

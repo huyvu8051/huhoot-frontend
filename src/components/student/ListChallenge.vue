@@ -108,7 +108,7 @@ export default {
       let challengeId = this.editedItem.id;
 
       this.$router.push({
-        name: "student.wait",
+        name: "participate.wait",
         query: { challengeId: challengeId },
       });
 
