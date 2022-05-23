@@ -66,13 +66,13 @@ export default {
         .emit("clientConnectRequest", {
           challengeId: this.$route.query.challengeId,
           token: this.$store.state.token,
-        })
-        .on("registerSuccess", (data) => {
-          this.$store.commit("disableAutoOrganize");
-          this.$store.commit("saveChallengeData", data.currentExam);
-          this.$store.commit("setTotalPoints", data.totalPoints);
-          this.refreshRoute();
         });
+      socket.on("registerSuccess", (data) => {
+        this.$store.commit("disableAutoOrganize");
+        this.$store.commit("saveChallengeData", data.currentExam);
+        this.$store.commit("setTotalPoints", data.totalPoints);
+        this.refreshRoute();
+      });
 
       socket.on("joinError", () => {
         this.$error("Cann't connect to room!!!");
@@ -136,10 +136,10 @@ export default {
           .catch((err) => err);
       });
 
-      // socket.on("enableAutoOrganize", (data) => {
-      //   this.$success("enableAutoOrganize");
-      //   this.$store.commit("enableAutoOrganize", data);
-      // });
+      socket.on("enableAutoOrganize", (data) => {
+        this.$success("enableAutoOrganize");
+        this.$store.commit("enableAutoOrganize", data);
+      });
       socket.on("disableAutoOrganize", (data) => {
         this.$success("disableAutoOrganize");
         this.$store.commit("disableAutoOrganize", data);

@@ -14,7 +14,7 @@ export default {
     },
     timeLimit: {
       type: Number,
-      default: 3000,
+      default: 2000,
     },
     refreshRate: {
       type: Number,

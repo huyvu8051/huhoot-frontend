@@ -154,17 +154,17 @@ export default {
           })
           .catch((err) => err);
       });
-      // socket.on("enableAutoOrganize", (data) => {
-      //   this.$success("enableAutoOrganize");
-      //   this.$store.commit("enableAutoOrganize", data);
+      socket.on("enableAutoOrganize", (data) => {
+        this.$success("enableAutoOrganize");
+        this.$store.commit("enableAutoOrganize", data);
 
-      //   if (
-      //     this.$store.state.question &&
-      //     this.$store.state.question.timeout < new Date().getTime()
-      //   ) {
-      //     this.$store.commit("pnq");
-      //   }
-      // });
+        if (
+          this.$store.state.question &&
+          this.$store.state.question.timeout < new Date().getTime()
+        ) {
+          //this.$store.commit("pnq");
+        }
+      });
       socket.on("disableAutoOrganize", (data) => {
         this.$success("disableAutoOrganize");
         this.$store.commit("disableAutoOrganize", data);
