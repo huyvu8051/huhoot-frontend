@@ -23,7 +23,7 @@
       disable
     </v-btn>
     <h-flex-layout>
-      <router-view :connected="connected" />
+      <router-view :socket="socket" />
     </h-flex-layout>
   </v-main>
 </template>
@@ -72,6 +72,7 @@ export default {
       socket.on("registerSuccess", (data) => {
         this.$store.commit("disableAutoOrganize");
         this.$store.commit("organizeJoinSuccess", data);
+        this.$store.commit("checkCorrectAnswers");
         this.challenge = data;
         this.connected = true;
       });
@@ -116,15 +117,8 @@ export default {
 
       socket.on("showCorrectAnswer", (data) => {
         this.$store.commit("showCorrectAnswer", data);
-        this.$router
-          .push({
-            name: "host.show",
-            query: {
-              challengeId: this.$route.query.challengeId,
-              questionId: this.$route.query.questionId,
-            },
-          })
-          .catch((err) => err);
+        this.$store.commit("checkCorrectAnswers");
+        this.$store.commit("disableSubmit");
       });
 
       socket.on("endChallenge", () => {
@@ -137,10 +131,10 @@ export default {
           })
           .catch((err) => err);
       });
-      socket.on("enableAutoOrganize", (data) => {
-        this.$success("enableAutoOrganize");
-        this.$store.commit("enableAutoOrganize", data);
-      });
+      // socket.on("enableAutoOrganize", (data) => {
+      //   this.$success("enableAutoOrganize");
+      //   this.$store.commit("enableAutoOrganize", data);
+      // });
       socket.on("disableAutoOrganize", (data) => {
         this.$success("disableAutoOrganize");
         this.$store.commit("disableAutoOrganize", data);

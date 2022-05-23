@@ -4,6 +4,7 @@ import createPersistedState from 'vuex-persistedstate'
 
 import AutoOrganizeService from "@/services/AutoOrganizeService";
 import DecryptUtil from "@/services/DecryptUtil";
+import AnswerColorSchemes from "@/services/AnswerColorSchemes";
 
 import router from "@/router"
 
@@ -38,7 +39,8 @@ var store = new Vuex.Store({
 		questionToken: null,
 		publishNextQuestion: (challengeId) => { console.log("disable auto next", challengeId) },
 		getCorrectAnswer: (questionId) => { console.log("disable auto show", questionId) },
-
+		notSubmitable: false,
+		correctAnswerIds: []
 
 
 	},
@@ -81,23 +83,13 @@ var store = new Vuex.Store({
 			state.studentAnswered = 0
 			state.question = data.question
 			state.answers = data.answers
-
-			// student only
-			state.hashCorrectAnswerIds = data.hashCorrectAnswerIds
-
 			state.questionToken = data.questionToken;
-
-			// reset hash points received and key
 			state.hashPointsReceived = ""
-
-			// var question = state.question;
-			// var now = new Date().getTime();
-			// var timeout = (question.askDate + question.answerTimeLimit * 1000) - now;
-
-			// setTimeout(() => {
-			// 	state.getCorrectAnswer(question.id)
-			// }, timeout);
-
+			state.notSubmitable = false
+			state.correctAnswerIds = []
+		},
+		disableSubmit(state) {
+			state.notSubmitable = true;
 		},
 
 		calculatePointReceived(state, data) {
@@ -123,14 +115,16 @@ var store = new Vuex.Store({
 			// console.log("cal", state.pointsReceived, state.currCombo);
 		},
 		showCorrectAnswer(state, data) {
-			// setTimeout(() => {
-			// 	state.publishNextQuestion(state.question.challengeId)
-			// }, 5000);
 
-			state.answers = data.answers
+			console.log("show correct answer");
 			state.totalStudent = data.totalStudent
 			state.totalStudentCorrect = data.totalStudentCorrect
 			state.totalStudentWrong = data.totalStudentWrong
+			state.correctAnswerIds = data.answers
+			if (state.question) {
+				state.question.timeout = data.timeout
+			}
+
 
 		},
 		saveStudentAnswerResponse(state, data) {
@@ -139,17 +133,29 @@ var store = new Vuex.Store({
 		},
 
 		organizeJoinSuccess(state, data) {
-			console.log(data);
 
-			state.challenge = data.challenge;
-			state.question = data.question
-			state.answers = data.answers
+
+			state.challenge = data.publishedExam.challenge;
+			state.question = data.publishedExam.question
+			state.answers = data.publishedExam.answers
+
+
+		},
+		checkCorrectAnswers(state) {
+			if (state.answers && state.correctAnswerIds) {
+				var r = state.answers.map(e => {
+					e.isCorrect = state.correctAnswerIds.includes(e.id)
+					return e;
+				});
+
+				state.answers = r;
+			}
 		},
 		enableAutoOrganize(state, data) {
 			state.publishNextQuestion = AutoOrganizeService.publishNextQuestion
 			state.getCorrectAnswer = AutoOrganizeService.showCorrectAnswer
 
-console.log(data);
+			console.log(data);
 			state.challenge = data.challenge
 			state.question = data.question
 			state.answers = data.answers
@@ -170,25 +176,25 @@ console.log(data);
 				state.publishNextQuestion(state.challenge.id)
 			}
 
-			// var now = new Date().getTime();
-			// var timeout = data - now;
-			// setTimeout(() => {
-
-			// 	state.publishNextQuestion(state.question.challengeId)
-			// }, timeout);
 		},
 		disableAutoOrganize(state) {
 			state.publishNextQuestion = (challengeId) => console.log("disable auto next", challengeId)
 			state.getCorrectAnswer = (questionId) => console.log("disable auto show", questionId)
-			// var question = state.question;
-			// var now = new Date().getTime();
-			// var timeout = (question.askDate + question.answerTimeLimit * 1000) - now;
 
-			// setTimeout(() => {
-			// 	state.getCorrectAnswer = (questionId) => console.log("disable auto show", questionId)
-			// }, timeout + 1000);
 
 		},
+		selectAnswer(state, item) {
+
+			if (state.answers) {
+				var r = state.answers.map(e => {
+					if (e.id === item.id) {
+						e.selected = !item.selected;
+					}
+					return e;
+				});
+				state.answers = r;
+			}
+		}
 
 
 	}

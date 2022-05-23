@@ -12,7 +12,7 @@
     </Question>
 
     <TimeCountDown :finish="doFinish" class="py-2" />
-    <v-row>
+   <!-- <v-row>
       <v-col
         
         cols="12"
@@ -22,7 +22,7 @@
         v-for="(i, index) in cloneAnswers"
         :key="i.id"
       >
-        <!-- v-bind:class="{ green: i.correct, yellow: i.selected }" -->
+ // v-bind:class="{ green: i.correct, yellow: i.selected }" 
         <v-card
           outlined
           class="flex d-flex flex-column"
@@ -35,11 +35,13 @@
           </v-card-text>
         </v-card>
       </v-col>
-    </v-row>
+    </v-row> -->
+     <Answers />
   </div>
 </template>
 
 <script>
+import Answers from "@/components/Answers";
 import Answer from "@/components/participate/ask/Answer";
 import Question from "@/components/Question";
 import TimeCountDown from "@/components/TimeCountDown";
@@ -50,7 +52,8 @@ export default {
   components: {
     Question,
     TimeCountDown,
-    Answer,
+    Answers,
+    Answer
   },
 
   data: () => {

@@ -29,16 +29,33 @@ var getColor = (index, isCorrect, isSelected) => {
         rotate = '20deg'
     }
 
-  //  console.log(isSelected,scale);
+    //  console.log(isSelected,scale);
 
     var result = {
         'background-color': colors.at(index),
         'opacity': opacity,
-        'transform': 'scale(' + scale + ') rotateX(' + rotate + ')' 
+        'transform': 'scale(' + scale + ') rotateX(' + rotate + ')'
     }
     return result;
 }
 
+
+var bindStyleForComponent = (answers) => {
+    return answers.map((item, index) => {
+        if (!item.isCorrect) {
+            item.isCorrect = true;
+        }
+
+        if (!item.selected) {
+            item.selected = false;
+        }
+
+        item.style = getColor(index, item.isCorrect, item.selected);
+        return item;
+    })
+}
+
 export default {
-    getColor
+    getColor,
+    bindStyleForComponent
 }

@@ -1,6 +1,5 @@
 <template>
   <v-main>
-    
     <Header />
     <h-flex-layout>
       <router-view />
@@ -26,15 +25,12 @@ export default {
   created() {
     this.socket = this.connectSocket();
     this.registerEvent(this.socket);
-    
   },
   beforeDestroy() {
-    
     this.removeSocketListener(this.socket);
-    this.socket.disconnect()
+    this.socket.disconnect();
   },
   methods: {
-   
     connectSocket() {
       var socket = io.connect(this.$socketUrl);
 
@@ -48,7 +44,6 @@ export default {
           console.log("connect success!", data);
           this.$store.commit("setTotalPoints", data.totalPoints);
           this.$store.commit("disableAutoOrganize");
-          this.$eventBus.$emit("connected", socket);
         });
 
       socket.on("joinError", () => {
@@ -90,16 +85,8 @@ export default {
       // =============== show correct answer =================
       socket.on("showCorrectAnswer", (data) => {
         this.$store.commit("calculatePointReceived", data);
-
-        this.$router
-          .push({
-            name: "student.show",
-            query: {
-              challengeId: this.$route.query.challengeId,
-              questionId: this.$route.query.questionId,
-            },
-          })
-          .catch((err) => err);
+        this.$store.commit("disableSubmit");
+      
       });
 
       socket.on("endChallenge", () => {
@@ -122,10 +109,10 @@ export default {
           .catch((err) => err);
       });
 
-      socket.on("enableAutoOrganize", (data) => {
-        this.$success("enableAutoOrganize");
-        this.$store.commit("enableAutoOrganize", data);
-      });
+      // socket.on("enableAutoOrganize", (data) => {
+      //   this.$success("enableAutoOrganize");
+      //   this.$store.commit("enableAutoOrganize", data);
+      // });
       socket.on("disableAutoOrganize", (data) => {
         this.$success("disableAutoOrganize");
         this.$store.commit("disableAutoOrganize", data);

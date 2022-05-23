@@ -41,11 +41,11 @@ export default {
         let timeLeft = answerTime - second;
 
         if (timeLeft <= 0) {
-          clearInterval(that.countDownTimer);
+          that.$store.commit("disableSubmit");
           that.percent = 0;
           that.timeLeft = "Finished";
-
           that.finish();
+          clearInterval(that.countDownTimer);
         } else {
           that.percent = Math.ceil((timeLeft / answerTime) * 100);
           that.timeLeft = timeLeft;
