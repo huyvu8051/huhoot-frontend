@@ -13,7 +13,7 @@
     </Question>
 
     <TimeCountDown :finish="doFinish" class="py-2" />
-    <Answers />
+    <Answers disable />
   </div>
 </template>
 

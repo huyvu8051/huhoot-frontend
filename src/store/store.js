@@ -4,9 +4,10 @@ import createPersistedState from 'vuex-persistedstate'
 
 import AutoOrganizeService from "@/services/AutoOrganizeService";
 import DecryptUtil from "@/services/DecryptUtil";
-import AnswerColorSchemes from "@/services/AnswerColorSchemes";
 
 import router from "@/router"
+
+import EventBus from "@/EventBus"
 
 Vue.use(Vuex)
 
@@ -40,15 +41,20 @@ var store = new Vuex.Store({
 		publishNextQuestion: (challengeId) => { console.log("disable auto next", challengeId) },
 		getCorrectAnswer: (questionId) => { console.log("disable auto show", questionId) },
 
-		correctAnswerIds: [],
 		studentSubmited: false,
+		correctAnswerIds: [],
 		selectedAnswerIds: [],
+		submitedAnswerIds: []
 
 
 	},
 	mutations: {
 		studentSubmited(state) {
 			state.studentSubmited = true;
+		},
+
+		saveSubmitedAnswerIds(state, data) {
+			state.submitedAnswerIds = data;
 		},
 
 		setToken(state, data) {
@@ -62,24 +68,8 @@ var store = new Vuex.Store({
 			state.roles = data
 		},
 
-
 		setTotalPoints(state, data) {
 			state.totalPoints = data
-		},
-		setHashPointsReceived(state, data) {
-			state.hashPointsReceived = data
-		},
-		setAnswerResultToken(state, data) {
-			state.answerResultToken = data
-		},
-		setComboToken(state, data) {
-			state.comboToken = data
-		},
-		setCombo(state, data) {
-			state.combo = data
-		},
-		setEncryptedResponse(state, data) {
-			state.encryptedResponse = data
 		},
 
 
@@ -93,12 +83,13 @@ var store = new Vuex.Store({
 			state.hashPointsReceived = ""
 
 
-			state.correctAnswerIds = []
 			state.studentSubmited = false
+			state.correctAnswerIds = []
 			state.selectedAnswerIds = []
+			state.submitedAnswerIds = []
 		},
-		disableSubmit(state) {
-			state.notSubmitable = true;
+		timeout(state) {
+			state.question.timeout++;
 		},
 
 		calculatePointReceived(state, data) {
@@ -116,7 +107,40 @@ var store = new Vuex.Store({
 			}
 
 
-			// console.log("cal", state.pointsReceived, state.currCombo);
+			switch (state.pointsReceived) {
+				case null:
+					Vue.swal({
+						icon: "warning",
+						title: "Timeout",
+						text: "Better luck next time!",
+						timer: 3000,
+					});
+					break;
+
+				case 0:
+					Vue.swal({
+						icon: "error",
+						title: "Oops...",
+						text: "Incorrect answer!",
+						timer: 3000,
+					});
+					break;
+
+				default:
+					Vue.swal({
+						icon: "success",
+						title: "Good job!",
+						text:
+							"Your answer is correct! \n Points received +" +
+							parseInt(state.pointsReceived) +
+							" combo: " +
+							state.currCombo,
+						timer: 3000,
+					});
+					break;
+			}
+
+
 		},
 		showCorrectAnswer(state, data) {
 
@@ -149,16 +173,6 @@ var store = new Vuex.Store({
 
 
 		},
-		checkCorrectAnswers(state) {
-			if (state.answers && state.correctAnswerIds) {
-				var r = state.answers.map(e => {
-					e.isCorrect = state.correctAnswerIds.includes(e.id)
-					return e;
-				});
-
-				state.answers = r;
-			}
-		},
 		enableAutoOrganize(state, data) {
 			state.publishNextQuestion = AutoOrganizeService.publishNextQuestion
 			state.getCorrectAnswer = AutoOrganizeService.showCorrectAnswer
@@ -168,21 +182,6 @@ var store = new Vuex.Store({
 			state.question = data.question
 			state.answers = data.answers
 			state.questionToken = data.questionToken
-
-			if (state.question) {
-				var now = new Date().getTime();
-				var atl = (state.question.askDate + state.question.answerTimeLimit * 1000);
-
-				if (now >= atl) {
-					state.getCorrectAnswer(state.question.id);
-					// setTimeout(() => {
-					// 	state.getCorrectAnswer(state.question.id);
-					// }, 2000);
-
-				}
-			} else {
-				state.publishNextQuestion(state.challenge.id)
-			}
 
 		},
 		disableAutoOrganize(state) {
@@ -199,20 +198,6 @@ var store = new Vuex.Store({
 				state.selectedAnswerIds.push(item.id);
 			}
 
-
-			console.log(state.selectedAnswerIds);
-
-
-
-			// if (state.answers) {
-			// 	var r = state.answers.map(e => {
-			// 		if (e.id === item.id) {
-			// 			e.selected = !item.selected;
-			// 		}
-			// 		return e;
-			// 	});
-			// 	state.answers = r;
-			// }
 		}
 
 

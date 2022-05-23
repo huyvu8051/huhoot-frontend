@@ -8,19 +8,19 @@
 import StudentPlayService from "@/services/StudentPlayService";
 import { mapState } from "vuex";
 export default {
-
   computed: mapState({
     answers: (state) => state.answers,
     unselectable(state) {
       return (
-        state.studentSubmited ||
-        state.question.timeout < new Date().getTime()
+        state.studentSubmited || state.question.timeout < new Date().getTime()
       );
     },
   }),
   methods: {
     submit() {
-      var selectedIds = this.answers.filter((e) => e.selected).map((e) => e.id);
+      var selectedIds = this.$store.state.selectedAnswerIds;
+
+      this.$store.commit("saveSubmitedAnswerIds", selectedIds)
 
       console.log(selectedIds);
 

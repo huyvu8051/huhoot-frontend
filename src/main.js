@@ -9,11 +9,8 @@ import vuetify from './plugins/vuetify'
 import Vuelidate from 'vuelidate'
 import EventBus from "@/EventBus"
 import VueConfig from "@/vue.config"
-import resize from "vue-element-resize-detector";
-import VueExcelXlsx from "vue-excel-xlsx";
 
-import GlobalComponents from "./plugins/GlobalComponents"
-import Nofication from "./plugins/Nofication"
+
 
 
 // sweet
@@ -22,7 +19,11 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 Vue.use(VueSweetalert2);
 
 
+import VueExcelXlsx from "vue-excel-xlsx";
 Vue.use(VueExcelXlsx);
+
+
+import resize from "vue-element-resize-detector";
 Vue.use(resize)
 
 Vue.config.productionTip = false
@@ -35,7 +36,11 @@ Vue.prototype.$socketUrl = VueConfig.socketUrl
 Vue.use(Vuelidate)
 Vue.prototype.$eventBus = EventBus;
 
+
+import GlobalComponents from "./plugins/GlobalComponents"
 Vue.use(GlobalComponents);
+
+import Nofication from "./plugins/Nofication"
 Vue.use(Nofication);
 
 new Vue({

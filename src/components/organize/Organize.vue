@@ -73,7 +73,6 @@ export default {
         
         this.$store.commit("disableAutoOrganize");
         this.$store.commit("saveChallengeData", data.currentExam);
-        this.$store.commit("checkCorrectAnswers");
         this.challenge = data;
         this.connected = true;
       });
@@ -118,8 +117,6 @@ export default {
 
       socket.on("showCorrectAnswer", (data) => {
         this.$store.commit("showCorrectAnswer", data);
-        this.$store.commit("checkCorrectAnswers");
-        this.$store.commit("disableSubmit");
       });
 
       socket.on("endChallenge", () => {

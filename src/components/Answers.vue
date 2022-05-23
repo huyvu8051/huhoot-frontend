@@ -8,11 +8,11 @@
       v-for="(i, index) in answers"
       :key="i.id"
     >
+      <!-- :disabled="unselectable" -->
       <v-card
         class="flex d-flex flex-column"
-        :disabled="unselectable"
         @click="selectAnswer(i)"
-        :style="getColor(index, i.isCorrect, i.selected)"
+        :style="getColor(i.id, index)"
       >
         <v-card-text class="flex white--text">
           <b>{{ i.content }}</b>
@@ -42,7 +42,10 @@ export default {
     };
   },
   computed: mapState({
-    answers: (state) => state.answers,
+    answers: (state) => {
+      console.log("Answers change");
+      return state.answers;
+    },
     unselectable(state) {
       return (
         state.studentSubmited ||
@@ -50,27 +53,40 @@ export default {
         this.disable
       );
     },
-
   }),
   created() {},
   methods: {
-    getColor(index, isCorrect, isSelected) {
+    getColor(id, index) {
       if (index < 0 || index > this.colors.length - 1) return {};
 
       var opacity;
-      if (isCorrect === null || isCorrect === undefined || isCorrect === true) {
+      if (
+        this.$store.state.correctAnswerIds.includes(id) ||
+        this.$store.state.question.timeout > new Date().getTime()
+      ) {
         opacity = 1;
       } else {
         opacity = 0.2;
       }
       var scale;
       var rotate;
-      if (!isSelected || isSelected === null || isSelected === undefined) {
-        scale = 1;
-        rotate = "0deg";
+
+      if (this.$store.state.question.timeout > new Date().getTime()) {
+        if (this.$store.state.selectedAnswerIds.includes(id)) {
+          scale = 0.8;
+          rotate = "20deg";
+        } else {
+          scale = 1;
+          rotate = "0deg";
+        }
       } else {
-        scale = 0.8;
-        rotate = "20deg";
+        if (this.$store.state.submitedAnswerIds.includes(id)) {
+          scale = 0.8;
+          rotate = "20deg";
+        } else {
+          scale = 1;
+          rotate = "0deg";
+        }
       }
 
       //  console.log(isSelected,scale);
@@ -83,11 +99,13 @@ export default {
       return result;
     },
     selectAnswer(item) {
-      this.$store.commit("selectAnswer", item);
+      if (!this.unselectable) {
+        this.$store.commit("selectAnswer", item);
+      }
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 </style>

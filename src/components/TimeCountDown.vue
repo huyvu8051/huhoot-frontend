@@ -13,7 +13,7 @@ export default {
   props: {
     finish: {
       type: Function,
-      default: ()=>console.log("count down finished")
+      default: () => console.log("count down finished"),
     },
   },
   data: () => ({
@@ -26,7 +26,6 @@ export default {
   }),
 
   mounted() {
-    console.log("timeout", this.$store.state.question);
     this.countdown2();
   },
   beforeDestroy() {
@@ -43,7 +42,7 @@ export default {
         var timeLeft = this.timeout - now;
 
         if (timeLeft <= 0) {
-          that.$store.commit("disableSubmit");
+          that.$store.commit("timeout");
           that.percent = 0;
           that.timeLeft = "Finished";
           that.finish();
@@ -51,30 +50,6 @@ export default {
         } else {
           that.percent = Math.ceil((timeLeft / totalTime) * 100);
           that.timeLeft = Math.ceil(timeLeft / 1000);
-        }
-      }, 200);
-    },
-    countdown(answerTime, askDate) {
-      //console.log("start countdown");
-
-      clearInterval(this.countDownTimer);
-      var that = this;
-      this.countDownTimer = setInterval(() => {
-        let now = new Date().getTime();
-        let diff = now - askDate;
-        const second = Math.floor((diff / 1000) % 60);
-
-        let timeLeft = answerTime - second;
-
-        if (timeLeft <= 0) {
-          that.$store.commit("disableSubmit");
-          that.percent = 0;
-          that.timeLeft = "Finished";
-          that.finish();
-          clearInterval(that.countDownTimer);
-        } else {
-          that.percent = Math.ceil((timeLeft / answerTime) * 100);
-          that.timeLeft = timeLeft;
         }
       }, 200);
     },
