@@ -70,8 +70,9 @@ export default {
         });
 
       socket.on("registerSuccess", (data) => {
+        
         this.$store.commit("disableAutoOrganize");
-        this.$store.commit("organizeJoinSuccess", data);
+        this.$store.commit("saveChallengeData", data.currentExam);
         this.$store.commit("checkCorrectAnswers");
         this.challenge = data;
         this.connected = true;

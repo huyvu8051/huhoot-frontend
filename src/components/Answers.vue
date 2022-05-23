@@ -10,7 +10,7 @@
     >
       <v-card
         class="flex d-flex flex-column"
-        :disabled="notSubmitable"
+        :disabled="unselectable"
         @click="selectAnswer(i)"
         :style="getColor(index, i.isCorrect, i.selected)"
       >
@@ -23,10 +23,12 @@
 </template>
 
 <script>
-import AnswerColorSchemes from "@/services/AnswerColorSchemes";
 import { mapState } from "vuex";
 
 export default {
+  props: {
+    disable: Boolean,
+  },
   data() {
     return {
       colors: [
@@ -40,19 +42,19 @@ export default {
     };
   },
   computed: mapState({
-    // arrow functions can make the code very succinct!
     answers: (state) => state.answers,
-    notSubmitable: (state) => {
-      console.log(state.notSubmitable)
-      
-      return state.notSubmitable;
+    unselectable(state) {
+      return (
+        state.studentSubmited ||
+        state.question.timeout < new Date().getTime() ||
+        this.disable
+      );
     },
- 
+
   }),
   created() {},
   methods: {
     getColor(index, isCorrect, isSelected) {
-
       if (index < 0 || index > this.colors.length - 1) return {};
 
       var opacity;
@@ -63,7 +65,7 @@ export default {
       }
       var scale;
       var rotate;
-      if (!isSelected || isSelected == null || isSelected == undefined) {
+      if (!isSelected || isSelected === null || isSelected === undefined) {
         scale = 1;
         rotate = "0deg";
       } else {

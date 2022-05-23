@@ -41,9 +41,11 @@ export default {
           token: this.$store.state.token,
         })
         .on("registerSuccess", (data) => {
-          console.log("connect success!", data);
-          this.$store.commit("setTotalPoints", data.totalPoints);
+          console.log("ccccccccccc",data);
           this.$store.commit("disableAutoOrganize");
+          this.$store.commit("saveChallengeData", data.currentExam);
+          this.$store.commit("checkCorrectAnswers");
+          this.$store.commit("setTotalPoints", data.totalPoints);
         });
 
       socket.on("joinError", () => {
@@ -84,9 +86,10 @@ export default {
 
       // =============== show correct answer =================
       socket.on("showCorrectAnswer", (data) => {
+        this.$store.commit("showCorrectAnswer", data);
+        this.$store.commit("checkCorrectAnswers");
         this.$store.commit("calculatePointReceived", data);
         this.$store.commit("disableSubmit");
-      
       });
 
       socket.on("endChallenge", () => {

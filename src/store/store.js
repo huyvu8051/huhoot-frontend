@@ -39,12 +39,18 @@ var store = new Vuex.Store({
 		questionToken: null,
 		publishNextQuestion: (challengeId) => { console.log("disable auto next", challengeId) },
 		getCorrectAnswer: (questionId) => { console.log("disable auto show", questionId) },
-		notSubmitable: false,
-		correctAnswerIds: []
+
+		correctAnswerIds: [],
+		studentSubmited: false,
+		selectedAnswerIds: [],
 
 
 	},
 	mutations: {
+		studentSubmited(state) {
+			state.studentSubmited = true;
+		},
+
 		setToken(state, data) {
 			state.token = data
 		},
@@ -85,19 +91,17 @@ var store = new Vuex.Store({
 			state.answers = data.answers
 			state.questionToken = data.questionToken;
 			state.hashPointsReceived = ""
-			state.notSubmitable = false
+
+
 			state.correctAnswerIds = []
+			state.studentSubmited = false
+			state.selectedAnswerIds = []
 		},
 		disableSubmit(state) {
 			state.notSubmitable = true;
 		},
 
 		calculatePointReceived(state, data) {
-			// setTimeout(() => {
-			// 	state.publishNextQuestion(state.question.challengeId)
-			// }, 5000);
-
-			state.answers = data.answers;
 
 			try {
 				var result = JSON.parse(DecryptUtil.decrypt(state.encryptedResponse, data.encryptKey))
@@ -132,12 +136,16 @@ var store = new Vuex.Store({
 			state.encryptedResponse = data.encryptedResponse;
 		},
 
-		organizeJoinSuccess(state, data) {
+		saveChallengeData(state, data) {
 
 
-			state.challenge = data.publishedExam.challenge;
-			state.question = data.publishedExam.question
-			state.answers = data.publishedExam.answers
+			state.challenge = data.challenge;
+			state.question = data.question
+			state.answers = data.answers
+
+			// if (state.question && state.question.timeout) {
+			// 	state.notSubmitable = state.question.timeout < new Date().getTime();
+			// }
 
 
 		},
@@ -185,15 +193,26 @@ var store = new Vuex.Store({
 		},
 		selectAnswer(state, item) {
 
-			if (state.answers) {
-				var r = state.answers.map(e => {
-					if (e.id === item.id) {
-						e.selected = !item.selected;
-					}
-					return e;
-				});
-				state.answers = r;
+			if (state.selectedAnswerIds.includes(item.id)) {
+				state.selectedAnswerIds = state.selectedAnswerIds.filter(e => e !== item.id);
+			} else {
+				state.selectedAnswerIds.push(item.id);
 			}
+
+
+			console.log(state.selectedAnswerIds);
+
+
+
+			// if (state.answers) {
+			// 	var r = state.answers.map(e => {
+			// 		if (e.id === item.id) {
+			// 			e.selected = !item.selected;
+			// 		}
+			// 		return e;
+			// 	});
+			// 	state.answers = r;
+			// }
 		}
 
 
