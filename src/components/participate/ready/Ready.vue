@@ -1,13 +1,12 @@
 <template>
-  <div>
+  <h-flex-layout>
     <h1>{{ text }}</h1>
     <h5>{{ question.answerOption }} | {{ question.point }}</h5>
     <h-timeout :finish="doFinish" :time-limit="2500" />
-  </div>
+  </h-flex-layout>
 </template>
 
 <script>
-
 export default {
   data: () => {
     return {
@@ -17,7 +16,6 @@ export default {
   },
 
   created() {
-    
     this.question = this.$store.state.question;
 
     this.text = "Question " + this.question.questionOrder;

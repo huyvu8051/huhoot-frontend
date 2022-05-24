@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <h-flex-layout>
     <h1>{{ text }}</h1>
     <h5>{{ question.answerOption }} | {{ question.point }}</h5>
-  </div>
+  </h-flex-layout>
 </template>
 
 <script>

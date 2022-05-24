@@ -1,19 +1,9 @@
 <template>
-  <div>
-    <Question>
-      <template v-slot:topRight>
-        <strong>
-          Câu hỏi: {{ question.questionOrder }} of {{ question.totalQuestion }}
-          <br />Đã trả lời: {{ $store.state.studentAnswered }}
-        </strong>
-      </template>
-      <template v-slot:topLeft>
-        <Skip />
-      </template>
-    </Question>
-
-    <TimeCountDown class="py-2" />
-    <Answers disable />
+  <div class="outer">
+    <Question style="height: 43vh" />
+    <Skip />
+    <TimeCountDown :finish="doFinish" class="my-2" style="height: 4vh" />
+    <Answers disable style="height: 43vh" />
   </div>
 </template>
 
@@ -37,6 +27,14 @@ export default {
   computed: mapState({
     question: (state) => state.question,
   }),
+  methods:{
+    doFinish(){
+      HostOrganizeService.showCorrectAnswer({
+        questionId: this.$route.query.questionId
+      })
+
+    }
+  }
 };
 </script>
 

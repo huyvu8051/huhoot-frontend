@@ -1,30 +1,29 @@
 <template>
-  <v-main>
-    <v-btn
-      dark
-      color="cyan"
-      fixed
-      left
-      bottom
-      style="z-index: 1"
-      @click="enableAutoOrganize()"
-    >
-      enable
-    </v-btn>
-    <v-btn
-      dark
-      color="cyan"
-      fixed
-      right
-      bottom
-      style="z-index: 1"
-      @click="disableAutoOrganize()"
-    >
-      disable
-    </v-btn>
-    <h-flex-layout>
-      <router-view :socket="socket" />
-    </h-flex-layout>
+  <v-main v-if="socket && socket.connected" app>
+    <router-view :socket="socket" style="height: 90vh" />
+
+    <!-- <v-btn
+        dark
+        color="cyan"
+        fixed
+        left
+        bottom
+        style="z-index: 1"
+        @click="enableAutoOrganize()"
+      >
+        enable
+      </v-btn>
+      <v-btn
+        dark
+        color="cyan"
+        fixed
+        right
+        bottom
+        style="z-index: 1"
+        @click="disableAutoOrganize()"
+      >
+        disable
+      </v-btn> -->
   </v-main>
 </template>
 
@@ -35,7 +34,8 @@ export default {
   components: {},
   data() {
     return {
-      socket: {},
+      socket: null,
+      value: "recent",
     };
   },
   watch: {
@@ -58,6 +58,7 @@ export default {
       var askRoute = ["organize.ready", "organize.preview", "organize.ask"];
 
       if (
+        this.$store.state.question &&
         this.$store.state.question.timeout > new Date().getTime() &&
         !askRoute.includes(this.$route.name)
       ) {
@@ -142,6 +143,15 @@ export default {
           text: "There no time at all",
           timer: 3000,
         });
+        this.$router
+          .push({
+            name: "organize.ask",
+            query: {
+              challengeId: this.$route.query.challengeId,
+              questionId: this.$store.state.question.id,
+            },
+          })
+          .catch((err) => err);
       });
 
       socket.on("endChallenge", () => {
@@ -154,17 +164,17 @@ export default {
           })
           .catch((err) => err);
       });
-      socket.on("enableAutoOrganize", (data) => {
-        this.$success("enableAutoOrganize");
-        this.$store.commit("enableAutoOrganize", data);
-
-        if (
-          this.$store.state.question &&
-          this.$store.state.question.timeout < new Date().getTime()
-        ) {
-          //this.$store.commit("pnq");
-        }
-      });
+      // socket.on("enableAutoOrganize", (data) => {
+      //   this.$success("enableAutoOrganize");
+      //   this.$store.commit("enableAutoOrganize", data);
+      //   this.refreshRoute();
+      //   if (
+      //     this.$store.state.question &&
+      //     this.$store.state.question.timeout < new Date().getTime()
+      //   ) {
+      //     this.$store.commit("pnq");
+      //   }
+      // });
       socket.on("disableAutoOrganize", (data) => {
         this.$success("disableAutoOrganize");
         this.$store.commit("disableAutoOrganize", data);

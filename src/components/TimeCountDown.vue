@@ -1,11 +1,7 @@
 <template>
-  <div>
-    <v-progress-linear :value="percent" color="yellow" height="25">
-      <template v-slot:default="">
-        <strong>{{ timeLeft }}</strong>
-      </template>
-    </v-progress-linear>
-  </div>
+  <v-progress-linear :value="percent" color="yellow" height="inherit">
+    <strong class="time-left">{{ timeLeft }}</strong>
+  </v-progress-linear>
 </template>
 <script>
 import { mapState } from "vuex";
@@ -13,7 +9,7 @@ export default {
   props: {
     finish: {
       type: Function,
-      default: () => console.log("count down finished"),
+      default: () => {},
     },
   },
   data: () => ({
@@ -24,6 +20,8 @@ export default {
   computed: mapState({
     timeout: (state) => state.question.timeout,
   }),
+  created(){
+  },
 
   mounted() {
     this.countdown2();
@@ -42,11 +40,13 @@ export default {
         var timeLeft = this.timeout - now;
 
         if (timeLeft <= 0) {
+          
+          clearInterval(that.countDownTimer);
+
           that.$store.commit("timeout");
           that.percent = 0;
           that.timeLeft = "Finished";
           that.finish();
-          clearInterval(that.countDownTimer);
         } else {
           that.percent = Math.ceil((timeLeft / totalTime) * 100);
           that.timeLeft = Math.ceil(timeLeft / 1000);
@@ -56,3 +56,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.time-left{
+  font-size: 2.7vmin;
+}
+</style>

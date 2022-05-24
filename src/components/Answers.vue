@@ -1,23 +1,25 @@
 <template>
-  <v-row>
+  <v-row class="ma-0 red">
     <v-col
       cols="6"
       xs="6"
       sm="6"
-      class="d-flex flex-column"
+      class="d-flex answer-col"
       v-for="(i, index) in answers"
       :key="i.id"
     >
       <!-- :disabled="unselectable" -->
-      <v-card
-        class="flex d-flex flex-column"
+
+      <div
+        class="flex d-flex rounded-lg"
         @click="selectAnswer(i)"
         :style="getColor(i.id, index)"
       >
-        <v-card-text class="flex white--text">
+        <div class="flex white--text answer-content">
           <b>{{ i.content }}</b>
-        </v-card-text>
-      </v-card>
+        </div>
+        <v-icon color="white" class="icon"> close </v-icon>
+      </div>
     </v-col>
   </v-row>
 </template>
@@ -32,10 +34,10 @@ export default {
   data() {
     return {
       colors: [
-        "#FF0000",
-        "#0179B4",
-        "#FFAA0D",
-        "#12952E",
+        "rgb(226, 27, 60)",
+        "rgb(19, 104, 206)",
+        "rgb(216, 158, 0)",
+        "rgb(38, 137, 12)",
         "#FE670A",
         "#74007E",
       ],
@@ -88,6 +90,7 @@ export default {
       var result = {
         "background-color": this.colors.at(index),
         opacity: opacity,
+        // opacity: 1,
         transform: "scale(" + scale + ") rotateX(" + rotate + ")",
       };
       return result;
@@ -102,4 +105,24 @@ export default {
 </script>
 
 <style scoped>
+.answer-col{
+  padding: 0.5vmin;
+}
+
+.answer-content {
+  line-height: normal;
+  font-size: 2.6vmin;
+
+  padding: 1vmin;
+
+  text-align: left;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.icon {
+  font-size: 5vmin;
+  margin: 1vmin;
+}
 </style>

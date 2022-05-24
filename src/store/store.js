@@ -155,7 +155,7 @@ var store = new Vuex.Store({
 			}
 
 
-			
+
 
 		},
 		saveStudentAnswerResponse(state, data) {

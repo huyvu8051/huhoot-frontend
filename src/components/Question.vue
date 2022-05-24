@@ -1,24 +1,9 @@
 <template>
-  <v-card class="mx-auto" flat>
-    <v-toolbar color="#262766" style="color: white" dense flat>
-      <v-toolbar-title class="text-body-2">
-        <slot name="topRight" />
-      </v-toolbar-title>
-      <v-spacer>
-        <v-toolbar-title class="text-body-2">
-          <strong>{{ question.answerOption }} </strong>
-        </v-toolbar-title>
-        <v-toolbar-title class="text-body-2">
-          <strong>{{ question.point }} </strong>
-        </v-toolbar-title>
-      </v-spacer>
-      <slot name="topLeft" />
-    </v-toolbar>
-    <v-card-text>
+  <v-card flat>
+    <div class="quest-content">
       <h2>{{ question.questionContent }}</h2>
-    </v-card-text>
-
-    <h-fit-height-image :src="question.questionImage" />
+    </div>
+    <h-image-wrapper contain height="28vh" :src="question.questionImage" />
   </v-card>
 </template>
 
@@ -32,5 +17,21 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.quest-content {
+  height: 15vh;
+  line-height: normal;
+  font-size: 2.7vmin;
+  /* background-color: rgba(158, 158, 158, 0.445); */
+
+  
+
+
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 </style>

@@ -1,15 +1,14 @@
 <template>
-  <v-main>
+  <v-main v-if="socket && socket.connected" app>
     <Header />
-    <h-flex-layout>
-      <router-view />
-    </h-flex-layout>
+    <router-view :socket="socket" style="height: 90vh" />
   </v-main>
 </template>
 
 <script>
 import Header from "@/components/participate/ChallengeHeader";
 
+import AutoOrganizeService from "@/services/AutoOrganizeService";
 import io from "socket.io-client";
 
 export default {
@@ -44,6 +43,7 @@ export default {
       ];
 
       if (
+        this.$store.state.question &&
         this.$store.state.question.timeout > new Date().getTime() &&
         !askRoute.includes(this.$route.name)
       ) {
@@ -59,7 +59,7 @@ export default {
       }
     },
     connectSocket() {
-      var socket = io.connect(this.$socketUrl);
+      var socket = io.connect("192.168.1.5:8082");
 
       socket
         .on("connected", () => null)
@@ -114,6 +114,15 @@ export default {
       socket.on("showCorrectAnswer", (data) => {
         this.$store.commit("showCorrectAnswer", data);
         this.$store.commit("calculatePointReceived", data);
+        this.$router
+          .push({
+            name: "participate.ask",
+            query: {
+              challengeId: this.$route.query.challengeId,
+              questionId: this.$store.state.question.id,
+            },
+          })
+          .catch((err) => err);
       });
 
       socket.on("endChallenge", () => {
@@ -136,10 +145,17 @@ export default {
           .catch((err) => err);
       });
 
-      socket.on("enableAutoOrganize", (data) => {
-        this.$success("enableAutoOrganize");
-        this.$store.commit("enableAutoOrganize", data);
-      });
+      // socket.on("enableAutoOrganize", (data) => {
+      //   this.$success("enableAutoOrganize");
+      //   this.$store.commit("enableAutoOrganize", data);
+      //   this.refreshRoute();
+      //   if (
+      //     this.$store.state.question &&
+      //     this.$store.state.question.timeout < new Date().getTime()
+      //   ) {
+      //     this.$store.commit("pnq");
+      //   }
+      // });
       socket.on("disableAutoOrganize", (data) => {
         this.$success("disableAutoOrganize");
         this.$store.commit("disableAutoOrganize", data);

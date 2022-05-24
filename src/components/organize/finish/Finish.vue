@@ -1,6 +1,5 @@
 <template>
-  <v-main>
-    <v-container fluid rounded-lg>
+  <h-flex-layout>
       <h1>Challenge finish</h1>
       <ChallengeRank>
         <template v-slot:nextQuestion>
@@ -15,8 +14,7 @@
           </v-btn>
         </template>
       </ChallengeRank>
-    </v-container>
-  </v-main>
+   </h-flex-layout>
 </template>
 
 <script>

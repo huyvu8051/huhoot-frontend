@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <h-flex-layout>
     <h1>
       {{ question.questionContent }}
     </h1>
     <h-process-bar :finish="doFinish" />
-  </div>
+  </h-flex-layout>
 </template>
 
 <script>

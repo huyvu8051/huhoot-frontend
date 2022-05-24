@@ -8,7 +8,7 @@ export default () => {
   
 
   var instance = axios.create({
-    baseURL: "http://localhost:8081",
+    baseURL: "http://192.168.1.5:8081",
     headers: {
       Authorization: `${store.state.token}`,
     }

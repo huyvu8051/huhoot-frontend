@@ -1,5 +1,7 @@
 <template>
-  <h1>{{ timeleft }}</h1>
+  <h-flex-layout>
+    <h1>{{ timeleft }}</h1>
+  </h-flex-layout>
 </template>
 
 <script>
