@@ -42,7 +42,6 @@ var store = new Vuex.Store({
 		studentSubmited: false,
 		correctAnswerIds: [],
 		selectedAnswerIds: [],
-		submitedAnswerIds: []
 
 
 	},
@@ -54,9 +53,6 @@ var store = new Vuex.Store({
 			state.studentSubmited = true;
 		},
 
-		saveSubmitedAnswerIds(state, data) {
-			state.submitedAnswerIds = data;
-		},
 
 		setToken(state, data) {
 			state.token = data
@@ -87,7 +83,6 @@ var store = new Vuex.Store({
 			state.studentSubmited = false
 			state.correctAnswerIds = []
 			state.selectedAnswerIds = []
-			state.submitedAnswerIds = []
 		},
 		timeout(state) {
 			state.question.timeout++;

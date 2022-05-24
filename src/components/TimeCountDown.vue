@@ -45,7 +45,7 @@ export default {
 
           that.$store.commit("timeout");
           that.percent = 0;
-          that.timeLeft = "Finished";
+          that.timeLeft = "Hết thời gian";
           that.finish();
         } else {
           that.percent = Math.ceil((timeLeft / totalTime) * 100);
@@ -59,6 +59,6 @@ export default {
 
 <style scoped>
 .time-left{
-  font-size: 2.7vmin;
+  font-size: calc(0.4rem + 1.76267vmin);
 }
 </style>

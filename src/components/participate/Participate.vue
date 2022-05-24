@@ -1,5 +1,5 @@
 <template>
-  <v-main v-if="socket && socket.connected" app>
+  <v-main v-if="socket && socket.connected" app class="pa-1">
     <Header />
     <router-view :socket="socket" style="height: 90vh" />
   </v-main>

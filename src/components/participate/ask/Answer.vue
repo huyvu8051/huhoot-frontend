@@ -1,6 +1,6 @@
 <template>
-  <v-btn color="green"  fixed right bottom depressed :disabled="unselectable" @click="submit">
-    <b> Submit </b>
+  <v-btn color="green" class="btn-bot btn-right"  :disabled="unselectable" @click="submit">
+    <b class="btn-text"> Submit </b>
   </v-btn>
 </template>
 
@@ -19,8 +19,6 @@ export default {
   methods: {
     submit() {
       var selectedIds = this.$store.state.selectedAnswerIds;
-
-      this.$store.commit("saveSubmitedAnswerIds", selectedIds)
 
       console.log(selectedIds);
 
@@ -48,5 +46,27 @@ export default {
 };
 </script>
 
-<style>
+<style >
+.btn-bot {
+  position: absolute;
+  bottom: 1vmin;
+
+  padding: 0px;
+  margin: 0px;
+
+}
+
+.btn-right {
+  right: 1vmin;
+}
+
+.btn-left {
+  left: 1vmin;
+}
+.v-btn__content {
+  padding: 0px;
+}
+.btn-text {
+  font-size: 2.6vmin;
+}
 </style>

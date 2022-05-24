@@ -1,5 +1,5 @@
 <template>
-  <v-row class="ma-0 red">
+  <v-row class="ma-0 pa-0">
     <v-col
       cols="6"
       xs="6"
@@ -11,14 +11,16 @@
       <!-- :disabled="unselectable" -->
 
       <div
-        class="flex d-flex rounded-lg"
+        class="flex d-flex rounded-lg answer-card"
         @click="selectAnswer(i)"
         :style="getColor(i.id, index)"
       >
         <div class="flex white--text answer-content">
           <b>{{ i.content }}</b>
         </div>
-        <v-icon color="white" class="icon"> close </v-icon>
+        <v-icon v-if="timeout" color="white" class="icon">
+          {{ getIcon(i) }}
+        </v-icon>
       </div>
     </v-col>
   </v-row>
@@ -55,9 +57,18 @@ export default {
         this.disable
       );
     },
+    timeout: (state) => state.question.timeout < new Date().getTime(),
   }),
   created() {},
   methods: {
+    getIcon(item) {
+      var state = this.$store.state;
+      if (state.correctAnswerIds.includes(item.id)) {
+        return "check";
+      } else {
+        return "close";
+      }
+    },
     getColor(id, index) {
       if (index < 0 || index > this.colors.length - 1) return {};
 
@@ -72,7 +83,7 @@ export default {
       var s =
         state.question.timeout > new Date().getTime()
           ? state.selectedAnswerIds.includes(id)
-          : state.submitedAnswerIds.includes(id);
+          : false;
 
       var scale;
       var rotate;
@@ -105,17 +116,26 @@ export default {
 </script>
 
 <style scoped>
-.answer-col{
+
+
+.answer-col {
   padding: 0.5vmin;
+
+}
+
+.answer-card{
+  padding: 0px;
+  margin: 0px;
 }
 
 .answer-content {
   line-height: normal;
-  font-size: 2.6vmin;
+  font-size: calc(0.4rem + 1.76267vmin);
 
-  padding: 1vmin;
+  padding : 1vmin;
+  margin: 0;
 
-  text-align: left;
+  text-align: justify;
   display: flex;
   justify-content: left;
   align-items: center;
@@ -123,6 +143,7 @@ export default {
 
 .icon {
   font-size: 5vmin;
-  margin: 1vmin;
+  margin-right: 1vmin;
+  font-weight: 1000;
 }
 </style>
