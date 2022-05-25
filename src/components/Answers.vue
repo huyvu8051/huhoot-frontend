@@ -130,7 +130,7 @@ export default {
 
 .answer-content {
   line-height: normal;
-  font-size: calc(0.4rem + 1.76267vmin);
+  font-size: calc(0.4rem + 1.66267vmin);
 
   padding : 1vmin;
   margin: 0;

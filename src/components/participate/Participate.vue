@@ -59,7 +59,7 @@ export default {
       }
     },
     connectSocket() {
-      var socket = io.connect("192.168.1.5:8082");
+      var socket = io.connect(process.env.BACKEND_SOCKET_URL);
 
       socket
         .on("connected", () => null)

@@ -1,5 +1,5 @@
 <template>
-  <v-progress-linear :value="percent" color="yellow" height="inherit">
+  <v-progress-linear :value="percent" color="yellow" height="inherit" class="time-count-down">
     <strong class="time-left">{{ timeLeft }}</strong>
   </v-progress-linear>
 </template>
@@ -59,6 +59,10 @@ export default {
 
 <style scoped>
 .time-left{
-  font-size: calc(0.4rem + 1.76267vmin);
+  font-size: calc(0.4rem + 1.2vmin);
+}
+.time-count-down{
+  margin-top: 1vmin;
+  margin-bottom: 0.5vmin;
 }
 </style>

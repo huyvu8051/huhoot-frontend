@@ -22,7 +22,7 @@ export default {
   height: 15vh;
   line-height: normal;
   font-size: calc(0.4rem + 1.76267vmin);
-  /* background-color: rgba(158, 158, 158, 0.445); */
+  /* background-color: rgba(158, 158, 158, 0.445);  */
 
   text-align: center;
   display: flex;

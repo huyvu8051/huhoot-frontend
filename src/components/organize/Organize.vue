@@ -1,6 +1,6 @@
 <template>
   <v-main v-if="socket && socket.connected" app class="pa-1">
-    <router-view :socket="socket" style="height: 90vh" />
+    <router-view :socket="socket" style="height: 90vh"/>
 
     <!-- <v-btn
         dark
@@ -80,7 +80,7 @@ export default {
       AutoOrganizeService.disableAutoOrganize(this.$route.query.challengeId);
     },
     connectSocket() {
-      var socket = io.connect(this.$socketUrl);
+      var socket = io.connect(process.env.BACKEND_SOCKET_URL);
       socket
         .on("connected", (data) => {
           console.log(data);

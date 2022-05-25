@@ -6,6 +6,7 @@
     :width="width"
     :contain="contain"
     v-on:error="url = require(`@/assets/img/huhoot-logo.png`)"
+ 
   />
 </template>
 

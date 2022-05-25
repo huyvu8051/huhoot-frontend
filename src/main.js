@@ -8,7 +8,6 @@ import store from '@/store/store'
 import vuetify from './plugins/vuetify'
 import Vuelidate from 'vuelidate'
 import EventBus from "@/EventBus"
-import VueConfig from "@/vue.config"
 
 
 
@@ -29,9 +28,6 @@ Vue.use(resize)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-
-Vue.prototype.$backendUrl = VueConfig.backendUrl
-Vue.prototype.$socketUrl = VueConfig.socketUrl
 
 Vue.use(Vuelidate)
 Vue.prototype.$eventBus = EventBus;
