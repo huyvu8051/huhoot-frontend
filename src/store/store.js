@@ -159,6 +159,7 @@ var store = new Vuex.Store({
 		},
 
 		saveChallengeData(state, data) {
+			console.log(data)
 			state.challenge = data.challenge;
 			state.question = data.question
 			state.answers = data.answers

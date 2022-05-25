@@ -1,5 +1,5 @@
 <template>
-  <v-progress-linear :value="percent" color="yellow" height="inherit" class="time-count-down">
+  <v-progress-linear :value="percent" color="#262766" height="inherit" class="time-count-down white--text">
     <strong class="time-left">{{ timeLeft }}</strong>
   </v-progress-linear>
 </template>

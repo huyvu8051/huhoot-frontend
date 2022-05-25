@@ -16,6 +16,11 @@ const router = new Router({
       name: "login",
       component: () => import("@/components/plugin/LoginBoxed")
     },
+    {
+      path: "/404",
+      name: 404,
+      component: () => import("@/components/plugin/404Page")
+    },
     // host
 
     {
@@ -28,14 +33,12 @@ const router = new Router({
         {
           path: "challenge",
           name: "HOST",
-          component: HostListChallenge,
-
+          component: HostListChallenge
         },
         {
           path: "rank",
           name: "host.rank",
-          component: () => import("@/components/challengeRank/ChallengeRank"),
-
+          component: () => import("@/components/challengeRank/ChallengeRank")
         },
         {
           path: "question",
@@ -50,18 +53,21 @@ const router = new Router({
         {
           path: "studentInChallenge",
           name: "host.listStudentInChallenge",
-          component: () => import("@/components/host/studentInChallenge/ListStudentInChallenge")
+          component: () =>
+            import(
+              "@/components/host/studentInChallenge/ListStudentInChallenge"
+            )
         },
         {
           path: "student",
           name: "host.student",
-          component: () => import("@/components/host/studentInChallenge/ListStudent")
+          component: () =>
+            import("@/components/host/studentInChallenge/ListStudent")
         },
         {
           path: "account",
           name: "host.account",
           component: () => import("@/components/host/Account")
-
         }
       ]
     },
@@ -72,7 +78,6 @@ const router = new Router({
         requiresAuth: true
       },
       children: [
-
         {
           path: "wait",
           name: "organize.wait",
@@ -127,8 +132,7 @@ const router = new Router({
           path: "podium",
           name: "organize.podium",
           component: () => import("@/components/organize/finish/Podium")
-        },
-
+        }
       ]
     },
 
@@ -136,7 +140,7 @@ const router = new Router({
     {
       path: "/student",
       component: () => import("@/components/student/Layout"),
-      redirect: '/student/challenge',
+      redirect: "/student/challenge",
       meta: {
         requiresAuth: true
       },
@@ -150,12 +154,9 @@ const router = new Router({
           path: "account",
           name: "student.account",
           component: () => import("@/components/student/Account")
-
-        },
-
+        }
       ]
     },
-
 
     {
       path: "/participate",
@@ -198,8 +199,7 @@ const router = new Router({
           path: "finish",
           name: "participate.finish",
           component: () => import("@/components/participate/finish/Finish")
-        },
-
+        }
       ]
     },
 
@@ -207,7 +207,7 @@ const router = new Router({
     {
       path: "/admin",
       component: () => import("@/components/admin/Layout"),
-      redirect: '/student',
+      redirect: "/student",
       meta: {
         requiresAuth: true
       },
@@ -215,27 +215,22 @@ const router = new Router({
         {
           path: "student",
           name: "ADMIN",
-          component: () => import("@/components/admin/ListStudent"),
+          component: () => import("@/components/admin/ListStudent")
         },
         {
           path: "host",
           name: "admin.host",
-          component: () => import("@/components/admin/ListHost"),
+          component: () => import("@/components/admin/ListHost")
         },
         {
           path: "account",
           name: "admin.account",
-          component: () => import("@/components/admin/Account"),
-        },
+          component: () => import("@/components/admin/Account")
+        }
       ]
-    },
-
-
-
+    }
   ]
 });
-
-
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
@@ -244,12 +239,11 @@ router.beforeEach((to, from, next) => {
         name: "login"
       });
     } else {
-      next()
+      next();
     }
+  } else {
+    next();
   }
-  else {
-    next()
-  }
-})
+});
 
 export default router;

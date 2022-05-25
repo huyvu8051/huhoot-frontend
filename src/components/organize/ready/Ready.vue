@@ -1,15 +1,19 @@
 <template>
   <h-flex-layout>
     <h1>{{ text }}</h1>
-    <h5>{{ question.answerOption }} | {{ question.point }}</h5>
+    <h5>{{ question.answerOption }} | {{  vietSubQuesPoint(question.point) }}</h5>
   </h-flex-layout>
 </template>
 
 <script>
+import { vietSubQuesPoint } from '../../../services/VietsubServices';
+
+
 export default {
   components: {},
   data: () => {
     return {
+      vietSubQuesPoint: vietSubQuesPoint,
       text: "Ready",
       timeout: {},
       question: {},
@@ -18,9 +22,9 @@ export default {
   created() {
     this.question = this.$store.state.question;
 
-    this.text = "Question " + this.question.questionOrder;
+    this.text = "CÂU HỎI " + this.question.questionOrder;
     if (this.question.theLastQuestion) {
-      this.text = "The last question";
+      this.text = "CÂU CUỐI CÙNG";
     }
 
     this.timeout = setTimeout(() => {

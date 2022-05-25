@@ -25,7 +25,7 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>List Question</v-toolbar-title>
+          <v-toolbar-title>Danh sách câu hỏi</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-text-field
             append-icon="mdi-magnify"
@@ -39,16 +39,20 @@
           <DeleteQuestionDialog v-model="deleteDialog" :item="editedItem" />
         </v-toolbar>
       </template>
-
+      <template v-slot:[`item.point`]="{ item }">
+        {{vietSubQuesPoint(item.point)}}
+      </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="getDataFromApi()"> Reset </v-btn>
+        <v-btn color="primary" @click="getDataFromApi()">
+          <v-icon>mdi-reload</v-icon>
+        </v-btn>
       </template>
       <template v-slot:body="props">
         <draggable
           v-model="desserts"
           tag="tbody"
           @change="onUnpublishedChange"
-           @start="beforeChange"
+          @start="beforeChange"
         >
           <tr
             v-for="(item, index) in props.items"
@@ -98,6 +102,7 @@ import Review from "@/components/host/challenge/Review";
 import EditQuestionDialog from "@/components/host/question/EditQuestionDialog";
 import CreateQuestionDialog from "@/components/host/question/CreateQuestionDialog";
 import DeleteQuestionDialog from "@/components/host/question/DeleteQuestionDialog";
+import { vietSubQuesPoint } from "../../../services/VietsubServices";
 
 export default {
   components: {
@@ -105,24 +110,39 @@ export default {
     CreateQuestionDialog,
     draggable,
     EditQuestionDialog,
-    DeleteQuestionDialog, 
+    DeleteQuestionDialog,
   },
 
   // data
   data: () => ({
+    vietSubQuesPoint: vietSubQuesPoint,
     editedItem: {},
     editDialog: false,
     deleteDialog: false,
     headers: [
-      { text: "Id", value: "id", align: "start", sortable: true },
-
-      { text: "Content", align: "center", value: "questionContent" },
-      { text: "Img", value: "questionImage" },
-      { text: "Created date", value: "createdDate" },
-      { text: "Answer option", align: "center", value: "answerOption" },
-      { text: "Answer time", value: "answerTimeLimit" },
-      { text: "Point", align: "center", value: "point" },
-      { text: "Actions", align: "center", value: "actions", sortable: false },
+      {
+        text: "Nội dung",
+        align: "center",
+        value: "questionContent",
+        align: "center",
+      },
+      { text: "Ảnh", value: "questionImage", align: "center" },
+      { text: "Ngày tạo", value: "createdDate", align: "center" },
+      {
+        text: "Kiểu trả lời",
+        align: "center",
+        value: "answerOption",
+        align: "center",
+      },
+      { text: "Thời gian", value: "answerTimeLimit", align: "center" },
+      { text: "Điểm", align: "center", value: "point", align: "center" },
+      {
+        text: "Loại",
+        align: "center",
+        value: "actions",
+        sortable: false,
+        align: "center",
+      },
     ],
     desserts: [],
 
@@ -193,4 +213,13 @@ export default {
 </script>
 
 <style>
+thead tr th {
+  text-align: center;
+}
+td {
+  max-width: 15em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 </style>
