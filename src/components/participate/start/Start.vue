@@ -1,5 +1,7 @@
 <template>
-  <h1>{{ timeleft }}</h1>
+  <h-flex-layout>
+    <h1>{{ timeleft }}</h1>
+  </h-flex-layout>
 </template>
 
 <script>
@@ -19,7 +21,6 @@ export default {
   methods: {
     startChallenge() {
       console.log("start challenge");
-      
     },
     countdown() {
       var timeleft = 3;

@@ -5,8 +5,8 @@
     :height="height"
     :width="width"
     :contain="contain"
-    class="my-1 rounded"
     v-on:error="url = require(`@/assets/img/huhoot-logo.png`)"
+ 
   />
 </template>
 
@@ -38,12 +38,12 @@ export default {
   computed: {},
   watch: {
     src(val) {
-      this.url = this.$backendUrl + "/uploads/" + val;
+      this.url = "http://192.168.1.5:8081" + "/uploads/" + val;
       // console.log(this.url);
     },
   },
   created() {
-    this.url = this.$backendUrl + "/uploads/" + this.src;
+    this.url = "http://192.168.1.5:8081" + "/uploads/" + this.src;
   },
   
 };

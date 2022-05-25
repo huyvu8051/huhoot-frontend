@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <h-flex-layout>
     <h1>Challenge finish</h1>
     <v-btn
       :to="{
@@ -10,7 +10,7 @@
     >
       <b>Return home</b>
     </v-btn>
-  </div>
+  </h-flex-layout>
 </template>
 
 <script>

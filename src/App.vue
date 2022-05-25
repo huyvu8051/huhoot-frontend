@@ -22,3 +22,28 @@ export default {
   margin-top: 0px;
 }
 </style>
+
+<style>
+.btn-bot {
+  position: absolute;
+  bottom: 1vmin;
+
+  padding: 0px;
+  margin: 0px;
+
+}
+
+.btn-right {
+  right: 1vmin;
+}
+
+.btn-left {
+  left: 1vmin;
+}
+.v-btn__content {
+  padding: 0px;
+}
+.btn-text {
+  font-size: 2.6vmin;
+}
+</style>

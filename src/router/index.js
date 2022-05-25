@@ -14,7 +14,7 @@ const router = new Router({
     {
       path: "/",
       name: "login",
-      component: ()=>import("@/components/plugin/LoginBoxed")
+      component: () => import("@/components/plugin/LoginBoxed")
     },
     // host
 
@@ -40,22 +40,22 @@ const router = new Router({
         {
           path: "question",
           name: "host.listQuestion",
-          component:  () => import("@/components/host/question/ListQuestion")
+          component: () => import("@/components/host/question/ListQuestion")
         },
         {
           path: "answer",
           name: "host.listAnswer",
-          component:  () => import("@/components/host/answer/ListAnswer")
+          component: () => import("@/components/host/answer/ListAnswer")
         },
         {
           path: "studentInChallenge",
           name: "host.listStudentInChallenge",
-          component: ()=> import("@/components/host/studentInChallenge/ListStudentInChallenge")
+          component: () => import("@/components/host/studentInChallenge/ListStudentInChallenge")
         },
         {
           path: "student",
           name: "host.student",
-          component: ()=> import("@/components/host/studentInChallenge/ListStudent")
+          component: () => import("@/components/host/studentInChallenge/ListStudent")
         },
         {
           path: "account",
@@ -75,57 +75,57 @@ const router = new Router({
 
         {
           path: "wait",
-          name: "host.wait", 
+          name: "organize.wait",
           component: () => import("@/components/organize/wait/Wait")
         },
         {
           path: "start",
-          name: "host.start",
+          name: "organize.start",
           component: () => import("@/components/organize/start/Start")
         },
         {
           path: "get",
-          name: "host.get",
+          name: "organize.get",
           component: () => import("@/components/organize/get/GetQuestion")
         },
         {
           path: "ready",
-          name: "host.ready",
+          name: "organize.ready",
           component: () => import("@/components/organize/ready/Ready")
         },
         {
           path: "preview",
-          name: "host.preview",
+          name: "organize.preview",
           component: () => import("@/components/organize/preview/Preview")
         },
         {
           path: "ask",
-          name: "host.ask",
+          name: "organize.ask",
           component: () => import("@/components/organize/ask/Ask")
         },
         {
           path: "show",
-          name: "host.show",
+          name: "organize.show",
           component: () => import("@/components/organize/show/Show")
         },
         {
           path: "statistic",
-          name: "host.statistic",
+          name: "organize.statistic",
           component: () => import("@/components/organize/statistic/Statistic")
         },
         {
           path: "rank",
-          name: "host.organize.rank",
+          name: "organize.rank",
           component: () => import("@/components/organize/rank/Rank")
         },
         {
           path: "finish",
-          name: "host.finish",
+          name: "organize.finish",
           component: () => import("@/components/organize/finish/Finish")
         },
         {
           path: "podium",
-          name: "host.podium",
+          name: "organize.podium",
           component: () => import("@/components/organize/finish/Podium")
         },
 
@@ -155,7 +155,7 @@ const router = new Router({
 
       ]
     },
-  
+
 
     {
       path: "/participate",
@@ -164,39 +164,39 @@ const router = new Router({
         requiresAuth: true
       },
       children: [
-           {
+        {
           path: "wait",
-          name: "student.wait",
+          name: "participate.wait",
           component: () => import("@/components/participate/wait/Wait")
         },
         {
           path: "start",
-          name: "student.start",
+          name: "participate.start",
           component: () => import("@/components/participate/start/Start")
         },
         {
           path: "ready",
-          name: "student.ready",
+          name: "participate.ready",
           component: () => import("@/components/participate/ready/Ready")
         },
         {
           path: "preview",
-          name: "student.preview",
+          name: "participate.preview",
           component: () => import("@/components/participate/preview/Preview")
         },
         {
           path: "ask",
-          name: "student.ask",
+          name: "participate.ask",
           component: () => import("@/components/participate/ask/Ask")
         },
         {
           path: "show",
-          name: "student.show",
+          name: "participate.show",
           component: () => import("@/components/participate/show/Show")
         },
         {
           path: "finish",
-          name: "student.finish",
+          name: "participate.finish",
           component: () => import("@/components/participate/finish/Finish")
         },
 

@@ -1,46 +1,48 @@
 <template>
-  <v-main>
-    <v-btn
-      dark
-      color="cyan"
-      fixed
-      left
-      bottom
-      style="z-index: 1"
-      @click="enableAutoOrganize()"
-    >
-      enable
-    </v-btn>
-    <v-btn
-      dark
-      color="cyan"
-      fixed
-      right
-      bottom
-      style="z-index: 1"
-      @click="disableAutoOrganize()"
-    >
-      disable
-    </v-btn>
-    <h-flex-layout>
-      <router-view :connected="connected" />
-    </h-flex-layout>
+  <v-main v-if="socket && socket.connected" app class="pa-1">
+    <router-view :socket="socket" style="height: 90vh"/>
+
+    <!-- <v-btn
+        dark
+        color="cyan"
+        fixed
+        left
+        bottom
+        style="z-index: 1"
+        @click="enableAutoOrganize()"
+      >
+        enable
+      </v-btn>
+      <v-btn
+        dark
+        color="cyan"
+        fixed
+        right
+        bottom
+        style="z-index: 1"
+        @click="disableAutoOrganize()"
+      >
+        disable
+      </v-btn> -->
   </v-main>
 </template>
 
 <script>
 import io from "socket.io-client";
-import TimeCountDown from "@/components/TimeCountDown";
 import AutoOrganizeService from "@/services/AutoOrganizeService";
 export default {
-  components: {
-    TimeCountDown,
-  },
+  components: {},
   data() {
     return {
-      socket: {},
-      connected: false,
+      socket: null,
+      value: "recent",
     };
+  },
+  watch: {
+    $route(newVal, oldVal) {
+      console.log("route change");
+      this.refreshRoute();
+    },
   },
 
   created() {
@@ -52,6 +54,25 @@ export default {
     this.socket.disconnect();
   },
   methods: {
+    refreshRoute() {
+      var askRoute = ["organize.ready", "organize.preview", "organize.ask"];
+
+      if (
+        this.$store.state.question &&
+        this.$store.state.question.timeout > new Date().getTime() &&
+        !askRoute.includes(this.$route.name)
+      ) {
+        this.$router
+          .push({
+            name: "organize.preview",
+            query: {
+              challengeId: this.$route.query.challengeId,
+              questionId: this.$store.state.question.id,
+            },
+          })
+          .catch((err) => err);
+      }
+    },
     enableAutoOrganize() {
       AutoOrganizeService.enableAutoOrganize(this.$route.query.challengeId);
     },
@@ -59,7 +80,7 @@ export default {
       AutoOrganizeService.disableAutoOrganize(this.$route.query.challengeId);
     },
     connectSocket() {
-      var socket = io.connect(this.$socketUrl);
+      var socket = io.connect(process.env.BACKEND_SOCKET_URL);
       socket
         .on("connected", (data) => {
           console.log(data);
@@ -71,9 +92,9 @@ export default {
 
       socket.on("registerSuccess", (data) => {
         this.$store.commit("disableAutoOrganize");
-        this.$store.commit("organizeJoinSuccess", data);
-        this.challenge = data;
-        this.connected = true;
+        this.$store.commit("saveChallengeData", data.currentExam);
+
+        this.refreshRoute();
       });
 
       socket.on("joinError", (data) => {
@@ -94,7 +115,7 @@ export default {
       socket.on("startChallenge", () => {
         this.$router
           .push({
-            name: "host.start",
+            name: "organize.start",
             query: {
               challengeId: this.$route.query.challengeId,
             },
@@ -105,7 +126,7 @@ export default {
         this.$store.commit("publishExam", data);
         this.$router
           .push({
-            name: "host.ready",
+            name: "organize.ready",
             query: {
               challengeId: this.$route.query.challengeId,
               questionId: this.$store.state.question.id,
@@ -116,12 +137,18 @@ export default {
 
       socket.on("showCorrectAnswer", (data) => {
         this.$store.commit("showCorrectAnswer", data);
+        this.$swal({
+          icon: "info",
+          title: "Timeup!",
+          text: "There no time at all",
+          timer: 3000,
+        });
         this.$router
           .push({
-            name: "host.show",
+            name: "organize.ask",
             query: {
               challengeId: this.$route.query.challengeId,
-              questionId: this.$route.query.questionId,
+              questionId: this.$store.state.question.id,
             },
           })
           .catch((err) => err);
@@ -130,17 +157,24 @@ export default {
       socket.on("endChallenge", () => {
         this.$router
           .push({
-            name: "host.finish",
+            name: "organize.finish",
             query: {
               challengeId: this.$route.query.challengeId,
             },
           })
           .catch((err) => err);
       });
-      socket.on("enableAutoOrganize", (data) => {
-        this.$success("enableAutoOrganize");
-        this.$store.commit("enableAutoOrganize", data);
-      });
+      // socket.on("enableAutoOrganize", (data) => {
+      //   this.$success("enableAutoOrganize");
+      //   this.$store.commit("enableAutoOrganize", data);
+      //   this.refreshRoute();
+      //   if (
+      //     this.$store.state.question &&
+      //     this.$store.state.question.timeout < new Date().getTime()
+      //   ) {
+      //     this.$store.commit("pnq");
+      //   }
+      // });
       socket.on("disableAutoOrganize", (data) => {
         this.$success("disableAutoOrganize");
         this.$store.commit("disableAutoOrganize", data);

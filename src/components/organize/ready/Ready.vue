@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <h-flex-layout>
     <h1>{{ text }}</h1>
     <h5>{{ question.answerOption }} | {{ question.point }}</h5>
-  </div>
+  </h-flex-layout>
 </template>
 
 <script>
@@ -26,7 +26,7 @@ export default {
     this.timeout = setTimeout(() => {
       console.log("preview");
       this.$router.push({
-        name: "host.preview",
+        name: "organize.preview",
         query: {
           challengeId: this.$route.query.challengeId,
           questionId: this.$route.query.questionId,

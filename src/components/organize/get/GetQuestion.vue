@@ -1,5 +1,7 @@
 <template>
-  <h1>Get question...</h1>
+  <h-flex-layout>
+    <h1>Get question...</h1>
+  </h-flex-layout>
 </template>
 
 <script>
@@ -7,11 +9,10 @@ import HostOrganizeService from "@/services/HostOrganizeService";
 
 export default {
   props: {
-    connected: Boolean,
+    socket: Object,
   },
   created() {
-    if (this.connected) {
-      console.log("get question");
+    if (this.socket.connected) {
       HostOrganizeService.publishNextQuestion({
         challengeId: this.$route.query.challengeId,
       });
@@ -19,7 +20,7 @@ export default {
       console.log("socket not connected!");
       this.$router
         .push({
-          name: "host.start",
+          name: "organize.start",
           query: {
             challengeId: this.$route.query.challengeId,
           },

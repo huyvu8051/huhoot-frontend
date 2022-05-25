@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <h-flex-layout>
     <h1>
       {{ question.questionContent }}
     </h1>
     <h-process-bar :finish="doFinish" />
-  </div>
+  </h-flex-layout>
 </template>
 
 <script>
@@ -16,7 +16,6 @@ export default {
     };
   },
   created() {
-
     this.question = this.$store.state.question;
 
     if (this.question.theLastQuestion) {
@@ -29,7 +28,7 @@ export default {
   methods: {
     doFinish() {
       this.$router.push({
-        name: "student.ask",
+        name: "participate.ask",
         query: {
           challengeId: this.$route.query.challengeId,
           questionId: this.$route.query.questionId,

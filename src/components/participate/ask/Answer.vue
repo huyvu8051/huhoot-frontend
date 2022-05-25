@@ -1,54 +1,50 @@
 <template>
-  <v-btn color="green" :disabled="disable" @click="answer"> <b> Submit </b> </v-btn>
+  <v-btn color="green" class="btn-bot btn-right"  :disabled="unselectable" @click="submit">
+    <b class="btn-text"> Submit </b>
+  </v-btn>
 </template>
 
 <script>
 import StudentPlayService from "@/services/StudentPlayService";
+import { mapState } from "vuex";
 export default {
-  props: {
-    selectedIds: Array,
-  },
-  data: () => {
-    return {
-      disable: false
-    };
-  },
+  computed: mapState({
+    answers: (state) => state.answers,
+    unselectable(state) {
+      return (
+        state.studentSubmited || state.question.timeout < new Date().getTime()
+      );
+    },
+  }),
   methods: {
-    answer() {
-      // console.log("answer ", this.selectedIds);
+    submit() {
+      var selectedIds = this.$store.state.selectedAnswerIds;
 
-      if (this.selectedIds.length == 0) {
+      console.log(selectedIds);
+
+      if (selectedIds.length == 0) {
         this.$eventBus.$emit("nofication", {
           message: "Select answer!",
           status: "error",
         });
-
         return;
       }
 
       StudentPlayService.sentAnswer({
-        answerIds: this.selectedIds,
+        answerIds: selectedIds,
         questionId: this.$route.query.questionId,
         adminSocketId: this.$store.state.adminSocketId,
         comboToken: this.$store.state.comboToken,
         questionToken: this.$store.state.questionToken,
-     
       }).then((response) => {
-        
         this.$store.commit("saveStudentAnswerResponse", response.data);
- 
       });
 
-      this.disable = true;
-      this.$eventBus.$emit('answered');
-      // this.$router.push({
-      //   name: "student.wait",
-      //   query: { challengeId: this.$route.query.challengeId },
-      // });
+      this.$store.commit("studentSubmited");
     },
   },
 };
 </script>
 
-<style>
+<style >
 </style>

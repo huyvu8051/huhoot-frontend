@@ -1,19 +1,9 @@
 <template>
-  <div>
-    <Question>
-      <template v-slot:topRight>
-        <strong>
-          Câu hỏi: {{ question.questionOrder }} of {{ question.totalQuestion }}
-          <br />Đã trả lời: {{ $store.state.studentAnswered }}
-        </strong>
-      </template>
-      <template v-slot:topLeft>
-        <Skip />
-      </template>
-    </Question>
-
-    <TimeCountDown :finish="doFinish" class="py-2" />
-    <Answers />
+  <div class="outer">
+    <Question style="height: 43vh" />
+    <Skip />
+    <TimeCountDown :finish="doFinish" class="my-2" style="height: 4vh" />
+    <Answers disable style="height: 43vh" />
   </div>
 </template>
 
@@ -25,6 +15,8 @@ import TimeCountDown from "@/components/TimeCountDown";
 
 import HostOrganizeService from "@/services/HostOrganizeService";
 
+import { mapState } from "vuex";
+
 export default {
   components: {
     Question,
@@ -32,25 +24,17 @@ export default {
     Skip,
     Answers,
   },
-  data() {
-    return {
-      question: {},
-    };
-  },
-  created() {
-    this.question = this.$store.state.question;
-  },
-
+  computed: mapState({
+    question: (state) => state.question,
+  }),
   methods:{
     doFinish(){
-      this.$store.state.getCorrectAnswer(this.$route.query.questionId);
-      // console.log("countdown finish");
-      // HostOrganizeService.showCorrectAnswer({
-      //   questionId: this.$route.query.questionId,
-      // });
+      HostOrganizeService.showCorrectAnswer({
+        questionId: this.$route.query.questionId
+      })
+
     }
   }
-
 };
 </script>
 
