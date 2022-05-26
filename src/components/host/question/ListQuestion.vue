@@ -40,7 +40,7 @@
         </v-toolbar>
       </template>
       <template v-slot:[`item.point`]="{ item }">
-        {{vietSubQuesPoint(item.point)}}
+        {{ vietSubQuesPoint(item.point) }}
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="getDataFromApi()">
@@ -159,6 +159,7 @@ export default {
       deep: true,
     },
   },
+
   created() {
     this.$eventBus.$on("api-loading", (data) => {
       this.loading = data;
@@ -197,8 +198,9 @@ export default {
     },
 
     getDataFromApi() {
+      console.log(this.options);
       this.options.challengeId = this.$route.query.challengeId;
-
+      console.log(this.options);
       HostManageService.findAllQuestion(this.options)
         .then((response) => {
           //  console.log(response.data.list);

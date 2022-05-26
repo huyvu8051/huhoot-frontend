@@ -1,12 +1,11 @@
 <template>
   <v-app>
     <router-view />
-    <h-nofication/>
+    <h-nofication />
   </v-app>
 </template>
 
 <script>
-
 export default {
   name: "App",
 };
@@ -30,7 +29,6 @@ export default {
 
   padding: 0px;
   margin: 0px;
-
 }
 
 .btn-right {
@@ -45,5 +43,25 @@ export default {
 }
 .btn-text {
   font-size: 2.6vmin;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2c3e50;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #2c3e50;
 }
 </style>

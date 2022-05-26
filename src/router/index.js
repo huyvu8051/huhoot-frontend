@@ -16,11 +16,6 @@ const router = new Router({
       name: "login",
       component: () => import("@/components/plugin/LoginBoxed")
     },
-    {
-      path: "/404",
-      name: 404,
-      component: () => import("@/components/plugin/404Page")
-    },
     // host
 
     {
@@ -34,6 +29,11 @@ const router = new Router({
           path: "challenge",
           name: "HOST",
           component: HostListChallenge
+        },
+        {
+          path: "question2",
+          name: "host.listQuestion2",
+          component: () => import("@/components/host/question/ListQuestion2")
         },
         {
           path: "rank",
@@ -228,6 +228,14 @@ const router = new Router({
           component: () => import("@/components/admin/Account")
         }
       ]
+    }
+
+    //*
+    ,
+    {
+      path: "/*",
+      name: 404,
+      component: () => import("@/components/plugin/404Page")
     }
   ]
 });
