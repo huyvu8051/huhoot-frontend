@@ -47,7 +47,6 @@ export default {
   },
   computed: mapState({
     answers: (state) => {
-      console.log("Answers change");
       return state.answers;
     },
     unselectable(state) {

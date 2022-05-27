@@ -28,7 +28,9 @@ export default {
   methods: {
     click() {
       if (this.isTimeout.value) {
-        this.getNextQuestion();
+        //  this.getNextQuestion();
+
+        this.getStatistic();
       } else {
         this.skipQuestion();
       }
@@ -42,6 +44,14 @@ export default {
     getNextQuestion() {
       this.$router.push({
         name: "organize.get",
+        query: {
+          challengeId: this.$route.query.challengeId,
+        },
+      });
+    },
+    getStatistic() {
+      this.$router.push({
+        name: "organize.statistic",
         query: {
           challengeId: this.$route.query.challengeId,
         },

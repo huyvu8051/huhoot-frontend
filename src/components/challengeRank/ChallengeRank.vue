@@ -81,12 +81,10 @@ export default {
   },
   methods: {
     getDataFromApi() {
-      console.log(this.options);
       this.loading = true;
       this.options.challengeId = this.$route.query.challengeId;
       HostOrganizeService.getTopStudent(this.options)
         .then((response) => {
-          console.log(response.data.list);
           this.desserts = response.data.list;
           this.totalDesserts = response.data.totalElements;
         })

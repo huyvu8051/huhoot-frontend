@@ -2,7 +2,7 @@
   <div>
     <Question style="height: 43vh" />
     <Answer />
-    <TimeCountDown class="rounded-lg" style="height: 3vh" />
+    <TimeCountDown style="height: 3vh" />
     <Answers style="height: 43vh" />
   </div>
 </template>
@@ -22,9 +22,37 @@ export default {
     Answers,
     Answer,
   },
+  data() {
+    return {
+      autoOrgTimeout: null,
+    };
+  },
   computed: mapState({
     question: (state) => state.question,
+    timeout: (state) => state.question.timeout,
   }),
+  watch: {
+    timeout() {
+      this.setAutoOrgTimeout();
+    },
+  },
+  mounted() {
+    this.setAutoOrgTimeout();
+  },
+  beforeDestroy() {
+    clearTimeout(this.autoOrgTimeout);
+  },
+  methods: {
+    setAutoOrgTimeout() {
+      clearTimeout(this.autoOrgTimeout);
+
+      if (this.$store.state.question.timeout < new Date().getTime()) {
+        this.autoOrgTimeout = setTimeout(() => {
+          this.$store.state.publishNextQuestion(this.$route.query.challengeId);
+        }, 4000);
+      }
+    },
+  },
 };
 </script>
 
