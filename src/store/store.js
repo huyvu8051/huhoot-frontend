@@ -4,7 +4,7 @@ import createPersistedState from 'vuex-persistedstate'
 
 import AutoOrganizeService from "@/services/AutoOrganizeService";
 import DecryptUtil from "@/services/DecryptUtil";
-
+import HostOrganizeService from "@/services/HostOrganizeService";
 import router from "@/router"
 
 Vue.use(Vuex)
@@ -39,16 +39,32 @@ var store = new Vuex.Store({
 		publishNextQuestion: (challengeId) => { console.log("disable auto next", challengeId) },
 		getCorrectAnswer: (questionId) => { console.log("disable auto show", questionId) },
 
+		getStatisticPage: (challengeId) => { console.log("disable route to statistic page", challengeId) },
+		getRankTablePage: (challengeId) => { console.log("disable route to rank table page", challengeId) },
+		getNextQuestionPage: (challengeId) => { console.log("disable route to next question page", challengeId) },
 		studentSubmited: false,
 		correctAnswerIds: [],
 		selectedAnswerIds: [],
+		organizeGetCorrectAnswer: HostOrganizeService.showCorrectAnswer
 
 
 	},
 	mutations: {
+		setAutoOrganize(state, value) {
+			if (state.challenge) {
+				state.challenge.autoOrganize = value
+			}
+		},
 		pnq(state) {
 			state.publishNextQuestion(state.challenge.id)
 		},
+		enableOrganizeGetCorrectAnswer(state) {
+			state.organizeGetCorrectAnswer = HostOrganizeService.showCorrectAnswer
+		},
+		disableOrganizeGetCorrectAnswer(state) {
+			state.organizeGetCorrectAnswer = (questionId) => { console.log("disable organize get correct answer", questionId) }
+		},
+
 		studentSubmited(state) {
 			state.studentSubmited = true;
 		},
@@ -88,6 +104,9 @@ var store = new Vuex.Store({
 			state.question.timeout++;
 
 			state.getCorrectAnswer(state.question.id)
+			state.organizeGetCorrectAnswer({
+				questionId: state.question.id,
+			});
 		},
 
 		calculatePointReceived(state, data) {
@@ -164,13 +183,39 @@ var store = new Vuex.Store({
 			state.answers = data.answers
 		},
 		enableAutoOrganize(state, data) {
+			console.log("enableAutoOrganize");
 			state.publishNextQuestion = AutoOrganizeService.publishNextQuestion
 			state.getCorrectAnswer = AutoOrganizeService.showCorrectAnswer
 
-			state.challenge = data.challenge
-			state.question = data.question
-			state.answers = data.answers
-			state.questionToken = data.questionToken
+			state.getStatisticPage = (challengeId) => {
+				router.push({
+					name: "organize.statistic",
+					query: {
+						challengeId: challengeId
+					}
+				})
+			}
+			state.getRankTablePage = (challengeId) => {
+				router.push({
+					name: "organize.rank",
+					query: {
+						challengeId: challengeId
+					}
+				})
+			}
+			state.getNextQuestionPage = (challengeId) => {
+				router.push({
+					name: "organize.get",
+					query: {
+						challengeId: challengeId
+					}
+				})
+			}
+
+			// state.challenge = data.challenge
+			// state.question = data.question
+			// state.answers = data.answers
+			// state.questionToken = data.questionToken
 
 
 
@@ -179,6 +224,10 @@ var store = new Vuex.Store({
 		disableAutoOrganize(state) {
 			state.publishNextQuestion = (challengeId) => console.log("disable auto next", challengeId)
 			state.getCorrectAnswer = (questionId) => console.log("disable auto show", questionId)
+
+			state.getStatisticPage = (challengeId) => { console.log("disable route to statistic page", challengeId) }
+			state.getRankTablePage = (challengeId) => { console.log("disable route to rank table page", challengeId) }
+			state.getNextQuestionPage = (challengeId) => { console.log("disable route to next question page", challengeId) }
 
 
 		},

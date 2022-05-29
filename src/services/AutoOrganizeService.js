@@ -2,7 +2,7 @@ import Api from "@/services/Api";
 import store from '@/store/store'
 
 var publishNextQuestion = (challengeId) => {
-    console.log("auto publishNextQuestion");
+    console.log("Sent to BE auto Publish next question");
     return Api().get("autoOrganize/publishNextQuestion", {
         params: {
             challengeId: challengeId
@@ -10,7 +10,7 @@ var publishNextQuestion = (challengeId) => {
     })
 }
 var showCorrectAnswer = (questionId) => {
-    console.log("auto showCorrectAnswer");
+    console.log("Sent to BE auto Show correct answer");
     return Api().get("autoOrganize/showCorrectAnswer", {
         params: {
             questionId: questionId
@@ -18,6 +18,7 @@ var showCorrectAnswer = (questionId) => {
     })
 }
 var enableAutoOrganize = (challengeId) => {
+    console.log("Sent to BE Enable auto organize");
     return Api().get("autoOrganize/enableAutoOrganize", {
         params: {
             challengeId: challengeId
@@ -25,6 +26,7 @@ var enableAutoOrganize = (challengeId) => {
     })
 }
 var disableAutoOrganize = (challengeId) => {
+    console.log("Sent to BE Disable auto organize");
     return Api().get("autoOrganize/disableAutoOrganize", {
         params: {
             challengeId: challengeId

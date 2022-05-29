@@ -21,14 +21,15 @@ export default {
     };
   },
   watch: {
-    $route(newVal, oldVal) {
-      console.log("route change");
+    $route() {
       this.refreshRoute();
     },
   },
   created() {
     this.socket = this.connectSocket();
     this.registerEvent(this.socket);
+
+    this.$store.commit("disableAutoOrganize");
   },
   beforeDestroy() {
     this.removeSocketListener(this.socket);
@@ -68,7 +69,6 @@ export default {
           token: this.$store.state.token,
         });
       socket.on("registerSuccess", (data) => {
-        this.$store.commit("disableAutoOrganize");
         this.$store.commit("saveChallengeData", data.currentExam);
         this.$store.commit("setTotalPoints", data.totalPoints);
         this.refreshRoute();
@@ -145,17 +145,17 @@ export default {
           .catch((err) => err);
       });
 
-      // socket.on("enableAutoOrganize", (data) => {
-      //   this.$success("enableAutoOrganize");
-      //   this.$store.commit("enableAutoOrganize", data);
-      //   this.refreshRoute();
-      //   if (
-      //     this.$store.state.question &&
-      //     this.$store.state.question.timeout < new Date().getTime()
-      //   ) {
-      //     this.$store.commit("pnq");
-      //   }
-      // });
+      socket.on("enableAutoOrganize", (data) => {
+        this.$success("enableAutoOrganize");
+        this.$store.commit("enableAutoOrganize", data);
+        this.refreshRoute();
+        if (
+          this.$store.state.question &&
+          this.$store.state.question.timeout < new Date().getTime()
+        ) {
+          this.$store.commit("pnq");
+        }
+      });
       socket.on("disableAutoOrganize", (data) => {
         this.$success("disableAutoOrganize");
         this.$store.commit("disableAutoOrganize", data);

@@ -27,6 +27,8 @@
 import ShowTopStudent from "@/components/organize/show/ShowTopStudent";
 import VueApexCharts from "vue-apexcharts";
 
+import { mapState } from "vuex";
+
 export default {
   components: {
     ShowTopStudent,
@@ -56,42 +58,49 @@ export default {
           },
         ],
       },
-      totalStudent: 0,
-      totalStudentCorrect: 0,
-      totalStudentWrong: 0,
+      autoOrgTimeout: null,
     };
   },
+  computed: {
+    ...mapState({
+      timeout: (state) => state.question.timeout,
+      totalStudent: (state) => state.totalStudent,
+      totalStudentCorrect: (state) => state.totalStudentCorrect,
+      totalStudentWrong: (state) => state.totalStudentWrong,
+    }),
+  },
   created() {
-    this.totalStudent = this.$store.state.totalStudent;
-    this.totalStudentCorrect = this.$store.state.totalStudentCorrect;
-    this.totalStudentWrong = this.$store.state.totalStudentWrong;
+    this.series.push(this.totalStudentCorrect);
+    this.series.push(this.totalStudentWrong);
+    this.series.push(
+      this.totalStudent - this.totalStudentCorrect - this.totalStudentWrong
+    );
 
-    this.series.push(this.totalStudentCorrect)
-    this.series.push(this.totalStudentWrong)
-    this.series.push(this.totalStudent - this.totalStudentCorrect - this.totalStudentWrong)
-
-    console.log(this.totalStudentCorrect, this.totalStudentWrong);
+    // console.log(this.totalStudentCorrect, this.totalStudentWrong);
 
     window.addEventListener("resize", this.resizeWindowEventHandler);
   },
 
   beforeDestroy() {
-    clearInterval(this.interval);
     window.removeEventListener("resize", this.resizeWindowEventHandler);
+    clearTimeout(this.autoOrgTimeout);
   },
   mounted() {
-    this.interval = setInterval(() => {
-      if (this.value === 100) {
-        return (this.value = 0);
-      }
-      this.value += 10;
-    }, 1000);
     this.resizeWindowEventHandler({});
+    this.setAutoOrgTimeout();
   },
   methods: {
     resizeWindowEventHandler(e) {
       this.chartWidth = this.$refs.card.clientWidth * 0.5;
-     // console.log(this.$refs.card.clientWidth);
+      // console.log(this.$refs.card.clientWidth);
+    },
+
+    setAutoOrgTimeout() {
+      clearTimeout(this.autoOrgTimeout);
+
+      this.autoOrgTimeout = setTimeout(() => {
+        this.$store.state.getRankTablePage(this.$route.query.challengeId);
+      }, 4000);
     },
   },
 };

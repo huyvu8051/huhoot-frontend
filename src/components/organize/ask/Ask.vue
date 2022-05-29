@@ -1,8 +1,8 @@
 <template>
-  <div class="outer">
+  <div>
     <Question style="height: 43vh" />
     <Skip />
-    <TimeCountDown :finish="doFinish" class="my-2" style="height: 4vh" />
+    <TimeCountDown :finish="doFinish" style="height: 3vh" />
     <Answers disable style="height: 43vh" />
   </div>
 </template>
@@ -13,8 +13,6 @@ import Answers from "@/components/Answers";
 import Skip from "@/components/organize/ask/Skip";
 import TimeCountDown from "@/components/TimeCountDown";
 
-import HostOrganizeService from "@/services/HostOrganizeService";
-
 import { mapState } from "vuex";
 
 export default {
@@ -24,17 +22,44 @@ export default {
     Skip,
     Answers,
   },
-  computed: mapState({
-    question: (state) => state.question,
-  }),
-  methods:{
-    doFinish(){
-      HostOrganizeService.showCorrectAnswer({
-        questionId: this.$route.query.questionId
-      })
 
-    }
-  }
+  data() {
+    return {
+      autoOrgTimeout: null,
+    };
+  },
+  computed: {
+    ...mapState({
+      question: (state) => state.question,
+      timeout: (state) => state.question.timeout,
+    }),
+  },
+  watch: {
+    timeout() {
+      this.setAutoOrgTimeout();
+    },
+  },
+  mounted() {
+    this.setAutoOrgTimeout();
+  },
+
+  beforeDestroy() {
+    clearTimeout(this.autoOrgTimeout);
+  },
+  methods: {
+    setAutoOrgTimeout() {
+      clearTimeout(this.autoOrgTimeout);
+
+      if (this.$store.state.question.timeout < new Date().getTime()) {
+        this.autoOrgTimeout = setTimeout(() => {
+          this.$store.state.getStatisticPage(this.$route.query.challengeId);
+        }, 4000);
+      }
+    },
+    doFinish() {
+     
+    },
+  },
 };
 </script>
 
