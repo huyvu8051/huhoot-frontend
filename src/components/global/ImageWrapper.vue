@@ -38,12 +38,12 @@ export default {
   computed: {},
   watch: {
     src(val) {
-      this.url =process.env.BACKEND_SOCKET_URL + "/uploads/" + val;
+      this.url =process.env.BACKEND_URL + "/uploads/" + val;
       // console.log(this.url);
     },
   },
   created() {
-    this.url = process.env.BACKEND_SOCKET_URL + "/uploads/" + this.src;
+    this.url = process.env.BACKEND_URL + "/uploads/" + this.src;
   },
   
 };

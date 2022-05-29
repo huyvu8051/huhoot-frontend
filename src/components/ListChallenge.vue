@@ -107,7 +107,6 @@
 </template>
 
 <script>
-import HostManageService from "@/services/HostManageService";
 import EditChallengeDialog from "@/components/host/challenge/EditChallengeDialog";
 
 import CreateChallengeDialog from "@/components/host/challenge/CreateChallengeDialog";
@@ -121,6 +120,22 @@ export default {
     EditChallengeDialog,
     DeleteChallengeDialog,
     CreateChallengeDialog,
+  },
+  props: {
+    findAllChallenge: {
+      type: Function,
+      default: (option)=>{
+        console.log(option);
+        return new Promise((resolve, reject)=>{
+          resolve({
+            data:{
+              list: [],
+              totalElements: 0
+            }
+          })
+        })
+      }
+    },
   },
   // data
   data: () => ({
@@ -162,6 +177,8 @@ export default {
   },
 
   created() {
+    
+
     this.$eventBus.$on("api-loading", (data) => {
       this.loading = data;
     });
@@ -194,7 +211,7 @@ export default {
     //===================================================
     getDataFromApi() {
       //  console.log(this.options);
-      HostManageService.findAllChallenge(this.options)
+      this.findAllChallenge(this.options)
         .then((response) => {
           // console.log(response.data);
           this.desserts = response.data.list;

@@ -13,15 +13,17 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/host/Header";
 import Navigation from "@/components/host/Navigation";
+
 export default {
   components: {
     Navigation,
     Header,
     Footer,
   },
-  created(){
+
+  created() {
     //console.log(process.env.VUE_APP_BACKEND_URL);
-  }
+  },
 };
 </script>
 

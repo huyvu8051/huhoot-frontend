@@ -35,6 +35,19 @@ export default {
     },
 
 
+    // manage challenge
+    getAllChallenge(data) {
+        return Api().post("admin/challenge/findAll", data);
+    },
+    updateChallenge(data) {
+        return Api().patch("admin/challenge", data);
+    },
+
+    addChallenge(data) {
+        return Api().post("admin/challenge", data);
+    },
+
+
 
 
 };

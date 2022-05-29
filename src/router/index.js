@@ -227,6 +227,11 @@ const router = new Router({
           name: "admin.account",
           component: () => import("@/components/admin/Account"),
         },
+        {
+          path: "challenge",
+          name: "admin.challenge",
+          component: () => import("@/components/admin/challenge/AdminListChallenge"),
+        },
       ]
     },
 
