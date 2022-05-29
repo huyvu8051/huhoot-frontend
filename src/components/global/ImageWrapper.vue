@@ -38,12 +38,12 @@ export default {
   computed: {},
   watch: {
     src(val) {
-      this.url = "http://192.168.1.5:8081" + "/uploads/" + val;
+      this.url =process.env.BACKEND_SOCKET_URL + "/uploads/" + val;
       // console.log(this.url);
     },
   },
   created() {
-    this.url = "http://192.168.1.5:8081" + "/uploads/" + this.src;
+    this.url = process.env.BACKEND_SOCKET_URL + "/uploads/" + this.src;
   },
   
 };

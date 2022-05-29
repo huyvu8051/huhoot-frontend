@@ -16,6 +16,8 @@
 import io from "socket.io-client";
 import AutoOrganizeService from "@/services/AutoOrganizeService";
 
+import HostOrganizeService from "@/services/HostOrganizeService";
+
 import { mapState } from "vuex";
 
 export default {
@@ -81,13 +83,20 @@ export default {
     connectSocket() {
       var socket = io.connect(process.env.BACKEND_SOCKET_URL);
       socket
-        .on("connected", () => {})
+        .on("connected", (e) => {
+          console.log("connected");
+        })
         .emit("registerHostSocket", {
           challengeId: this.$route.query.challengeId,
           token: this.$store.state.token,
         });
 
       socket.on("registerSuccess", (data) => {
+        this.$store.commit("saveChallengeData", data.currentExam);
+        this.refreshRoute();
+      });
+      socket.on("updateChallengeStatus", (data) => {
+        console.log("update challenge status");
         this.$store.commit("saveChallengeData", data.currentExam);
         this.refreshRoute();
       });
@@ -164,6 +173,11 @@ export default {
         this.$store.commit("enableAutoOrganize", data);
         this.$store.commit("disableOrganizeGetCorrectAnswer");
         this.refreshRoute();
+        if (!this.$store.state.question) {
+          HostOrganizeService.startChallenge({
+            challengeId: this.$route.query.challengeId,
+          });
+        }
         if (
           this.$store.state.question &&
           this.$store.state.question.timeout < new Date().getTime()
