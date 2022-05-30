@@ -218,7 +218,7 @@ export default {
     },
 
     getDataFromApi() {
-      // console.log(this.options);
+      console.log(this.options);
       this.options.questionId = this.$route.query.questionId;
 
       HostManageService.findAllAnswer(this.options).then((response) => {

@@ -9,7 +9,12 @@
       class="d-flex question_nav pa-0"
     >
       <div class="question_nav_res d-flex">
-        <v-card v-for="i in data" :key="i.id" class="question_container">
+        <v-card
+          v-for="(i, index) in data"
+          :key="i.id"
+          class="question_container"
+          @click="chooseQuestion(index)"
+        >
           <h-image-data-table
             class="justify-center align-center question_image"
             :src="i.questionImage"
@@ -44,17 +49,16 @@
         <!-- input -->
         <div class="quest-content" style="height: 6vh; padding: 0.5vh 0">
           <v-text-field
-            :value="data[0] ? data[0].questionContent : ''"
+            :value="editedItem ? editedItem.questionContent : ''"
             placeholder="Nội dung câu hỏi"
           ></v-text-field>
         </div>
         <!-- pic -->
         <div>
-          <h-upload-file />
-          <h-image-wrapper
-            contain
-            height="16vh"
-            src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+          <h-upload-file v-model="editedItem.questionImage" />
+          <h-fit-height-image
+            style="height: 16vh; margin-bottom: 0.5rem; margin-top: -1rem"
+            :src="editedItem.questionImage"
           />
         </div>
         <!-- setting -->
@@ -65,11 +69,15 @@
               @input="$v.editedItem.answerTimeLimit.$touch()"
               @blur="$v.editedItem.answerTimeLimit.$touch()" -->
             <v-text-field
+              v-model="editedItem.answerTimeLimit"
               type="number"
               min="5"
               label="Thời gian"
+              :error-messages="answerTimeLimitErrors"
               required
               outlined
+              @input="$v.editedItem.answerTimeLimit.$touch()"
+              @blur="$v.editedItem.answerTimeLimit.$touch()"
               height="1vh"
             >
             </v-text-field>
@@ -77,30 +85,54 @@
           <v-col cols="4" sm="4" md="4">
             <!-- :items="answerOption"
               v-model="editedItem.answerOption" -->
-            <v-select label="Loại trả lời" outlined> </v-select>
+            <v-select
+              :items="answerOption"
+              v-model="editedItem.answerOption"
+              label="Loại trả lời"
+              outlined
+            >
+            </v-select>
           </v-col>
           <v-col cols="4" sm="4" md="4">
             <!-- :items="point"
               v-model="editedItem.point" -->
-            <v-select label="Loại câu hỏi" outlined> </v-select>
+            <v-select
+              :items="point"
+              v-model="editedItem.point"
+              label="Loại câu hỏi"
+              outlined
+            >
+            </v-select>
           </v-col>
         </v-row>
       </v-card>
       <!-- answer -->
-      <v-row style="height: 50vh" class="ma-0 pa-0">
+      <v-row class="ma-0 pa-0" style="height: 50vh">
         <v-col
           cols="6"
           xs="6"
           sm="6"
-          class="ma-0 pa-0"
+          class="ma-0 pa-0 d-flex answer-col"
           v-for="(i, index) in colors"
           :key="index"
-          style="height: calc(50vh/3);"
+          style="height: calc(50vh / 3)"
         >
           <div
+            class="flex d-flex answer-card"
             :style="getColor(i.id, index)"
             style="height: -webkit-fill-available; width: 100%"
-          ></div>
+          >
+            <v-icon class="icon">{{
+              answers[index]
+                ? answers[index].isCorrect
+                  ? "mdi-checkbox-marked-circle"
+                  : "mdi-close-circle"
+                : ""
+            }}</v-icon>
+            <div class="flex white--text answer-content">
+              <b>{{ answers[index] ? answers[index].answerContent : "" }}</b>
+            </div>
+          </div>
         </v-col>
       </v-row>
     </v-col>
@@ -109,8 +141,37 @@
 
 <script>
 import HostManageService from "@/services/HostManageService";
+import ManageAnswerService from "@/components/host/answer/ManageAnswerService";
+import { validationMixin } from "vuelidate";
+import {
+  required,
+  maxLength,
+  minLength,
+  minValue,
+} from "vuelidate/lib/validators";
+
 export default {
+  mixins: [validationMixin],
+  validations: {
+    // validate question
+    editedItem: {
+      answerTimeLimit: { required, minValue: minValue(5) },
+      questionContent: {
+        required,
+        maxLength: maxLength(255),
+      },
+    },
+    // validate answer
+    editedAnswer: {
+      ordinalNumber: { required, minValue: minValue(0) },
+      answerContent: {
+        required,
+        maxLength: maxLength(255),
+      },
+    },
+  },
   data: () => ({
+    // answer colors
     colors: [
       "rgb(226, 27, 60)",
       "rgb(19, 104, 206)",
@@ -119,6 +180,7 @@ export default {
       "#FE670A",
       "#74007E",
     ],
+    // question options
     options: {
       challengeId: "3",
       groupBy: [],
@@ -130,26 +192,70 @@ export default {
       sortBy: [],
       sortDesc: [],
     },
+    editedItem: {},
+    answerOption: ["SINGLE_SELECT", "MULTI_SELECT"],
+    point: ["STANDARD", "DOUBLE_POINTS", "NO_POINTS"],
+    // question data
     data: [],
+    // answer data
+    answers: [],
+    // answer options
+    answerOptions: {
+      groupBy: [],
+      groupDesc: [],
+      itemsPerPage: 100,
+      multiSort: false,
+      mustSort: false,
+      page: 1,
+      sortBy: [],
+      sortDesc: [],
+    },
+    // default question
+    // defaultItem: {
+    //   id: 0,
+    //   questionContent: "",
+    //   questionImage: "hutech-logo.png",
+    //   answerOption: "SINGLE_SELECT",
+    //   answerTimeLimit: 10,
+    //   point: "STANDARD",
+    // },
+    action: {
+      confirm: () =>
+        HostManageService.addQuestion(
+          Object.assign(
+            {
+              challengeId: this.$route.query.challengeId,
+            },
+            this.editedItem
+          )
+        ),
+    },
   }),
   created() {
+    //   this.options.challengeId = this.$route.query.challengeId;
     HostManageService.findAllQuestion(this.options)
       .then((response) => {
-        console.log(response.data);
         this.data = response.data.list;
+        this.editedItem = this.data[0];
+        this.answerOptions.questionId = this.editedItem.id;
+        // this.getAnswers();
+        HostManageService.findAllAnswer(this.answerOptions).then((response) => {
+          this.answers = response.data.list;
+          console.log(this.answers)
+        });
       })
       .catch(console.log);
   },
   methods: {
-    getDataFromApi() {
-      //   this.options.challengeId = this.$route.query.challengeId;
-      HostManageService.findAllQuestion(this.options)
-        .then((response) => {
-          console.log(response.data);
-          this.data = response.data.list;
-        })
-        .catch(console.log);
+    chooseQuestion(index) {
+      this.editedItem = this.data[index];
+
+      this.answerOptions.questionId = this.editedItem.id;
+      HostManageService.findAllAnswer(this.answerOptions).then((response) => {
+        this.answers = response.data.list;
+      });
     },
+
     getColor(id, index) {
       if (index < 0 || index > this.colors.length - 1) return {};
 
@@ -182,6 +288,29 @@ export default {
         transform: "scale(" + scale + ") rotateX(" + rotate + ")",
       };
       return result;
+    },
+  },
+  computed: {
+    // editedItem() {
+    //   return this.item;
+    // },
+    answerTimeLimitErrors() {
+      const errors = [];
+      if (!this.$v.editedItem.answerTimeLimit.$dirty) return errors;
+      !this.$v.editedItem.answerTimeLimit.required &&
+        errors.push("Answer time limit required!");
+      !this.$v.editedItem.answerTimeLimit.minValue &&
+        errors.push("Answer time limit must greater than 5!");
+      return errors;
+    },
+    questionContentErrors() {
+      const errors = [];
+      if (!this.$v.editedItem.questionContent.$dirty) return errors;
+      !this.$v.editedItem.questionContent.required &&
+        errors.push("Question content required!");
+      !this.$v.editedItem.questionContent.maxLength &&
+        errors.push("Question content length must less than 255!");
+      return errors;
     },
   },
 };
@@ -247,6 +376,36 @@ export default {
   text-align: center;
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.answer-col {
+  padding: 0.5vmin;
+}
+
+.answer-card {
+  padding: 0px;
+  margin: 0px;
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  color: white;
+}
+
+.answer-content {
+  line-height: normal;
+  font-size: calc(0.4rem + 1.66267vmin);
+
+  padding: 1vmin;
+  margin: 0;
+
+  text-align: justify;
+  display: flex;
+  justify-content: left;
   align-items: center;
 }
 </style>

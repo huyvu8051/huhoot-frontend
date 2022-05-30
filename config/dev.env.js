@@ -4,6 +4,6 @@ const prodEnv = require("./prod.env");
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  BACKEND_URL: '"http://192.168.10.1:8081"',
-  BACKEND_SOCKET_URL: '"http://192.168.10.1:8082"'
+  BACKEND_URL: '"http://172.16.1.182:8081"',
+  BACKEND_SOCKET_URL: '"http://172.16.1.182:8082"'
 });

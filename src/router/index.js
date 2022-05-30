@@ -68,7 +68,8 @@ const router = new Router({
           path: "account",
           name: "host.account",
           component: () => import("@/components/host/Account")
-        }
+        },
+        { path: "*", redirect: "/host/challenge" }
       ]
     },
     {
@@ -132,6 +133,10 @@ const router = new Router({
           path: "podium",
           name: "organize.podium",
           component: () => import("@/components/organize/finish/Podium")
+        },
+        {
+          path: "*",
+          redirect: "/organize/wait"
         }
       ]
     },
@@ -228,10 +233,9 @@ const router = new Router({
           component: () => import("@/components/admin/Account")
         }
       ]
-    }
+    },
 
     //*
-    ,
     {
       path: "/*",
       name: 404,
