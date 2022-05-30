@@ -1,5 +1,5 @@
 <template >
-  <div v-html="formatDate2(date)" />
+  <div v-html="before + formatDate2(date) + after" />
 </template>
 
 
@@ -7,6 +7,14 @@
 export default {
   props: {
     date: Number,
+    after: {
+      type: String,
+      default: "",
+    },
+    before: {
+      type: String,
+      default: "",
+    },
   },
   methods: {
     formatDate(s) {

@@ -15,9 +15,6 @@ export default {
     addStudent(data) {
         return Api().post("admin/student", data);
     },
-    addManyStudent(data) {
-        return Api().post("admin/manyStudent", data);
-    },
 
 
     findAllHost(data) {

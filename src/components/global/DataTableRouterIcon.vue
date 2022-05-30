@@ -8,12 +8,14 @@ export default {
     icon: String,
     name: String,
     query: Object,
+    params: Object
   },
   methods: {
     route() {
       this.$router.push({
         name: this.name,
         query: this.query,
+        params: this.params
       });
     },
   },

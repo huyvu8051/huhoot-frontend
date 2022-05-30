@@ -13,6 +13,9 @@ import ThreeDot from "@/components/global/ThreeDot.vue";
 import TrueFalseIcon from "@/components/global/TrueFalseIcon.vue";
 import StatusIcon from "@/components/global/StatusIcon.vue";
 import ItemTrait from "@/components/global/ItemTrait.vue";
+import IsNonLocked from "@/components/global/IsNonLocked.vue";
+import IsRandomAnswers from "@/components/global/IsRandomAnswers.vue";
+import IsRandomQuestions from "@/components/global/IsRandomQuestions.vue";
 
 const GlobalComponents = {
   install(app) {
@@ -31,6 +34,9 @@ const GlobalComponents = {
     app.component("h-true-false", TrueFalseIcon);
     app.component("h-status-icon", StatusIcon);
     app.component("h-item-trait", ItemTrait);
+    app.component("h-is-non-locked", IsNonLocked);
+    app.component("h-is-random-answers", IsRandomAnswers);
+    app.component("h-is-random-questions", IsRandomQuestions);
   }
 };
 

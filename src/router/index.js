@@ -16,7 +16,33 @@ const router = new Router({
       name: "login",
       component: () => import("@/components/plugin/LoginBoxed")
     },
+    {
+      path: "/student-details/:username",
+      name: "studentDetails",
+      component: () => import("@/views/details/StudentDetailsView")
+    },
+    {
+      path: "/user-reports/:challengeId/:studentId",
+      name: "userReposts",
+
+      //component: () => import("@/components/plugin/LoginBoxed")
+    },
+
+    {
+      path: "/challenge-reports/:challengeId",
+      name: "challengeReports",
+      component: () => import("@/views/details/ChallengeReportsView.vue")
+    },
+    {
+      path: "/participants/:challengeId",
+      name: "participants",
+
+      component: () => import("@/views/details/ParticipantsView.vue")
+    },
+
+
     // host
+
 
     {
       path: "/host/",
@@ -62,7 +88,17 @@ const router = new Router({
           name: "host.account",
           component: () => import("@/components/host/Account")
 
-        }
+        },
+        {
+          path: "/my-library",
+          name: "myLibrary",
+          // component: () => import("@/components/plugin/LoginBoxed")
+        },
+        {
+          path: "/creator/:challengeId",
+          name: "creator",
+          // component: () => import("@/components/plugin/LoginBoxed")
+        },
       ]
     },
     {
@@ -207,7 +243,7 @@ const router = new Router({
     {
       path: "/admin",
       component: () => import("@/components/admin/Layout"),
-      redirect: '/student',
+      redirect: '/admin/challenge',
       meta: {
         requiresAuth: true
       },
