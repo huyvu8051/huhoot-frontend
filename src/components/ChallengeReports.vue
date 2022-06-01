@@ -23,22 +23,18 @@
     disable-sort
     class="elevation-0"
   >
-    <template #[`item.actions`]="{ item }">
-      <h-data-table-router-icon
-        icon="info"
-        name="studentDetails"
-        :params="{ username: item.username }"
-      />
-    </template>
     <template #[`item.rank`]="{ index }">
       {{ index + 1 + options.itemsPerPage * (options.page - 1) }}
     </template>
     <template #[`item.score`]="{ item }">
       {{ Math.round(item.score) }}
     </template>
+    <template #[`item.username`]="{ item }">
+      <h-route-to-student-details :username="item.username" />
+    </template>
     <template #top>
       <v-toolbar flat>
-        <v-toolbar-title>{{title}}</v-toolbar-title>
+        <v-toolbar-title>{{ title }}</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer> </v-spacer>
         <slot name="topRight" />

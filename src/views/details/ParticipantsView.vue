@@ -1,5 +1,6 @@
 <template>
   <h-flex-layout>
+    <ChallengeCard :challenge="challenge" />
     <Participants
       :options.sync="options"
       :desserts="desserts"
@@ -11,11 +12,14 @@
 <script>
 import Participants from "@/components/Participants";
 
+import ChallengeCard from "@/components/ChallengeCard";
 import DetailsService from "@/services/DetailsService";
 
 export default {
   components: {
     Participants,
+
+    ChallengeCard,
   },
   // validate
 
@@ -26,6 +30,19 @@ export default {
       student: {},
       desserts: [],
       totalDesserts: 0,
+      challenge: {
+        id: 0,
+        coverImage: null,
+        title: "Tiêu đề cuộc thi",
+        createdDate: 0,
+        createdBy: "people",
+        modifiedDate: 0,
+        modifiedBy: "people",
+        owner: "people",
+        randomAnswer: true,
+        randomQuest: false,
+        challengeStatus: "WAITING",
+      },
     };
   },
   watch: {
@@ -47,8 +64,9 @@ export default {
       );
 
       DetailsService.getAllParticipants(body).then((res) => {
-        this.desserts = res.data.list;
-        this.totalDesserts = res.data.totalElements;
+        this.desserts = res.data.participants.list;
+        this.totalDesserts = res.data.participants.totalElements;
+        this.challenge = res.data.challengeResponse;
       });
     },
   },

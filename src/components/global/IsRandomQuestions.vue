@@ -1,6 +1,6 @@
 
 <template>
-  <v-chip v-if="value" class="mr-2" color="green"> Phát ngẫu nhiên đề thi </v-chip>
+  <v-chip v-if="value" class="mr-2" color="green" dark> Phát ngẫu nhiên đề thi </v-chip>
   <v-chip v-else class="ma-2" color="primary"> Phát đề thi theo thứ tự </v-chip>
 </template>
 

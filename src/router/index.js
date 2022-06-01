@@ -22,8 +22,13 @@ const router = new Router({
       component: () => import("@/views/details/StudentDetailsView")
     },
     {
-      path: "/user-reports/:challengeId/:studentId",
-      name: "userReposts",
+      path: "/admin-details/:username",
+      name: "adminDetails",
+      component: () => import("@/views/details/AdminDetailsView")
+    },
+    {
+      path: "/student-reports/:challengeId/:studentId",
+      name: "studentReports",
 
       //component: () => import("@/components/plugin/LoginBoxed")
     },

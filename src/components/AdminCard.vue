@@ -4,19 +4,10 @@
       height="200px"
       src="https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg"
     >
-      <v-card-title class="white--text mt-8">
-        <v-avatar size="56">
-          <img
-            alt="user"
-            src="https://cdn.pixabay.com/photo/2020/06/24/19/12/cabbage-5337431_1280.jpg"
-          />
-        </v-avatar>
-        <p class="ml-3">{{ value.fullName }}</p>
-      </v-card-title>
     </v-img>
 
     <v-card-title>
-      Mã số sinh viên:&nbsp
+      Mã số giảng viên:&nbsp
       <h-route-to-student-details :username="value.username" />
     </v-card-title>
 
@@ -47,7 +38,6 @@ export default {
       default: () => ({
         createdBy: "0",
         createdDate: 0,
-        fullName: "0",
         id: 0,
         isNonLocked: true,
         modifiedBy: "0",

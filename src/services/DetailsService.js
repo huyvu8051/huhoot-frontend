@@ -2,15 +2,11 @@ import Api from "@/services/Api";
 
 export default {
 
-    getStudentDetails(username) {
-        return Api().get("/details/student", {
-            params: {
-                username: username
-            }
-        });
+    getStudentDetails(data) {
+        return Api().post("/details/student",data);
     },
-    getAllChallengeParticipateIn(body) {
-        return Api().post("/details/student/challenge-participate-in", body);
+    getAdminDetails(body) {
+        return Api().post("/details/admin", body);
     },
     getAllParticipants(body) {
         return Api().post("/details/participants", body);

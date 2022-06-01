@@ -78,6 +78,9 @@
     <template #[`item.modifiedDate`]="{ item }">
       <h-date-formater :date="item.modifiedDate" />
     </template>
+    <template #[`item.owner`]="{ item }">
+      <h-route-to-admin-details :username="item.owner" />
+    </template>
   </v-data-table>
 </template>
 
@@ -100,7 +103,7 @@ export default {
         { text: "Tiêu Đề", value: "title", align: "center" },
         { text: "Ngày tạo", value: "createdDate" },
         { text: "Ngày sửa", value: "modifiedDate" },
-        { text: "Owner", value: "owner" },
+        { text: "Nguời sở hữu", value: "owner" },
         {
           text: "Trộn đáp án",
           value: "randomAnswer",

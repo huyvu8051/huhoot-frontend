@@ -1,6 +1,6 @@
 <template>
   <h-flex-layout>
-    <ChallengeCard />
+    <ChallengeCard :challenge="challenge" />
     <ChallengeReports
       title="Bảng xếp hạng"
       :options.sync="options"
@@ -25,6 +25,19 @@ export default {
       options: {},
       desserts: [],
       totalDesserts: 0,
+      challenge: {
+        id: 0,
+        coverImage: null,
+        title: "Tiêu đề cuộc thi",
+        createdDate: 0,
+        createdBy: "people",
+        modifiedDate: 0,
+        modifiedBy: "people",
+        owner: "people",
+        randomAnswer: true,
+        randomQuest: false,
+        challengeStatus: "WAITING",
+      },
     };
   },
   watch: {
@@ -46,8 +59,11 @@ export default {
       );
 
       DetailsService.getChallengeReports(body).then((res) => {
-        this.desserts = res.data.list;
-        this.totalDesserts = res.data.totalElements;
+        this.desserts = res.data.topStudents.list;
+        this.totalDesserts = res.data.topStudents.totalElements;
+        this.challenge = res.data.challengeResponse;
+
+        console.log(this.challenge);
       });
     },
   },

@@ -1,54 +1,62 @@
 <template>
-  <h-flex-layout>
-    <v-data-table
-      :headers="headers"
-      :items="desserts"
-      :options.sync="options2"
-      :server-items-length="totalDesserts"
-      :loading="loading"
-      :footer-props="{
-        'items-per-page-options': [
-          5,
-          10,
-          20,
-          30,
-          50,
-          100,
-          {
-            text: 'All',
-            value: 9999,
-          },
-        ],
-      }"
-      disable-sort
-      class="elevation-1"
-    >
-      <template #top>
-        <v-toolbar flat>
-          <v-toolbar-title> {{ title }} </v-toolbar-title>
-          <v-spacer></v-spacer>
-        </v-toolbar>
-      </template>
+  <v-data-table
+    :headers="headers"
+    :items="desserts"
+    :options.sync="options2"
+    :server-items-length="totalDesserts"
+    :loading="loading"
+    :footer-props="{
+      'items-per-page-options': [
+        5,
+        10,
+        20,
+        30,
+        50,
+        100,
+        {
+          text: 'All',
+          value: 9999,
+        },
+      ],
+    }"
+    disable-sort
+    class="elevation-1"
+  >
+    <template #top>
+      <v-toolbar flat>
+        <v-toolbar-title> {{ title }} </v-toolbar-title>
+        <v-spacer></v-spacer>
+      </v-toolbar>
+    </template>
 
-      <template #no-data>
-        <v-btn color="primary" @click="options2 = Object.assign({}, options2)">
-          Reset
-        </v-btn>
-      </template>
-      <template #[`item.createdDate`]="{ item }">
-        <h-date-formater :date="item.createdDate" />
-      </template>
-      <template #[`item.modifiedDate`]="{ item }">
-        <h-date-formater :date="item.createdDate" />
-      </template>
-      <template #[`item.isKicked`]="{ item }">
-        {{ item.isKicked ? "Có" : "Không" }}
-      </template>
-      <template #[`item.isNonDeleted`]="{ item }">
-        {{ item.isNonDeleted ? "Được tham gia" : "Không được tham gia" }}
-      </template>
-    </v-data-table>
-  </h-flex-layout>
+    <template #no-data>
+      <v-btn color="primary" @click="options2 = Object.assign({}, options2)">
+        Reset
+      </v-btn>
+    </template>
+    <template #[`item.studentUsername`]="{ item }">
+      <h-route-to-student-details :username="item.studentUsername" />
+    </template>
+    <template #[`item.createdDate`]="{ item }">
+      <h-date-formater :date="item.createdDate" />
+    </template>
+    <template #[`item.modifiedDate`]="{ item }">
+      <h-date-formater :date="item.createdDate" />
+    </template>
+    <template #[`item.isKicked`]="{ item }">
+      {{ item.isKicked ? "Có" : "Không" }}
+    </template>
+    <template #[`item.isNonDeleted`]="{ item }">
+      {{ item.isNonDeleted ? "Được tham gia" : "Không được tham gia" }}
+    </template>
+    <template #[`item.actions`]="{ item }">
+      <h-data-table-router-icon
+        icon="info"
+        name="studentDetails"
+        :params="{ username: item.studentUsername }"
+      />
+    </template>
+  </v-data-table>
 </template>
 
 <script>

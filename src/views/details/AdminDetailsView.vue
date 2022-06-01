@@ -1,8 +1,8 @@
 <template>
   <h-flex-layout>
-    <StudentCard v-model="student" />
+    <AdminCard v-model="admin" />
     <ListChallenge
-      title="Danh sách cuộc thi tham gia"
+      title="Danh sách cuộc thi đã tạo"
       :options.sync="options"
       :desserts="desserts"
       :totalDesserts="totalDesserts"
@@ -12,19 +12,18 @@
 </template>
 
 <script>
-import StudentCard from "@/components/StudentCard";
+import AdminCard from "@/components/AdminCard";
 import ListChallenge from "@/components/ListChallenge";
-
 import DetailsService from "@/services/DetailsService";
 export default {
   components: {
+    AdminCard,
     ListChallenge,
-    StudentCard,
   },
   data() {
     return {
       options: {},
-      student: {
+      admin: {
         createdBy: "0",
         createdDate: 0,
         fullName: "0",
@@ -46,7 +45,6 @@ export default {
       deep: true,
     },
   },
-
   methods: {
     getDataFromApi() {
       var body = Object.assign(
@@ -56,10 +54,10 @@ export default {
         this.options
       );
 
-      DetailsService.getStudentDetails(body).then((res) => {
-        this.desserts = res.data.listChallenge.list;
+      DetailsService.getAdminDetails(body).then((res) => {
+         this.desserts = res.data.listChallenge.list;
         this.totalDesserts = res.data.listChallenge.totalElements;
-        this.student = res.data.studentDetails;
+        this.admin = res.data.adminDetails;
       });
     },
   },
