@@ -15,6 +15,7 @@
           class="question_container"
           @click="chooseQuestion(index)"
         >
+          <!--  -->
           <h-image-data-table
             class="justify-center align-center question_image"
             :src="i.questionImage"
@@ -36,25 +37,50 @@
         </v-card>
       </div>
       <div style="margin: 3vmin auto">
-        <v-btn color="green white--text ma-1">
+        <v-btn color="green white--text ma-1" @click="addQuestion()">
           <v-icon>mdi-plus</v-icon>
         </v-btn>
-        <v-btn color="blue white--text ma-1">
+        <v-btn color="blue white--text ma-1" @click="save()">
           <v-icon>mdi-content-save</v-icon>
+        </v-btn>
+        <v-btn color="black white--text ma-1">
+          <v-icon>mdi-settings</v-icon>
         </v-btn>
       </div>
     </v-col>
     <v-col cols="12" xs="12" sm="9" md="10" lg="11" style="height: 90vh">
       <v-card flat style="height: 40vh">
         <!-- input -->
-        <div class="quest-content" style="height: 6vh; padding: 0.5vh 0">
+        <div
+          class="quest-content d-flex align-center"
+          style="height: 8vh; padding: 0.5vh 0; gap: 1rem"
+        >
           <v-text-field
-            :value="editedItem ? editedItem.questionContent : ''"
+            counter="255"
+            v-model="editedItem.questionContent"
             placeholder="Nội dung câu hỏi"
+            class="ma-0"
+            :error-messages="questionContentErrors"
+            @input="$v.editedItem.questionContent.$touch()"
           ></v-text-field>
+          <v-btn
+            color="red"
+            class="white--text pa-0"
+            style="height: fit-content; width: fit-content"
+            @click="deleteQuestion(editedItem.index)"
+            ><v-icon class="pa-1">mdi-delete</v-icon></v-btn
+          >
+          <v-btn
+            color="blue"
+            class="white--text pa-0"
+            style="height: fit-content; width: fit-content"
+          >
+            <v-icon class="pa-1">mdi-eye</v-icon>
+          </v-btn>
         </div>
         <!-- pic -->
         <div>
+          <!--  -->
           <h-upload-file v-model="editedItem.questionImage" />
           <h-fit-height-image
             style="height: 16vh; margin-bottom: 0.5rem; margin-top: -1rem"
@@ -112,25 +138,40 @@
           cols="6"
           xs="6"
           sm="6"
-          class="ma-0 pa-0 d-flex answer-col"
+          class="d-flex answer-col"
           v-for="(i, index) in colors"
           :key="index"
           style="height: calc(50vh / 3)"
         >
           <div
-            class="flex d-flex answer-card"
+            class="flex d-flex rounded-lg answer-card"
             :style="getColor(i.id, index)"
             style="height: -webkit-fill-available; width: 100%"
           >
-            <v-icon class="icon">{{
-              answers[index]
-                ? answers[index].isCorrect
-                  ? "mdi-checkbox-marked-circle"
-                  : "mdi-close-circle"
-                : ""
-            }}</v-icon>
-            <div class="flex white--text answer-content">
-              <b>{{ answers[index] ? answers[index].answerContent : "" }}</b>
+            <!-- <v-checkbox
+              class="icon"
+              color="white darken-3"
+              v-model="answers[index]"
+            >
+            </v-checkbox> -->
+
+            <div class="flex answer-content">
+              <v-textarea
+                no-resize
+                rows="3"
+                :value="
+                  editedItem.answers
+                    ? editedItem.answers[index]
+                      ? editedItem.answers[index].answerContent
+                      : ''
+                    : ''
+                "
+                @input="
+                  (e) => {
+                    editedItem.answers[index].answerContent = e;
+                  }
+                "
+              />
             </div>
           </div>
         </v-col>
@@ -149,6 +190,7 @@ import {
   minLength,
   minValue,
 } from "vuelidate/lib/validators";
+import CreateQuestionDialog from "./CreateQuestionDialog.vue";
 
 export default {
   mixins: [validationMixin],
@@ -159,14 +201,7 @@ export default {
       questionContent: {
         required,
         maxLength: maxLength(255),
-      },
-    },
-    // validate answer
-    editedAnswer: {
-      ordinalNumber: { required, minValue: minValue(0) },
-      answerContent: {
-        required,
-        maxLength: maxLength(255),
+        minLength: minLength(2),
       },
     },
   },
@@ -211,24 +246,12 @@ export default {
       sortDesc: [],
     },
     // default question
-    // defaultItem: {
-    //   id: 0,
-    //   questionContent: "",
-    //   questionImage: "hutech-logo.png",
-    //   answerOption: "SINGLE_SELECT",
-    //   answerTimeLimit: 10,
-    //   point: "STANDARD",
-    // },
-    action: {
-      confirm: () =>
-        HostManageService.addQuestion(
-          Object.assign(
-            {
-              challengeId: this.$route.query.challengeId,
-            },
-            this.editedItem
-          )
-        ),
+    defaultItem: {
+      questionContent: "",
+      questionImage: "hutech-logo.png",
+      answerOption: "SINGLE_SELECT",
+      answerTimeLimit: 10,
+      point: "STANDARD",
     },
   }),
   created() {
@@ -236,51 +259,99 @@ export default {
     HostManageService.findAllQuestion(this.options)
       .then((response) => {
         this.data = response.data.list;
-        this.editedItem = this.data[0];
-        this.answerOptions.questionId = this.editedItem.id;
-        // this.getAnswers();
+        this.answerOptions.questionId = this.data[0].id;
         HostManageService.findAllAnswer(this.answerOptions).then((response) => {
           this.answers = response.data.list;
-          console.log(this.answers)
+          for (let i = 0; i < 6; i++) {
+            if (this.answers[i] === undefined) {
+              this.answers[i] = {
+                answerContent: "",
+                isCorrect: false,
+              };
+            }
+          }
+          this.data[0].answers = [...this.answers];
+          this.editedItem = this.data[0];
+          this.editedItem.index = 0;
+          console.log(this.data);
         });
       })
       .catch(console.log);
   },
   methods: {
-    chooseQuestion(index) {
-      this.editedItem = this.data[index];
-
-      this.answerOptions.questionId = this.editedItem.id;
-      HostManageService.findAllAnswer(this.answerOptions).then((response) => {
-        this.answers = response.data.list;
-      });
+    save() {
+      console.log(this.data);
     },
+    changeAnswer(e) {
+      console.log(e);
+    },
+    chooseQuestion(index) {
+      if (this.data[index].answers === undefined) {
+        this.answerOptions.questionId = this.data[index].id;
+        HostManageService.findAllAnswer(this.answerOptions).then((response) => {
+          console.log("click");
+          this.answers = response.data.list;
+          for (let i = 0; i < 6; i++) {
+            if (this.answers[i] === undefined) {
+              this.answers[i] = {
+                answerContent: "",
+                isCorrect: false,
+              };
+            }
+          }
+          this.data[index].answers = [...this.answers];
+          this.editedItem = this.data[index];
+          this.editedItem.answers = [...this.answers];
+          this.editedItem.index = index;
+          console.log(this.editedItem);
+        });
+        return;
+      }
+      
+      this.editedItem = this.data[index];
+      this.editedItem.index = index;
+    },
+    deleteQuestion(index) {
+      if (this.data.length === 1) {
+        return;
+      } else {
+        this.data.splice(index, 1);
+        if (this.data[0].answers === undefined) {
+          this.answerOptions.questionId = this.data[0].id;
+          HostManageService.findAllAnswer(this.answerOptions).then(
+            (response) => {
+              console.log("click");
+              this.answers = response.data.list;
+              for (let i = 0; i < 6; i++) {
+                if (this.answers[i] === undefined) {
+                  this.answers[i] = {
+                    answerContent: "",
+                    isCorrect: false,
+                  };
+                }
+              }
+              this.data[0].answers = [...this.answers];
+              this.editedItem = { ...this.data[0] };
+              this.editedItem.index = 0;
+            }
+          );
+        }
+        this.editedItem = { ...this.data[0] };
+        this.editedItem.index = 0;
+        console.log(this.editedItem);
+      }
+    },
+    addQuestion() {
+      this.data.push({ ...this.defaultItem });
 
+      this.editedItem = this.data[this.data.length - 1];
+      this.editedItem.index = this.data.length - 1;
+    },
     getColor(id, index) {
       if (index < 0 || index > this.colors.length - 1) return {};
-
-      var state = this.$store.state;
-
       var opacity = 1;
-
-      var s =
-        state.question.timeout > new Date().getTime()
-          ? state.selectedAnswerIds.includes(id)
-          : false;
-
       var scale;
       var rotate;
-
-      if (s) {
-        // map selected answer style
-
-        scale = 0.8;
-        rotate = "20deg";
-      } else {
-        scale = 1;
-        rotate = "0deg";
-      }
-
       var result = {
         "background-color": this.colors.at(index),
         opacity: opacity,
@@ -307,12 +378,15 @@ export default {
       const errors = [];
       if (!this.$v.editedItem.questionContent.$dirty) return errors;
       !this.$v.editedItem.questionContent.required &&
-        errors.push("Question content required!");
+        errors.push("Nhập Nội dung câu hỏi");
+      !this.$v.editedItem.questionContent.minLength &&
+        errors.push("Nội dung câu hỏi phải có 2 ký tự trở lên");
       !this.$v.editedItem.questionContent.maxLength &&
-        errors.push("Question content length must less than 255!");
+        errors.push("Nội dung câu hỏi không quá 255 ký tự");
       return errors;
     },
   },
+  components: { CreateQuestionDialog },
 };
 </script>
 
@@ -392,8 +466,7 @@ export default {
 .icon {
   position: absolute;
   right: 2px;
-  bottom: 2px;
-  color: white;
+  bottom: -15px;
 }
 
 .answer-content {
@@ -401,7 +474,8 @@ export default {
   font-size: calc(0.4rem + 1.66267vmin);
 
   padding: 1vmin;
-  margin: 0;
+
+  margin: 0.1rem !important;
 
   text-align: justify;
   display: flex;

@@ -181,6 +181,29 @@ var store = new Vuex.Store({
       } else {
         state.selectedAnswerIds.push(item.id);
       }
+    },
+    // manage unsave question
+    storeUnsaveQuestion(state, data) {
+      state.unsaveQuestion = [...data];
+    },
+    deleteQuestion(state, data) {
+      state.unsaveQuestion = state.unsaveQuestion.filter(
+        e => e.id !== data
+      );
+    },
+    setAnswerOption(state, data) {
+      
+    },
+
+    getAnswersQuestion(state, data) {},
+    changeQuestion(state, data) {
+      const { unsaveQuestion } = state;
+      const index = unsaveQuestion.findIndex(e => e.id === data.id);
+      if (index !== -1) {
+        unsaveQuestion[index] = data;
+      } else {
+        unsaveQuestion.push(data);
+      }
     }
   }
 });
