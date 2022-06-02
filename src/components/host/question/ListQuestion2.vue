@@ -8,10 +8,16 @@
       lg="1"
       class="d-flex question_nav pa-0"
     >
-      <div class="question_nav_res d-flex">
+      <draggable
+        v-model="data"
+        tag="tbody"
+        @change="onUnpublishedChange"
+        @start="beforeChange"
+        class="question_nav_res d-flex"
+      >
         <v-card
           v-for="(i, index) in data"
-          :key="i.id"
+          :key="index"
           class="question_container"
           @click="chooseQuestion(index)"
         >
@@ -35,7 +41,7 @@
             {{ i.questionContent }}
           </v-card-subtitle>
         </v-card>
-      </div>
+      </draggable>
       <div style="margin: 3vmin auto">
         <v-btn color="green white--text ma-1" @click="addQuestion()">
           <v-icon>mdi-plus</v-icon>
@@ -70,8 +76,14 @@
             @click="deleteQuestion(editedItem.index)"
             ><v-icon class="pa-0">mdi-delete</v-icon></v-btn
           >
-          <ReviewDialogVue :item="editedItem"/>        
-          
+          <ReviewDialogVue :item="editedItem" />
+          <v-btn
+            color="green"
+            class="white--text pa-1 mb-2"
+            style="height: fit-content; width: fit-content"
+            @click="clone()"
+            ><v-icon class="pa-0"> mdi-content-copy</v-icon></v-btn
+          >
         </div>
         <!-- pic -->
         <div>
@@ -156,9 +168,7 @@
                 rows="3"
                 :value="
                   editedItem.answers
-                    ? editedItem.answers[index]
-                      ? editedItem.answers[index].answerContent
-                      : ''
+                    ? editedItem.answers[index].answerContent
                     : ''
                 "
                 @input="
@@ -177,7 +187,6 @@
 
 <script>
 import HostManageService from "@/services/HostManageService";
-import ManageAnswerService from "@/components/host/answer/ManageAnswerService";
 import { validationMixin } from "vuelidate";
 import {
   required,
@@ -186,6 +195,7 @@ import {
   minValue,
 } from "vuelidate/lib/validators";
 import ReviewDialogVue from "./ReviewDialog.vue";
+import draggable from "vuedraggable";
 export default {
   mixins: [validationMixin],
   validations: {
@@ -247,8 +257,6 @@ export default {
       answerTimeLimit: 10,
       point: "STANDARD",
     },
-    // challengeItem
-    challengeItem: {},
   }),
   created() {
     //   this.options.challengeId = this.$route.query.challengeId;
@@ -280,14 +288,15 @@ export default {
       console.log(this.data);
       console.log(this.editedItem);
     },
-    changeAnswer(e) {
-      console.log(e);
+    clone() {
+      const temp = Object.assign({}, this.editedItem);
+      temp.answers = this.editedItem.answers.slice();
+      this.data.push(temp);
     },
     chooseQuestion(index) {
       if (this.data[index].answers === undefined) {
         this.answerOptions.questionId = this.data[index].id;
         HostManageService.findAllAnswer(this.answerOptions).then((response) => {
-          console.log("click");
           this.answers = response.data.list;
           for (let i = 0; i < 6; i++) {
             if (this.answers[i] === undefined) {
@@ -297,15 +306,15 @@ export default {
               };
             }
           }
+
           this.data[index].answers = [...this.answers];
           this.editedItem = this.data[index];
-          this.editedItem.answers = [...this.answers];
           this.editedItem.index = index;
-          console.log(this.editedItem);
         });
         return;
       }
 
+      // this.editedItem = this.data[index];
       this.editedItem = this.data[index];
       this.editedItem.index = index;
     },
@@ -358,6 +367,15 @@ export default {
       };
       return result;
     },
+
+    beforeChange() {
+      this.tempdata = JSON.parse(JSON.stringify(this.data));
+    },
+    onUnpublishedChange(data) {
+      for (var i = 0; i < this.tempdata.length; i++) {
+        this.data[i].ordinalNumber = this.tempdata[i].ordinalNumber;
+      }
+    },
   },
   computed: {
     // editedItem() {
@@ -384,7 +402,7 @@ export default {
       return errors;
     },
   },
-  components: { ReviewDialogVue },
+  components: { ReviewDialogVue, draggable },
 };
 </script>
 

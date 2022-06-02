@@ -12,7 +12,7 @@
     class="mb-0"
   >
     <Question2 :question="item" style="height: 43vh" />
-    <Answers2 :answers="item.answers"/>
+    <Answers2 :answers="item.answers"  style="height: 43vh" />
   </h-simple-dialog>
 </template>
 
