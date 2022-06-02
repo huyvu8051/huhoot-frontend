@@ -43,9 +43,9 @@
         <v-btn color="blue white--text ma-1" @click="save()">
           <v-icon>mdi-content-save</v-icon>
         </v-btn>
-        <v-btn color="black white--text ma-1">
+        <!-- <v-btn color="black white--text ma-1">
           <v-icon>mdi-settings</v-icon>
-        </v-btn>
+        </v-btn> -->
       </div>
     </v-col>
     <v-col cols="12" xs="12" sm="9" md="10" lg="11" style="height: 90vh">
@@ -65,18 +65,13 @@
           ></v-text-field>
           <v-btn
             color="red"
-            class="white--text pa-0"
+            class="white--text pa-1 mb-2"
             style="height: fit-content; width: fit-content"
             @click="deleteQuestion(editedItem.index)"
-            ><v-icon class="pa-1">mdi-delete</v-icon></v-btn
+            ><v-icon class="pa-0">mdi-delete</v-icon></v-btn
           >
-          <v-btn
-            color="blue"
-            class="white--text pa-0"
-            style="height: fit-content; width: fit-content"
-          >
-            <v-icon class="pa-1">mdi-eye</v-icon>
-          </v-btn>
+          <ReviewDialogVue :item="editedItem"/>        
+          
         </div>
         <!-- pic -->
         <div>
@@ -190,8 +185,7 @@ import {
   minLength,
   minValue,
 } from "vuelidate/lib/validators";
-import CreateQuestionDialog from "./CreateQuestionDialog.vue";
-
+import ReviewDialogVue from "./ReviewDialog.vue";
 export default {
   mixins: [validationMixin],
   validations: {
@@ -253,9 +247,12 @@ export default {
       answerTimeLimit: 10,
       point: "STANDARD",
     },
+    // challengeItem
+    challengeItem: {},
   }),
   created() {
     //   this.options.challengeId = this.$route.query.challengeId;
+
     HostManageService.findAllQuestion(this.options)
       .then((response) => {
         this.data = response.data.list;
@@ -281,6 +278,7 @@ export default {
   methods: {
     save() {
       console.log(this.data);
+      console.log(this.editedItem);
     },
     changeAnswer(e) {
       console.log(e);
@@ -307,7 +305,7 @@ export default {
         });
         return;
       }
-      
+
       this.editedItem = this.data[index];
       this.editedItem.index = index;
     },
@@ -386,7 +384,7 @@ export default {
       return errors;
     },
   },
-  components: { CreateQuestionDialog },
+  components: { ReviewDialogVue },
 };
 </script>
 

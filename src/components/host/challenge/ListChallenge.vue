@@ -183,7 +183,9 @@ export default {
     },
 
     clone(item) {
+      
       this.editedIndex = this.desserts.indexOf(item);
+      console.log(item)
       this.editedItem = Object.assign({}, item);
     },
 
