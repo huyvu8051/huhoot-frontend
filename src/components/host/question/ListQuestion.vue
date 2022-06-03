@@ -102,7 +102,7 @@ import Review from "@/components/host/challenge/Review";
 import EditQuestionDialog from "@/components/host/question/EditQuestionDialog";
 import CreateQuestionDialog from "@/components/host/question/CreateQuestionDialog";
 import DeleteQuestionDialog from "@/components/host/question/DeleteQuestionDialog";
-import { vietSubQuesPoint } from "../../../services/VietsubServices";
+import { vietSubQuesPoint } from "@/services/VietsubServices";
 
 export default {
   components: {
