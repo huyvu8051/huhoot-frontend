@@ -4,29 +4,27 @@
     <router-link :to="{ name: 'STUDENT' }">
       <v-img
         class="mx-2 background-color:white"
-        :src="require('@/assets/img/huhoot-logo-text.png')"
-        max-height="150"
-        max-width="150"
+        :src="require('@/assets/img/logo_ithoot.png')"
+        max-height="100"
+        max-width="100"
         contain
       >
       </v-img>
     </router-link>
-    <v-spacer> </v-spacer>
-    <v-btn
-      elevation="2"
-      small
-      class="primary white--text"
-      :to="{ name: 'login' }"
-    >
-      {{ $store.state.username }}
-    </v-btn>
+    <v-spacer></v-spacer>
+
+    <div>
+      Xin chào {{ $store.state.username }}
+    </div>
   </v-app-bar>
 </template>
 
 <script>
+import AccountPanel from "@/components/host/AccountPanel";
 export default {
-  data: () => ({}),
-  components: {},
+  components: {
+    AccountPanel: AccountPanel,
+  },
   methods: {
     drawer() {
       this.$eventBus.$emit("drawer");

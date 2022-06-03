@@ -2,7 +2,7 @@
   <v-file-input
     name="image"
     accept="image/*"
-    label="Upload image"
+    label="Tải ảnh lên"
     @change="uploadFile"
     show-size
     outlined

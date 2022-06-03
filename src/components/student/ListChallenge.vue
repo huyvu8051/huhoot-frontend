@@ -50,7 +50,7 @@ export default {
     search: "",
     dialogPlay: false,
     headers: [
-      { text: "Id", value: "id", align: "start", sortable: true },
+       { text: "Id", value: "id", align: "start", sortable: true },
       { text: "Title", value: "title" },
       { text: "Cover", value: "coverImage" },
       { text: "Created date", value: "createdDate" },

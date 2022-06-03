@@ -162,6 +162,7 @@ export default {
         username: this.username,
         password: this.password,
       }).then((response) => {
+        console.log(response);
         this.$store.commit("setToken", "Bearer " + response.data.jwt);
         this.$store.commit("setUsername", response.data.username);
         this.$store.commit("setRoles", response.data.authorities);
