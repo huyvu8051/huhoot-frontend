@@ -5,11 +5,14 @@ import createPersistedState from "vuex-persistedstate";
 import AutoOrganizeService from "@/services/AutoOrganizeService";
 import DecryptUtil from "@/services/DecryptUtil";
 
+
 import router from "@/router";
+
 
 Vue.use(Vuex);
 
 var store = new Vuex.Store({
+
   strict: true,
   plugins: [createPersistedState()],
   state: {
@@ -209,3 +212,4 @@ var store = new Vuex.Store({
 });
 
 export default store;
+

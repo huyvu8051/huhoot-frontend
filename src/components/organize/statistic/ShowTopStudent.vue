@@ -19,12 +19,10 @@ export default {
   methods: {
     showTopStudent() {
       if (this.question.theLastQuestion) {
-        console.log("finish");
         HostOrganizeService.endChallenge({
           challengeId: this.$route.query.challengeId,
         });
       } else {
-        console.log("show rank");
         this.$router.push({
           name: "organize.rank",
           query: {

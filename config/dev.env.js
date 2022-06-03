@@ -7,3 +7,4 @@ module.exports = merge(prodEnv, {
   BACKEND_URL: `"http://${localIp}:8081"`,
   BACKEND_SOCKET_URL: `"http://${localIp}:8082"`
 });
+
