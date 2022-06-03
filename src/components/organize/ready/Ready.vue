@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { vietSubQuesPoint } from '../../../services/VietsubServices';
+import { vietSubQuesPoint } from '@/services/VietsubServices';
 
 
 export default {

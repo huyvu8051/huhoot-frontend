@@ -33,7 +33,7 @@
               v-model="editedItem.answerTimeLimit"
               type="number"
               min="5"
-              label="THời gian"
+              label="Thời gian"
               :error-messages="answerTimeLimitErrors"
               required
               outlined
