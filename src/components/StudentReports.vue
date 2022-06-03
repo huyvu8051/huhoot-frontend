@@ -98,19 +98,15 @@ export default {
   data() {
     return {
       headers: [
-        { text: "Mã", value: "id", align: "center", sortable: true },
-        { text: "Ảnh", value: "coverImage", align: "center" },
-        { text: "Tiêu Đề", value: "title", align: "center" },
+        { text: "Id", value: "id", align: "start", sortable: true },
+
+        { text: "Content", align: "center", value: "questionContent" },
+        { text: "Ảnh", value: "questionImage" },
         { text: "Ngày tạo", value: "createdDate" },
-        { text: "Ngày sửa", value: "modifiedDate" },
-        { text: "Nguời sở hữu", value: "owner" },
-        {
-          text: "Trộn đáp án",
-          value: "randomAnswer",
-          align: "center",
-        },
-        { text: "Trộn câu hỏi", value: "randomQuest", align: "center" },
-        { text: "Trạng thái", value: "challengeStatus", align: "center" },
+        { text: "Kiểu trả lời", align: "center", value: "answerOption" },
+        { text: "Thời gian trả lời", value: "answerTimeLimit" },
+        { text: "Điểm", align: "center", value: "point" },
+        { text: "Actions", align: "center", value: "actions", sortable: false },
         { text: "Điều hướng", value: "nav", sortable: false },
         { text: "Hành động", value: "actions", sortable: false },
       ],

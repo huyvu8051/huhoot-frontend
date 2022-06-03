@@ -11,8 +11,8 @@ export default {
     getAllParticipants(body) {
         return Api().post("/details/participants", body);
     },
-    getChallengeReports(params) {
-        return Api().get("/details/challenge-report", {
+    getChallengeRank(params) {
+        return Api().get("/details/challenge-rank", {
             params: params
         });
     },

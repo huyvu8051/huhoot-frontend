@@ -27,16 +27,22 @@ const router = new Router({
       component: () => import("@/views/details/AdminDetailsView")
     },
     {
-      path: "/student-reports/:challengeId/:studentId",
+      path: "/student-reports/:challengeId/:studentId",// xem ket qua tra loi cua sinh vien dok
       name: "studentReports",
+
+      component: () => import("@/views/details/StudentReportsView.vue")
+    },
+    {
+      path: "/challenge-reports/:challengeId",// danh sach cau hoi, hien thi so luong nguoi dung, sai, chon dap an nao
+      name: "challengeReports",
 
       //component: () => import("@/components/plugin/LoginBoxed")
     },
 
     {
-      path: "/challenge-reports/:challengeId",
-      name: "challengeReports",
-      component: () => import("@/views/details/ChallengeReportsView.vue")
+      path: "/challenge-rank/:challengeId",// xep hang cac sinh vien 
+      name: "challengeRank",
+      component: () => import("@/views/details/ChallengeRankView.vue")
     },
     {
       path: "/participants/:challengeId",
