@@ -27,12 +27,12 @@
         <v-toolbar flat>
           <v-toolbar-title>List Question</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
-          <v-text-field
+          <!-- <v-text-field
             append-icon="mdi-magnify"
             label="Search"
             single-line
             hide-details
-          ></v-text-field>
+          ></v-text-field> -->
           <v-spacer></v-spacer>
           <CreateQuestionDialog />
           <EditQuestionDialog v-model="editDialog" :item="editedItem" />

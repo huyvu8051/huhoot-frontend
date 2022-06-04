@@ -24,7 +24,7 @@ export default {
     }
 
     this.timeout = setTimeout(() => {
-      console.log("preview");
+      //console.log("preview");
       this.$router.push({
         name: "organize.preview",
         query: {

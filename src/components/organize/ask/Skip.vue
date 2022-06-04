@@ -1,7 +1,7 @@
 <template>
-  <v-btn color="red" fixed right bottom @click="click"
-    ><b>{{ isTimeout.text }}</b></v-btn
-  >
+  <v-btn color="red" fixed right bottom @click="click()">
+    <b>{{ isTimeout.text }}</b>
+  </v-btn>
 </template>
 
 <script>
@@ -15,12 +15,12 @@ export default {
       if (state.question.timeout < new Date().getTime()) {
         return {
           value: true,
-          text: "Next",
+          text: "Tiếp",
         };
       } else {
         return {
           value: false,
-          text: "Skip",
+          text: "Bỏ qua",
         };
       }
     },

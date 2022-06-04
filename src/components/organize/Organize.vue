@@ -3,10 +3,8 @@
     <router-view :socket="socket" style="height: 90vh" />
     <v-switch
       v-model="autoOrganize"
-      inset
-      fixed
-      bottom
-      left
+      style="width: 20px"
+      class="autoOrgBtn"
       @change="changeChallengeAutoOrganize"
     ></v-switch>
   </v-main>
@@ -84,7 +82,7 @@ export default {
       var socket = io.connect(process.env.BACKEND_SOCKET_URL);
       socket
         .on("connected", (e) => {
-          console.log("connected");
+         // console.log("connected");
         })
         .emit("registerHostSocket", {
           challengeId: this.$route.query.challengeId,
@@ -143,8 +141,8 @@ export default {
         this.$store.commit("showCorrectAnswer", data);
         this.$swal({
           icon: "info",
-          title: "Timeup!",
-          text: "There no time at all",
+          title: "Hết giờ!",
+          text: "Hết thời gian trả lời!",
           timer: 3000,
         });
         this.$router
@@ -207,4 +205,9 @@ export default {
 </script>
 
 <style>
+.autoOrgBtn{
+  position: absolute;
+  bottom: 0px;
+  left: 20px;
+}
 </style>

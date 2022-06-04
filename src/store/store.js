@@ -36,12 +36,12 @@ var store = new Vuex.Store({
 		totalStudentWrong: 0,
 		encryptedResponse: "",
 		questionToken: null,
-		publishNextQuestion: (challengeId) => { console.log("disable auto next", challengeId) },
-		getCorrectAnswer: (questionId) => { console.log("disable auto show", questionId) },
+		publishNextQuestion: (challengeId) => { /*console.log("disable auto next", challengeId)*/ },
+		getCorrectAnswer: (questionId) => { /*console.log("disable auto show", questionId)*/ },
 
-		getStatisticPage: (challengeId) => { console.log("disable route to statistic page", challengeId) },
-		getRankTablePage: (challengeId) => { console.log("disable route to rank table page", challengeId) },
-		getNextQuestionPage: (challengeId) => { console.log("disable route to next question page", challengeId) },
+		getStatisticPage: (challengeId) => { /*console.log("disable route to statistic page", challengeId)*/ },
+		getRankTablePage: (challengeId) => { /*console.log("disable route to rank table page", challengeId)*/ },
+		getNextQuestionPage: (challengeId) => { /*console.log("disable route to next question page", challengeId)*/ },
 		studentSubmited: false,
 		correctAnswerIds: [],
 		selectedAnswerIds: [],
@@ -62,7 +62,7 @@ var store = new Vuex.Store({
 			state.organizeGetCorrectAnswer = HostOrganizeService.showCorrectAnswer
 		},
 		disableOrganizeGetCorrectAnswer(state) {
-			state.organizeGetCorrectAnswer = (questionId) => { console.log("disable organize get correct answer", questionId) }
+			state.organizeGetCorrectAnswer = (questionId) => { /* console.log("disable organize get correct answer", questionId) */}
 		},
 
 		studentSubmited(state) {
@@ -126,8 +126,8 @@ var store = new Vuex.Store({
 				case null:
 					Vue.swal({
 						icon: "warning",
-						title: "Timeout",
-						text: "Better luck next time!",
+						title: "Hết giờ",
+						text: "Chúc may mắn lần sau!",
 						timer: 3000,
 					});
 					break;
@@ -135,8 +135,8 @@ var store = new Vuex.Store({
 				case 0:
 					Vue.swal({
 						icon: "error",
-						title: "Oops...",
-						text: "Incorrect answer!",
+						title: "Xui quá...",
+						text: "Đáp án của bạn chưa đúng!",
 						timer: 3000,
 					});
 					break;
@@ -144,9 +144,9 @@ var store = new Vuex.Store({
 				default:
 					Vue.swal({
 						icon: "success",
-						title: "Good job!",
+						title: "Làm tốt lắm!",
 						text:
-							"Your answer is correct! \n Points received +" +
+							"Đáp án chính xác! \n Điểm nhận được +" +
 							parseInt(state.pointsReceived) +
 							" combo: " +
 							state.currCombo,
@@ -159,7 +159,7 @@ var store = new Vuex.Store({
 		},
 		showCorrectAnswer(state, data) {
 
-			console.log("show correct answer");
+			//console.log("show correct answer");
 			state.totalStudent = data.totalStudent
 			state.totalStudentCorrect = data.totalStudentCorrect
 			state.totalStudentWrong = data.totalStudentWrong
@@ -183,7 +183,7 @@ var store = new Vuex.Store({
 			state.answers = data.answers
 		},
 		enableAutoOrganize(state, data) {
-			console.log("enableAutoOrganize");
+			//console.log("enableAutoOrganize");
 			state.publishNextQuestion = AutoOrganizeService.publishNextQuestion
 			state.getCorrectAnswer = AutoOrganizeService.showCorrectAnswer
 
@@ -222,12 +222,12 @@ var store = new Vuex.Store({
 
 		},
 		disableAutoOrganize(state) {
-			state.publishNextQuestion = (challengeId) => console.log("disable auto next", challengeId)
-			state.getCorrectAnswer = (questionId) => console.log("disable auto show", questionId)
+		state.publishNextQuestion = (challengeId) =>{ /* console.log("disable auto next", challengeId)*/}
+			state.getCorrectAnswer = (questionId) => {/* console.log("disable auto show", questionId)*/}
 
-			state.getStatisticPage = (challengeId) => { console.log("disable route to statistic page", challengeId) }
-			state.getRankTablePage = (challengeId) => { console.log("disable route to rank table page", challengeId) }
-			state.getNextQuestionPage = (challengeId) => { console.log("disable route to next question page", challengeId) }
+			state.getStatisticPage = (challengeId) => {/*  console.log("disable route to statistic page", challengeId)*/ }
+			state.getRankTablePage = (challengeId) => {/*  console.log("disable route to rank table page", challengeId)*/ }
+			state.getNextQuestionPage = (challengeId) => { /* console.log("disable route to next question page", challengeId) */}
 
 
 		},

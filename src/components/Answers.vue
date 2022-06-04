@@ -15,6 +15,9 @@
         @click="selectAnswer(i)"
         :style="getColor(i.id, index)"
       >
+        <v-icon color="white" class="icon2">
+          {{ getShape(index) }}
+        </v-icon>
         <div class="flex white--text answer-content">
           <b>{{ i.content }}</b>
         </div>
@@ -60,6 +63,11 @@ export default {
   }),
   created() {},
   methods: {
+    getShape(index) {
+      var shapes = ["crop_square", "change_history",  "trip_origin", "dark_mode", "add", "numbers"];
+
+      return shapes[index];
+    },
     getIcon(item) {
       var state = this.$store.state;
       if (state.correctAnswerIds.includes(item.id)) {
@@ -115,14 +123,11 @@ export default {
 </script>
 
 <style scoped>
-
-
 .answer-col {
   padding: 0.5vmin;
-
 }
 
-.answer-card{
+.answer-card {
   padding: 0px;
   margin: 0px;
 }
@@ -131,7 +136,7 @@ export default {
   line-height: normal;
   font-size: calc(0.4rem + 1.66267vmin);
 
-  padding : 1vmin;
+  padding: 1vmin;
   margin: 0;
 
   text-align: justify;
@@ -143,6 +148,11 @@ export default {
 .icon {
   font-size: 5vmin;
   margin-right: 1vmin;
+  font-weight: 1000;
+}
+.icon2 {
+  font-size: 5vmin;
+  margin-left: 1vmin;
   font-weight: 1000;
 }
 </style>

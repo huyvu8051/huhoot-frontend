@@ -6,8 +6,9 @@
     :width="width"
     :contain="contain"
     v-on:error="url = require(`@/assets/img/huhoot-logo.png`)"
- 
-  />
+  >
+    <slot />
+  </v-img>
 </template>
 
 <script>
@@ -18,17 +19,14 @@ export default {
       type: String,
       default: "auto",
     },
-
     width: {
       type: String,
       default: "auto",
     },
-  
     contain: {
       type: Boolean,
       default: false,
     },
-  
   },
   data: () => {
     return {
@@ -38,16 +36,20 @@ export default {
   computed: {},
   watch: {
     src(val) {
-      this.url =process.env.BACKEND_SOCKET_URL + "/uploads/" + val;
+      if (val) {
+        this.url = process.env.BACKEND_URL + "/uploads/" + val;
+      } else {
+        this.url = null;
+      }
       // console.log(this.url);
     },
   },
   created() {
-    this.url = process.env.BACKEND_SOCKET_URL + "/uploads/" + this.src;
+    if (this.src) {
+      this.url = process.env.BACKEND_URL + "/uploads/" + this.src;
+    } else {
+      this.url = null;
+    }
   },
-  
 };
 </script>
-
-<style>
-</style>

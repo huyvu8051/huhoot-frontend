@@ -2,8 +2,8 @@
   <div>
     <Question style="height: 43vh" />
     <Skip />
-    <TimeCountDown :finish="doFinish" style="height: 3vh" />
-    <Answers disable style="height: 43vh" />
+    <TimeCountDown :finish="doFinish" style="height: 5vh" />
+    <Answers disable style="height: 41vh" />
   </div>
 </template>
 

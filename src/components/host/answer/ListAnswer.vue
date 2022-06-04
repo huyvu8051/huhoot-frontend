@@ -28,12 +28,7 @@
         <v-toolbar flat>
           <v-toolbar-title>List Answer</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
-          <v-text-field
-            append-icon="mdi-magnify"
-            label="Search"
-            single-line
-            hide-details
-          ></v-text-field>
+         
           <v-spacer></v-spacer>
           <CreateAnswerDialog />
           <DeleteAnswerDialog v-model="deleteDialog" :item="editedItem" />
