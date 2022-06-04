@@ -1,5 +1,5 @@
 <template>
-  <h-flex-layout>
+  <div>
     <AdminCard v-model="admin" />
     <ListChallenge
       title="Danh sách cuộc thi đã tạo"
@@ -8,7 +8,7 @@
       :totalDesserts="totalDesserts"
     >
     </ListChallenge>
-  </h-flex-layout>
+  </div>
 </template>
 
 <script>

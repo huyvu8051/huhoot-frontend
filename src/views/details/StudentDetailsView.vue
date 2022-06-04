@@ -1,5 +1,5 @@
 <template>
-  <h-flex-layout>
+  <div>
     <StudentCard v-model="student" />
     <ListChallenge
       title="Danh sách cuộc thi tham gia"
@@ -8,7 +8,7 @@
       :totalDesserts="totalDesserts"
     >
     </ListChallenge>
-  </h-flex-layout>
+  </div>
 </template>
 
 <script>

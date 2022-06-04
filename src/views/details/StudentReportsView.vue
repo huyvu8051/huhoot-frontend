@@ -1,5 +1,5 @@
 <template>
-  <h-flex-layout>
+  <div>
     <StudentCard v-model="student" />
     <StudentReports
       title="Thống kê đáp án của sinh viên"
@@ -8,7 +8,7 @@
       :totalDesserts="totalDesserts"
       :totalPoint="totalPoint"
     />
-  </h-flex-layout>
+  </div>
 </template>
 
 <script>

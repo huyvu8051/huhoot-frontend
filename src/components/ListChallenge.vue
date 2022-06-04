@@ -111,7 +111,7 @@ export default {
         },
         { text: "Trộn câu hỏi", value: "randomQuest", align: "center" },
         { text: "Trạng thái", value: "challengeStatus", align: "center" },
-        { text: "Điều hướng", value: "nav", sortable: false },
+        { text: "Chi tiết", value: "nav", sortable: false },
         { text: "Hành động", value: "actions", sortable: false },
       ],
       loading: false,

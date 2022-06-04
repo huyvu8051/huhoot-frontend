@@ -1,5 +1,5 @@
 <template>
-  <h-flex-layout>
+  <div>
     <ChallengeCard :challenge="challenge" />
     <ChallengeRank
       title="Bảng xếp hạng"
@@ -8,7 +8,7 @@
       :totalDesserts="totalDesserts"
     >
     </challengeRank>
-  </h-flex-layout>
+  </div>
 </template>
 
 <script>

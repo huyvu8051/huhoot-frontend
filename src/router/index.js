@@ -233,6 +233,11 @@ const router = new Router({
           component: () => import("@/components/admin/ListStudent"),
         },
         {
+          path: "edit-challenge/:challengeId",
+          name: "editChallenge",
+          // component: () => import("@/components/admin/ListStudent"),
+        },
+        {
           path: "host",
           name: "admin.host",
           component: () => import("@/components/admin/ListHost"),
@@ -245,8 +250,9 @@ const router = new Router({
         {
           path: "challenge",
           name: "admin.challenge",
-          component: () => import("@/components/admin/challenge/AdminListChallenge"),
+          component: () => import("@/views/admin/AdminListChallenge"),
         },
+        // details
         {
           path: "student-details/:username",
           name: "studentDetails",
