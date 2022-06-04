@@ -2,8 +2,8 @@
   <div>
     <Question style="height: 43vh" />
     <Answer />
-    <TimeCountDown style="height: 3vh" />
-    <Answers style="height: 43vh" />
+    <TimeCountDown style="height: 5vh" />
+    <Answers style="height: 41vh" />
   </div>
 </template>
 

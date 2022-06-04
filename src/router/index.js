@@ -85,7 +85,7 @@ const router = new Router({
         },
 
 
-        },
+
         { path: "*", redirect: "/host/challenge" }
 
       ]
@@ -245,7 +245,7 @@ const router = new Router({
         {
           path: "edit-challenge/:challengeId",
           name: "editChallenge",
-          // component: () => import("@/components/admin/ListStudent"),
+          component: () => import("@/views/details/EditChallengeView")
         },
         {
           path: "host",
@@ -298,6 +298,7 @@ const router = new Router({
 
           component: () => import("@/views/details/ParticipantsView.vue")
         },
+
 
       ]
     },

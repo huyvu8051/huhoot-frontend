@@ -1,17 +1,18 @@
 <template>
   <ListChallenge
-    title="Danh sách cuộc thi tham gia"
+    title="Danh sách cuộc thi"
     :options.sync="options"
     :desserts="desserts"
     :totalDesserts="totalDesserts"
   >
+  
     <template #actions="item">
-      <h-data-table-router-icon
+      <!-- <h-data-table-router-icon
         icon="mdi-pencil"
         name="editChallenge"
         :params="{ challengeId: item.item.id }"
-      />
-
+      /> -->
+      
       <OpenChallenge :challengeId="item.item.id" />
       <h-data-table-router-icon
         icon="mdi-play-circle"
@@ -30,7 +31,7 @@
 import OpenChallenge from "@/components/host/challenge/OpenChallenge";
 import ListChallenge from "@/components/ListChallenge";
 import AdminManageService from "@/services/AdminManageService";
-import EditChallengeDialog from "@/components/host/challenge/EditChallengeDialog";
+import EditChallengeDialog from "@/components/EditChallengeDialog";
 
 import CreateChallengeDialog from "@/components/host/challenge/CreateChallengeDialog";
 

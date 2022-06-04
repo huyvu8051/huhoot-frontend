@@ -5,6 +5,13 @@ export default {
     getStudentDetails(data) {
         return Api().post("/details/student",data);
     },
+    getChallengeDetails(challengeId) {
+        return Api().get("/details/challenge",{
+            params: {
+                challengeId: challengeId
+            }
+        });
+    },
     getStudentReports(data) {
         return Api().post("/details/student-reports",data);
     },

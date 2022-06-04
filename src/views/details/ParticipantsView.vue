@@ -1,12 +1,12 @@
 <template>
-  <h-flex-layout>
+  <div>
     <ChallengeCard :challenge="challenge" />
     <Participants
       :options.sync="options"
       :desserts="desserts"
       :totalDesserts="totalDesserts"
     />
-  </h-flex-layout>
+  </div>
 </template>
 
 <script>
