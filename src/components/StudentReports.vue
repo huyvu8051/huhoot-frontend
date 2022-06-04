@@ -26,6 +26,8 @@
       <v-toolbar flat>
         <v-toolbar-title>{{ title }}</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
+
+        <v-toolbar-title>tổng điểm: {{ totalPoint }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <slot name="topRight" />
       </v-toolbar>
@@ -38,49 +40,6 @@
     </template>
 
     <!-- item format -->
-
-    <template #[`item.nav`]="{ item }">
-      <h-data-table-router-icon
-        icon="poll"
-        name="challengeRank"
-        :params="{ challengeId: item.id }"
-      />
-      <h-data-table-router-icon
-        icon="group"
-        name="participants"
-        :params="{ challengeId: item.id }"
-      />
-    </template>
-
-    <template #[`item.actions`]="{ item }">
-      <slot name="actions" :item="item" />
-    </template>
-    <template #[`item.coverImage`]="{ item }">
-      <h-image-data-table :src="item.coverImage" style="margin: 0 auto" />
-    </template>
-
-    <template #[`item.createdDate`]="{ item }">
-      <h-date-formater :date="item.createdDate" />
-    </template>
-
-    <template #[`item.randomAnswer`]="{ item }">
-      <h-true-false :condition="item.randomAnswer" />
-    </template>
-
-    <template #[`item.challengeStatus`]="{ item }">
-      <h-status-icon :item="item" />
-    </template>
-
-    <template #[`item.randomQuest`]="{ item }">
-      <h-true-false :condition="item.randomQuest" />
-    </template>
-
-    <template #[`item.modifiedDate`]="{ item }">
-      <h-date-formater :date="item.modifiedDate" />
-    </template>
-    <template #[`item.owner`]="{ item }">
-      <h-route-to-admin-details :username="item.owner" />
-    </template>
   </v-data-table>
 </template>
 
@@ -94,6 +53,7 @@ export default {
     desserts: Array,
     totalDesserts: Number,
     options: Object,
+    totalPoint: Number,
   },
   data() {
     return {
@@ -101,14 +61,13 @@ export default {
         { text: "Id", value: "id", align: "start", sortable: true },
 
         { text: "Content", align: "center", value: "questionContent" },
-        { text: "Ảnh", value: "questionImage" },
-        { text: "Ngày tạo", value: "createdDate" },
+        // { text: "Ngày tạo", value: "createdDate" },
         { text: "Kiểu trả lời", align: "center", value: "answerOption" },
-        { text: "Thời gian trả lời", value: "answerTimeLimit" },
-        { text: "Điểm", align: "center", value: "point" },
-        { text: "Actions", align: "center", value: "actions", sortable: false },
-        { text: "Điều hướng", value: "nav", sortable: false },
-        { text: "Hành động", value: "actions", sortable: false },
+        { text: "Thời gian hỏi", value: "answerTimeLimit" },
+        { text: "Kiểu tính điểm", align: "center", value: "point" },
+        { text: "Kết quả trả lời", align: "center", value: "isCorrect" },
+        { text: "Điểm nhận được", align: "center", value: "pointReceived" },
+        { text: "Thời gian trả lời", align: "center", value: "answerTime" },
       ],
       loading: false,
     };

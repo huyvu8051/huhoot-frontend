@@ -16,40 +16,6 @@ const router = new Router({
       name: "login",
       component: () => import("@/components/plugin/LoginBoxed")
     },
-    {
-      path: "/student-details/:username",
-      name: "studentDetails",
-      component: () => import("@/views/details/StudentDetailsView")
-    },
-    {
-      path: "/admin-details/:username",
-      name: "adminDetails",
-      component: () => import("@/views/details/AdminDetailsView")
-    },
-    {
-      path: "/student-reports/:challengeId/:studentId",// xem ket qua tra loi cua sinh vien dok
-      name: "studentReports",
-
-      component: () => import("@/views/details/StudentReportsView.vue")
-    },
-    {
-      path: "/challenge-reports/:challengeId",// danh sach cau hoi, hien thi so luong nguoi dung, sai, chon dap an nao
-      name: "challengeReports",
-
-      //component: () => import("@/components/plugin/LoginBoxed")
-    },
-
-    {
-      path: "/challenge-rank/:challengeId",// xep hang cac sinh vien 
-      name: "challengeRank",
-      component: () => import("@/views/details/ChallengeRankView.vue")
-    },
-    {
-      path: "/participants/:challengeId",
-      name: "participants",
-
-      component: () => import("@/views/details/ParticipantsView.vue")
-    },
 
 
     // host
@@ -110,6 +76,8 @@ const router = new Router({
           name: "creator",
           // component: () => import("@/components/plugin/LoginBoxed")
         },
+
+
       ]
     },
     {
@@ -278,6 +246,40 @@ const router = new Router({
           path: "challenge",
           name: "admin.challenge",
           component: () => import("@/components/admin/challenge/AdminListChallenge"),
+        },
+        {
+          path: "student-details/:username",
+          name: "studentDetails",
+          component: () => import("@/views/details/StudentDetailsView")
+        },
+        {
+          path: "admin-details/:username",
+          name: "adminDetails",
+          component: () => import("@/views/details/AdminDetailsView")
+        },
+        {
+          path: "student-reports/:challengeId/:username",// xem ket qua tra loi cua sinh vien dok
+          name: "studentReports",
+
+          component: () => import("@/views/details/StudentReportsView.vue")
+        },
+        {
+          path: "challenge-reports/:challengeId",// danh sach cau hoi, hien thi so luong nguoi dung, sai, chon dap an nao
+          name: "challengeReports",
+
+          //component: () => import("@/components/plugin/LoginBoxed")
+        },
+
+        {
+          path: "challenge-rank/:challengeId",// xep hang cac sinh vien 
+          name: "challengeRank",
+          component: () => import("@/views/details/ChallengeRankView.vue")
+        },
+        {
+          path: "participants/:challengeId",
+          name: "participants",
+
+          component: () => import("@/views/details/ParticipantsView.vue")
         },
       ]
     },

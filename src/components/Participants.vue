@@ -52,8 +52,8 @@
     <template #[`item.actions`]="{ item }">
       <h-data-table-router-icon
         icon="info"
-        name="studentDetails"
-        :params="{ username: item.studentUsername }"
+        name="studentReports"
+        :params="{ username: item.studentUsername, challengeId: $route.params.challengeId }"
       />
     </template>
   </v-data-table>

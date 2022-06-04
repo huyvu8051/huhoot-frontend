@@ -5,6 +5,9 @@ export default {
     getStudentDetails(data) {
         return Api().post("/details/student",data);
     },
+    getStudentReports(data) {
+        return Api().post("/details/student-reports",data);
+    },
     getAdminDetails(body) {
         return Api().post("/details/admin", body);
     },

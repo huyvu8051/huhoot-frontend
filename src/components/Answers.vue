@@ -58,7 +58,6 @@ export default {
     },
     timeout: (state) => state.question.timeout < new Date().getTime(),
   }),
-  created() {},
   methods: {
     getIcon(item) {
       var state = this.$store.state;

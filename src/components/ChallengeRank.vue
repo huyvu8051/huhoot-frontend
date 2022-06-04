@@ -45,6 +45,13 @@
         Reset
       </v-btn>
     </template>
+    <template #[`item.actions`]="{ item }">
+      <h-data-table-router-icon
+        icon="info"
+        name="studentReports"
+        :params="{ username: item.username, challengeId: $route.params.challengeId }"
+      />
+    </template>
   </v-data-table>
 </template>
 
