@@ -1,248 +1,215 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import createPersistedState from 'vuex-persistedstate'
+import Vue from "vue";
+import Vuex from "vuex";
+import createPersistedState from "vuex-persistedstate";
 
 import AutoOrganizeService from "@/services/AutoOrganizeService";
 import DecryptUtil from "@/services/DecryptUtil";
-import HostOrganizeService from "@/services/HostOrganizeService";
-import router from "@/router"
 
-Vue.use(Vuex)
+
+import router from "@/router";
+
+
+Vue.use(Vuex);
 
 var store = new Vuex.Store({
-	strict: true,
-	plugins: [
-		createPersistedState()
-	],
-	state: {
-		token: null,
-		username: null,
-		fullName: null,
-		roles: null,
-		hashCorrectAnswerIds: "",
-		challenge: null,
-		question: null,
-		answers: null,
-		adminSocketId: "",
-		totalPoints: 0,
-		hashPointsReceived: "",
-		comboToken: "",
-		combo: "",
-		currCombo: "",
-		pointsReceived: "",
-		studentAnswered: 0,
-		totalStudent: 0,
-		totalStudentCorrect: 0,
-		totalStudentWrong: 0,
-		encryptedResponse: "",
-		questionToken: null,
-		publishNextQuestion: (challengeId) => { console.log("disable auto next", challengeId) },
-		getCorrectAnswer: (questionId) => { console.log("disable auto show", questionId) },
 
-		getStatisticPage: (challengeId) => { console.log("disable route to statistic page", challengeId) },
-		getRankTablePage: (challengeId) => { console.log("disable route to rank table page", challengeId) },
-		getNextQuestionPage: (challengeId) => { console.log("disable route to next question page", challengeId) },
-		studentSubmited: false,
-		correctAnswerIds: [],
-		selectedAnswerIds: [],
-		organizeGetCorrectAnswer: HostOrganizeService.showCorrectAnswer
+  strict: true,
+  plugins: [createPersistedState()],
+  state: {
+    token: null,
+    username: null,
+    fullName: null,
+    roles: null,
+    hashCorrectAnswerIds: "",
+    challenge: null,
+    question: null,
+    answers: null,
+    adminSocketId: "",
+    totalPoints: 0,
+    hashPointsReceived: "",
+    comboToken: "",
+    combo: "",
+    currCombo: "",
+    pointsReceived: "",
+    studentAnswered: 0,
+    totalStudent: 0,
+    totalStudentCorrect: 0,
+    totalStudentWrong: 0,
+    encryptedResponse: "",
+    questionToken: null,
+    publishNextQuestion: challengeId => {
+      console.log("disable auto next", challengeId);
+    },
+    getCorrectAnswer: questionId => {
+      console.log("disable auto show", questionId);
+    },
 
+    studentSubmited: false,
+    correctAnswerIds: [],
+    selectedAnswerIds: [],
 
-	},
-	mutations: {
-		setAutoOrganize(state, value) {
-			if (state.challenge) {
-				state.challenge.autoOrganize = value
-			}
-		},
-		pnq(state) {
-			state.publishNextQuestion(state.challenge.id)
-		},
-		enableOrganizeGetCorrectAnswer(state) {
-			state.organizeGetCorrectAnswer = HostOrganizeService.showCorrectAnswer
-		},
-		disableOrganizeGetCorrectAnswer(state) {
-			state.organizeGetCorrectAnswer = (questionId) => { console.log("disable organize get correct answer", questionId) }
-		},
+    unsaveQuestion: []
+  },
+  mutations: {
+    pnq(state) {
+      state.publishNextQuestion(state.challenge.id);
+    },
+    studentSubmited(state) {
+      state.studentSubmited = true;
+    },
 
-		studentSubmited(state) {
-			state.studentSubmited = true;
-		},
+    setToken(state, data) {
+      state.token = data;
+    },
+    setUsername(state, data) {
+      state.username = data;
+    },
 
+    setRoles(state, data) {
+      state.roles = data;
+    },
 
-		setToken(state, data) {
-			state.token = data
-		},
-		setUsername(state, data) {
-			state.username = data
-		},
+    setTotalPoints(state, data) {
+      state.totalPoints = data;
+    },
 
-		setRoles(state, data) {
-			state.roles = data
-		},
+    //===========================
 
-		setTotalPoints(state, data) {
-			state.totalPoints = data
-		},
+    publishExam(state, data) {
+      state.studentAnswered = 0;
+      state.question = data.question;
+      state.answers = data.answers;
+      state.questionToken = data.questionToken;
+      state.hashPointsReceived = "";
 
+      state.studentSubmited = false;
+      state.correctAnswerIds = [];
+      state.selectedAnswerIds = [];
+    },
+    timeout(state) {
+      state.question.timeout++;
 
-		//===========================
+      state.getCorrectAnswer(state.question.id);
+    },
 
-		publishExam(state, data) {
-			state.studentAnswered = 0
-			state.question = data.question
-			state.answers = data.answers
-			state.questionToken = data.questionToken;
-			state.hashPointsReceived = ""
+    calculatePointReceived(state, data) {
+      try {
+        var result = JSON.parse(
+          DecryptUtil.decrypt(state.encryptedResponse, data.encryptKey)
+        );
+        state.pointsReceived = result.pointsReceived;
+        state.currCombo = result.comboCount;
 
+        state.totalPoints =
+          parseFloat(state.totalPoints) + parseFloat(state.pointsReceived);
+      } catch (error) {
+        state.pointsReceived = null;
+        state.currCombo = 0;
+      }
 
-			state.studentSubmited = false
-			state.correctAnswerIds = []
-			state.selectedAnswerIds = []
-		},
-		timeout(state) {
-			state.question.timeout++;
+      switch (state.pointsReceived) {
+        case null:
+          Vue.swal({
+            icon: "warning",
+            title: "Timeout",
+            text: "Better luck next time!",
+            timer: 3000
+          });
+          break;
 
-			state.getCorrectAnswer(state.question.id)
-			state.organizeGetCorrectAnswer({
-				questionId: state.question.id,
-			});
-		},
+        case 0:
+          Vue.swal({
+            icon: "error",
+            title: "Oops...",
+            text: "Incorrect answer!",
+            timer: 3000
+          });
+          break;
 
-		calculatePointReceived(state, data) {
+        default:
+          Vue.swal({
+            icon: "success",
+            title: "Good job!",
+            text:
+              "Your answer is correct! \n Points received +" +
+              parseInt(state.pointsReceived) +
+              " combo: " +
+              state.currCombo,
+            timer: 3000
+          });
+          break;
+      }
+    },
+    showCorrectAnswer(state, data) {
+      console.log("show correct answer");
+      state.totalStudent = data.totalStudent;
+      state.totalStudentCorrect = data.totalStudentCorrect;
+      state.totalStudentWrong = data.totalStudentWrong;
+      state.correctAnswerIds = data.answers;
+      if (state.question) {
+        state.question.timeout = data.timeout;
+      }
+    },
+    saveStudentAnswerResponse(state, data) {
+      state.comboToken = data.comboToken;
+      state.encryptedResponse = data.encryptedResponse;
+    },
 
-			try {
-				var result = JSON.parse(DecryptUtil.decrypt(state.encryptedResponse, data.encryptKey))
-				state.pointsReceived = result.pointsReceived;
-				state.currCombo = result.comboCount;
+    saveChallengeData(state, data) {
+      console.log(data);
+      state.challenge = data.challenge;
+      state.question = data.question;
+      state.answers = data.answers;
+    },
+    enableAutoOrganize(state, data) {
+      state.publishNextQuestion = AutoOrganizeService.publishNextQuestion;
+      state.getCorrectAnswer = AutoOrganizeService.showCorrectAnswer;
 
-				state.totalPoints = parseFloat(state.totalPoints) + parseFloat(state.pointsReceived);
-			} catch (error) {
-				state.pointsReceived = null;
-				state.currCombo = 0;
-			}
+      state.challenge = data.challenge;
+      state.question = data.question;
+      state.answers = data.answers;
+      state.questionToken = data.questionToken;
+    },
+    disableAutoOrganize(state) {
+      state.publishNextQuestion = challengeId =>
+        console.log("disable auto next", challengeId);
+      state.getCorrectAnswer = questionId =>
+        console.log("disable auto show", questionId);
+    },
+    selectAnswer(state, item) {
+      if (state.selectedAnswerIds.includes(item.id)) {
+        state.selectedAnswerIds = state.selectedAnswerIds.filter(
+          e => e !== item.id
+        );
+      } else {
+        state.selectedAnswerIds.push(item.id);
+      }
+    },
+    // manage unsave question
+    storeUnsaveQuestion(state, data) {
+      state.unsaveQuestion = [...data];
+    },
+    deleteQuestion(state, data) {
+      state.unsaveQuestion = state.unsaveQuestion.filter(
+        e => e.id !== data
+      );
+    },
+    setAnswerOption(state, data) {
+      
+    },
 
-			switch (state.pointsReceived) {
-				case null:
-					Vue.swal({
-						icon: "warning",
-						title: "Timeout",
-						text: "Better luck next time!",
-						timer: 3000,
-					});
-					break;
-
-				case 0:
-					Vue.swal({
-						icon: "error",
-						title: "Oops...",
-						text: "Incorrect answer!",
-						timer: 3000,
-					});
-					break;
-
-				default:
-					Vue.swal({
-						icon: "success",
-						title: "Good job!",
-						text:
-							"Your answer is correct! \n Points received +" +
-							parseInt(state.pointsReceived) +
-							" combo: " +
-							state.currCombo,
-						timer: 3000,
-					});
-					break;
-			}
-
-
-		},
-		showCorrectAnswer(state, data) {
-
-			console.log("show correct answer");
-			state.totalStudent = data.totalStudent
-			state.totalStudentCorrect = data.totalStudentCorrect
-			state.totalStudentWrong = data.totalStudentWrong
-			state.correctAnswerIds = data.answers
-			if (state.question) {
-				state.question.timeout = data.timeout
-			}
-
-
-
-
-		},
-		saveStudentAnswerResponse(state, data) {
-			state.comboToken = data.comboToken;
-			state.encryptedResponse = data.encryptedResponse;
-		},
-
-		saveChallengeData(state, data) {
-			state.challenge = data.challenge;
-			state.question = data.question
-			state.answers = data.answers
-		},
-		enableAutoOrganize(state, data) {
-			console.log("enableAutoOrganize");
-			state.publishNextQuestion = AutoOrganizeService.publishNextQuestion
-			state.getCorrectAnswer = AutoOrganizeService.showCorrectAnswer
-
-			state.getStatisticPage = (challengeId) => {
-				router.push({
-					name: "organize.statistic",
-					query: {
-						challengeId: challengeId
-					}
-				})
-			}
-			state.getRankTablePage = (challengeId) => {
-				router.push({
-					name: "organize.rank",
-					query: {
-						challengeId: challengeId
-					}
-				})
-			}
-			state.getNextQuestionPage = (challengeId) => {
-				router.push({
-					name: "organize.get",
-					query: {
-						challengeId: challengeId
-					}
-				})
-			}
-
-			// state.challenge = data.challenge
-			// state.question = data.question
-			// state.answers = data.answers
-			// state.questionToken = data.questionToken
-
-
-
-
-		},
-		disableAutoOrganize(state) {
-			state.publishNextQuestion = (challengeId) => console.log("disable auto next", challengeId)
-			state.getCorrectAnswer = (questionId) => console.log("disable auto show", questionId)
-
-			state.getStatisticPage = (challengeId) => { console.log("disable route to statistic page", challengeId) }
-			state.getRankTablePage = (challengeId) => { console.log("disable route to rank table page", challengeId) }
-			state.getNextQuestionPage = (challengeId) => { console.log("disable route to next question page", challengeId) }
-
-
-		},
-		selectAnswer(state, item) {
-
-			if (state.selectedAnswerIds.includes(item.id)) {
-				state.selectedAnswerIds = state.selectedAnswerIds.filter(e => e !== item.id);
-			} else {
-				state.selectedAnswerIds.push(item.id);
-			}
-
-		}
-
-
-	}
-})
+    getAnswersQuestion(state, data) {},
+    changeQuestion(state, data) {
+      const { unsaveQuestion } = state;
+      const index = unsaveQuestion.findIndex(e => e.id === data.id);
+      if (index !== -1) {
+        unsaveQuestion[index] = data;
+      } else {
+        unsaveQuestion.push(data);
+      }
+    }
+  }
+});
 
 export default store;
+

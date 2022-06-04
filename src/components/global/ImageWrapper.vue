@@ -44,6 +44,7 @@ export default {
         this.url = null;
       }
 
+
       // console.log(this.url);
     },
   },
@@ -53,6 +54,7 @@ export default {
     } else {
       this.url = null;
     }
+
   },
 };
 </script>

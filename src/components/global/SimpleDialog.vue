@@ -27,9 +27,9 @@
         <v-spacer v-if="actionLeft" />
         <v-spacer>
           <v-btn color="blue darken-1" text @click="closeConfirm">
-            Cancel
+            Đóng
           </v-btn>
-          <v-btn color="blue darken-1" text @click="actionConfirm"> OK </v-btn>
+          
         </v-spacer>
       </v-card-actions>
     </v-card>
@@ -66,26 +66,6 @@ export default {
         this.error.$reset();
       }
       this.$emit("input", false);
-    },
-    actionConfirm() {
-      // check error
-      if (this.error !== null && this.error !== undefined) {
-        this.error.$touch();
-        //console.log("confirm",this.error)
-        if (this.error.$anyError) {
-          return;
-        }
-      }
-
-      // do action
-
-      this.action
-        .confirm()
-        .then(this.closeConfirm())
-        .catch(console.log)
-        .finally(() => {
-          this.$eventBus.$emit("reloadData");
-        });
     },
   },
 };
