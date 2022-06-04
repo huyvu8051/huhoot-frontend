@@ -90,7 +90,7 @@ export default {
         });
       }
       this.loading = true;
-      AdminManageService.addManyStudent(this.listStudent)
+      AdminManageService.addStudent(this.listStudent)
         .then((response) => {
           this.listStudent = response.data;
           this.title = "Error response";

@@ -2,9 +2,7 @@
   <v-main>
     <Navigation />
     <Header />
-    <h-flex-layout>
-      <router-view />
-    </h-flex-layout>
+    <router-view />
     <!-- <Footer /> -->
   </v-main>
 </template>

@@ -113,7 +113,7 @@ import EditChallengeDialog from "@/components/host/challenge/EditChallengeDialog
 import CreateChallengeDialog from "@/components/host/challenge/CreateChallengeDialog";
 
 import DeleteChallengeDialog from "@/components/host/challenge/DeleteChallengeDialog";
-import OpenChallenge from "@/components/host/challenge/OpenChallenge";
+import OpenChallenge from "@/components/OpenChallenge";
 
 export default {
   components: {
@@ -168,6 +168,10 @@ export default {
     this.$eventBus.$on("reloadData", () => {
       this.getDataFromApi();
     });
+  },
+  beforeDestroy() {
+    this.$eventBus.$off("api-loading");
+    this.$eventBus.$off("reloadData");
   },
 
   methods: {
