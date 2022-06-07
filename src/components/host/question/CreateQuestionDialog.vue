@@ -4,21 +4,21 @@
     @input="reset()"
     :action="action"
     :error="$v"
-    btnText="NEW ITEM"
+    btnText="TẠO MỚI"
     actionLeft
     fullscreen
   >
-    <v-card-title>
-      <span class="text-h5">NEW ITEM</span>
+    <v-card-title style="background: #262766; color: white">
+      <span class="text-h5">TẠO MỚI</span>
     </v-card-title>
 
     <v-card-text>
       <v-container>
         <v-row>
           <v-col cols="12">
-            <v-textarea
+            <v-text-field
               v-model="editedItem.questionContent"
-              label="Content"
+              label="Nội dung"
               :error-messages="questionContentErrors"
               :counter="255"
               required
@@ -26,14 +26,14 @@
               @input="$v.editedItem.questionContent.$touch()"
               @blur="$v.editedItem.questionContent.$touch()"
             >
-            </v-textarea>
+            </v-text-field>
           </v-col>
           <v-col cols="12" sm="3" md="3">
             <v-text-field
               v-model="editedItem.answerTimeLimit"
               type="number"
               min="5"
-              label="Answer time limit"
+              label="Thời gian"
               :error-messages="answerTimeLimitErrors"
               required
               outlined
@@ -47,7 +47,7 @@
             <v-select
               :items="answerOption"
               v-model="editedItem.answerOption"
-              label="Answer option"
+              label="Loại trả lời"
               outlined
             >
             </v-select>
@@ -56,7 +56,7 @@
             <v-select
               :items="point"
               v-model="editedItem.point"
-              label="Point"
+              label="Loại câu hỏi"
               outlined
             >
             </v-select>
@@ -66,7 +66,7 @@
             <h-upload-file v-model="editedItem.questionImage" />
           </v-col>
           <v-col cols="12">
-            <p>Question image</p>
+            <p>Ảnh câu hỏi</p>
             <h-fit-height-image :src="editedItem.questionImage" />
           </v-col>
         </v-row>
@@ -128,19 +128,23 @@ export default {
     answerTimeLimitErrors() {
       const errors = [];
       if (!this.$v.editedItem.answerTimeLimit.$dirty) return errors;
+
       !this.$v.editedItem.answerTimeLimit.required &&
-        errors.push("Answer time limit required!");
+        errors.push("Nhập thời gian cuộc thi");
       !this.$v.editedItem.answerTimeLimit.minValue &&
-        errors.push("Answer time limit must greater than 5!");
+        errors.push("Thời gian cuộc thi từ 5s trở lên");
+
       return errors;
     },
     questionContentErrors() {
       const errors = [];
       if (!this.$v.editedItem.questionContent.$dirty) return errors;
       !this.$v.editedItem.questionContent.required &&
-        errors.push("Question content required!");
+        errors.push("Nhập Nội dung câu hỏi");
+      !this.$v.editedItem.questionContent.minLength &&
+        errors.push("Nội dung câu hỏi phải có 2 ký tự trở lên");
       !this.$v.editedItem.questionContent.maxLength &&
-        errors.push("Question content length must less than 255!");
+        errors.push("Nội dung câu hỏi không quá 255 ký tự");
       return errors;
     },
   },

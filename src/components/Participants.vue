@@ -80,6 +80,7 @@ export default {
       { text: "Trạng thái", value: "isNonDeleted" },
       { text: "Thao tác", value: "actions", sortable: false },
     ],
+
     loading: false,
   }),
   computed: {
@@ -92,6 +93,7 @@ export default {
       },
     },
   },
+
   created() {
     this.$eventBus.$on("api-loading", (data) => {
       this.loading = data;

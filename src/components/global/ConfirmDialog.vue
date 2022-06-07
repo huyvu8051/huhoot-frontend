@@ -46,7 +46,7 @@ export default {
     },
     confirmMessage: {
       type: String,
-      default: "Are you sure you want to do action?",
+      default: "Bạn có chắc muốn làm hành động này không?",
     },
     maxWidth: {
       type: String,
@@ -68,7 +68,6 @@ export default {
       this.$emit("input", false);
     },
     actionConfirm() {
-      
       // check error
       if (this.error !== null && this.error !== undefined) {
         this.error.$touch();

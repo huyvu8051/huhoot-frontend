@@ -347,6 +347,7 @@ export default {
     },
     addQuestion() {
       this.data.push({ ...this.defaultItem });
+
       this.editedItem = this.data[this.data.length - 1];
       this.editedItem.index = this.data.length - 1;
     },
@@ -363,6 +364,7 @@ export default {
       };
       return result;
     },
+
     beforeChange() {
       this.tempdata = JSON.parse(JSON.stringify(this.data));
     },
@@ -417,6 +419,7 @@ export default {
     flex-direction: row !important;
   }
 }
+
 @media screen and (min-width: 600px) {
   .question_nav_res {
     height: 75vh;
@@ -436,34 +439,41 @@ export default {
 .question_nav {
   flex-direction: column;
 }
+
 .question_container {
   background-color: #e6e5e5;
   padding: 1vmin;
   width: 150px;
   margin: 1vmin auto;
 }
+
 .question_text {
   padding: 0px;
   padding-top: 0.5vmin;
 }
+
 .quest-content {
   height: 10vh;
   line-height: normal;
   font-size: calc(0.4rem + 1.76267vmin);
   /* background-color: rgba(158, 158, 158, 0.445);  */
+
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .answer-col {
   padding: 0.5vmin;
 }
+
 .answer-card {
   padding: 0px;
   margin: 0px;
   position: relative;
 }
+
 .icon {
   position: absolute;
   right: 2px;
@@ -474,9 +484,12 @@ export default {
   font-size: calc(0.4rem + 1.66267vmin);
   padding: 1vmin;
   margin: 0.1rem !important;
+
   text-align: justify;
   display: flex;
   justify-content: left;
   align-items: center;
 }
+
 </style>
+

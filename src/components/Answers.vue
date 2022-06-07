@@ -61,7 +61,6 @@ export default {
     },
     timeout: (state) => state.question.timeout < new Date().getTime(),
   }),
-  created() {},
   methods: {
     getShape(index) {
       var shapes = ["crop_square", "change_history",  "circle", "star", "add", "numbers"];

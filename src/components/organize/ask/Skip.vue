@@ -1,7 +1,9 @@
 <template>
+
   <v-btn color="red" fixed right bottom @click="click()">
     <b>{{ isTimeout.text }}</b>
   </v-btn>
+
 </template>
 
 <script>
@@ -16,11 +18,14 @@ export default {
         return {
           value: true,
           text: "Tiếp",
+
         };
       } else {
         return {
           value: false,
+
           text: "Bỏ qua",
+
         };
       }
     },
