@@ -15,9 +15,6 @@ export default {
     addStudent(data) {
         return Api().post("admin/student", data);
     },
-    addManyStudent(data) {
-        return Api().post("admin/manyStudent", data);
-    },
 
 
     findAllHost(data) {
@@ -32,6 +29,19 @@ export default {
 
     resetPasswordAdmin(data) {
         return Api().post("admin/resetPasswordAdmin", data);
+    },
+
+
+    // manage challenge
+    getAllChallenge(data) {
+        return Api().post("admin/challenge/findAll", data);
+    },
+    updateChallenge(data) {
+        return Api().patch("admin/challenge", data);
+    },
+
+    addChallenge(data) {
+        return Api().post("admin/challenge", data);
     },
 
 
