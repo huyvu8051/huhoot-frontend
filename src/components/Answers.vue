@@ -64,7 +64,7 @@ export default {
   created() {},
   methods: {
     getShape(index) {
-      var shapes = ["crop_square", "change_history",  "trip_origin", "dark_mode", "add", "numbers"];
+      var shapes = ["crop_square", "change_history",  "circle", "star", "add", "numbers"];
 
       return shapes[index];
     },
