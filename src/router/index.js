@@ -16,7 +16,10 @@ const router = new Router({
       name: "login",
       component: () => import("@/components/plugin/LoginBoxed")
     },
+
+
     // host
+
 
     {
       path: "/host/",
@@ -28,14 +31,17 @@ const router = new Router({
         {
           path: "challenge",
           name: "HOST",
-          component: HostListChallenge,
-
+          component: HostListChallenge
+        },
+        {
+          path: "question2",
+          name: "host.listQuestion2",
+          component: () => import("@/components/host/question/ListQuestion2")
         },
         {
           path: "rank",
           name: "host.rank",
-          component: () => import("@/components/challengeRank/ChallengeRank"),
-
+          component: () => import("@/components/challengeRank/ChallengeRank")
         },
         {
           path: "question",
@@ -50,19 +56,38 @@ const router = new Router({
         {
           path: "studentInChallenge",
           name: "host.listStudentInChallenge",
-          component: () => import("@/components/host/studentInChallenge/ListStudentInChallenge")
+          component: () =>
+            import(
+              "@/components/host/studentInChallenge/ListStudentInChallenge"
+            )
         },
         {
           path: "student",
           name: "host.student",
-          component: () => import("@/components/host/studentInChallenge/ListStudent")
+          component: () =>
+            import("@/components/host/studentInChallenge/ListStudent")
         },
         {
           path: "account",
           name: "host.account",
           component: () => import("@/components/host/Account")
 
-        }
+        },
+        {
+          path: "/my-library",
+          name: "myLibrary",
+          // component: () => import("@/components/plugin/LoginBoxed")
+        },
+        {
+          path: "/creator/:challengeId",
+          name: "creator",
+          // component: () => import("@/components/plugin/LoginBoxed")
+        },
+
+
+
+        { path: "*", redirect: "/host/challenge" }
+
       ]
     },
     {
@@ -72,7 +97,6 @@ const router = new Router({
         requiresAuth: true
       },
       children: [
-
         {
           path: "wait",
           name: "organize.wait",
@@ -128,7 +152,10 @@ const router = new Router({
           name: "organize.podium",
           component: () => import("@/components/organize/finish/Podium")
         },
-
+        {
+          path: "*",
+          redirect: "/organize/wait"
+        }
       ]
     },
 
@@ -136,7 +163,7 @@ const router = new Router({
     {
       path: "/student",
       component: () => import("@/components/student/Layout"),
-      redirect: '/student/challenge',
+      redirect: "/student/challenge",
       meta: {
         requiresAuth: true
       },
@@ -150,12 +177,9 @@ const router = new Router({
           path: "account",
           name: "student.account",
           component: () => import("@/components/student/Account")
-
-        },
-
+        }
       ]
     },
-
 
     {
       path: "/participate",
@@ -198,8 +222,7 @@ const router = new Router({
           path: "finish",
           name: "participate.finish",
           component: () => import("@/components/participate/finish/Finish")
-        },
-
+        }
       ]
     },
 
@@ -207,7 +230,9 @@ const router = new Router({
     {
       path: "/admin",
       component: () => import("@/components/admin/Layout"),
-      redirect: '/student',
+
+      redirect: '/admin/challenge',
+
       meta: {
         requiresAuth: true
       },
@@ -215,27 +240,77 @@ const router = new Router({
         {
           path: "student",
           name: "ADMIN",
-          component: () => import("@/components/admin/ListStudent"),
+          component: () => import("@/components/admin/ListStudent")
+        },
+        {
+          path: "edit-challenge/:challengeId",
+          name: "editChallenge",
+          component: () => import("@/views/details/EditChallengeView")
         },
         {
           path: "host",
           name: "admin.host",
-          component: () => import("@/components/admin/ListHost"),
+          component: () => import("@/components/admin/ListHost")
         },
         {
           path: "account",
           name: "admin.account",
+
           component: () => import("@/components/admin/Account"),
         },
+        {
+          path: "challenge",
+          name: "admin.challenge",
+          component: () => import("@/views/admin/AdminListChallenge"),
+        },
+        // details
+        {
+          path: "student-details/:username",
+          name: "studentDetails",
+          component: () => import("@/views/details/StudentDetailsView")
+        },
+        {
+          path: "admin-details/:username",
+          name: "adminDetails",
+          component: () => import("@/views/details/AdminDetailsView")
+        },
+        {
+          path: "student-reports/:challengeId/:username",// xem ket qua tra loi cua sinh vien dok
+          name: "studentReports",
+
+          component: () => import("@/views/details/StudentReportsView.vue")
+        },
+        {
+          path: "challenge-reports/:challengeId",// danh sach cau hoi, hien thi so luong nguoi dung, sai, chon dap an nao
+          name: "challengeReports",
+
+          //component: () => import("@/components/plugin/LoginBoxed")
+        },
+
+        {
+          path: "challenge-rank/:challengeId",// xep hang cac sinh vien 
+          name: "challengeRank",
+          component: () => import("@/views/details/ChallengeRankView.vue")
+        },
+        {
+          path: "participants/:challengeId",
+          name: "participants",
+
+          component: () => import("@/views/details/ParticipantsView.vue")
+        },
+
+
       ]
     },
 
-
-
+    //*
+    {
+      path: "/*",
+      name: 404,
+      component: () => import("@/components/plugin/404Page")
+    }
   ]
 });
-
-
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
@@ -244,12 +319,11 @@ router.beforeEach((to, from, next) => {
         name: "login"
       });
     } else {
-      next()
+      next();
     }
+  } else {
+    next();
   }
-  else {
-    next()
-  }
-})
+});
 
 export default router;
