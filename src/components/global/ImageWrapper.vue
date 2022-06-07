@@ -19,12 +19,10 @@ export default {
       type: String,
       default: "auto",
     },
-
     width: {
       type: String,
       default: "auto",
     },
-
     contain: {
       type: Boolean,
       default: false,
@@ -43,8 +41,6 @@ export default {
       } else {
         this.url = null;
       }
-
-
       // console.log(this.url);
     },
   },
@@ -54,10 +50,6 @@ export default {
     } else {
       this.url = null;
     }
-
   },
 };
 </script>
-
-<style>
-</style>

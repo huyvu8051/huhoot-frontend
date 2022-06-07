@@ -3,7 +3,8 @@
     <WaitingRoomHeader :NumOfStudent="students.length" :challenge="challenge" />
     <v-container fluid class="wait-bg">
       <!-- <div class="wait-img">let's play a challenge</div> -->
-      <v-img :src="require('@/assets/img/19629.jpg')" class="wait-img"></v-img>
+      <h-image-wrapper :src="$store.state.challenge.coverImage" class="wait-img" height="50vh"/>
+      <h1 style="text-align:center">{{$store.state.challenge.title}}</h1>
       <v-layout align-center justify-center>
         <v-row>
           <v-col>

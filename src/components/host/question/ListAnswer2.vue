@@ -9,7 +9,6 @@ import {
   minLength,
   minValue,
 } from "vuelidate/lib/validators";
-
 export default {
   mixins: [validationMixin],
   // validate answer
@@ -22,7 +21,6 @@ export default {
       },
     },
   },
-
   
 };
 </script>

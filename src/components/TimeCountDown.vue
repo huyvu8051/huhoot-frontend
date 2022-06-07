@@ -61,7 +61,7 @@ export default {
 
 <style scoped>
 .time-left{
-  font-size: calc(0.4rem + 3vmin);
+  font-size: calc(0.4rem + 3.5vmin);
 }
 .time-count-down{
   margin-top: 1vmin;

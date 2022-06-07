@@ -27,13 +27,13 @@
         <v-toolbar flat>
           <v-toolbar-title>Danh sách cuộc thi</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
-          <v-text-field
+          <!-- <v-text-field
             append-icon="mdi-magnify"
             label="Tìm kiếm"
             single-line
             hide-details
             color="#262766"
-          ></v-text-field>
+          ></v-text-field> -->
           <v-spacer></v-spacer>
           <DeleteChallengeDialog v-model="deleteDialog" :item="editedItem" />
           <EditChallengeDialog v-model="editDialog" :item="editedItem" />

@@ -59,7 +59,7 @@ export default {
     return Api().post("host/studentChallenge/findAll", data);
   },
   addStudentInChallenge(data) {
-    return Api().post("host/studentChallenge", data);
+    return Api().post("host/studentChallenge/add", data);
 
   },
   updateStudentInChallenge(data) {

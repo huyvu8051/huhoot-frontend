@@ -17,8 +17,9 @@
 </template>
 
 <script>
-import Question2 from "../../Question2.vue";
-import Answers2 from "../../Answers2.vue";
+///import Question2 from "../../Question2.vue";
+//import Answers2 from "../../Answers2.vue";
+
 export default {
   props: {
     item: Object,

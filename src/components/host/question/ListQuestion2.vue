@@ -260,7 +260,6 @@ export default {
   }),
   created() {
     //   this.options.challengeId = this.$route.query.challengeId;
-
     HostManageService.findAllQuestion(this.options)
       .then((response) => {
         this.data = response.data.list;
@@ -306,14 +305,12 @@ export default {
               };
             }
           }
-
           this.data[index].answers = [...this.answers];
           this.editedItem = this.data[index];
           this.editedItem.index = index;
         });
         return;
       }
-
       // this.editedItem = this.data[index];
       this.editedItem = this.data[index];
       this.editedItem.index = index;
@@ -428,7 +425,6 @@ export default {
     height: 75vh;
   }
 }
-
 @media screen and (max-width: 768px) {
   .question_container {
     width: 150px;
@@ -440,7 +436,6 @@ export default {
   overflow-x: hidden;
   gap: 1vmin;
 }
-
 .question_nav {
   flex-direction: column;
 }
@@ -484,13 +479,10 @@ export default {
   right: 2px;
   bottom: -15px;
 }
-
 .answer-content {
   line-height: normal;
   font-size: calc(0.4rem + 1.66267vmin);
-
   padding: 1vmin;
-
   margin: 0.1rem !important;
 
   text-align: justify;
@@ -498,4 +490,6 @@ export default {
   justify-content: left;
   align-items: center;
 }
+
 </style>
+

@@ -1,7 +1,9 @@
 <template>
-  <v-btn color="#262766" class="white--text" fixed right bottom @click="click"
-    ><v-icon>{{ isTimeout.text }}</v-icon></v-btn
-  >
+
+  <v-btn color="red" fixed right bottom @click="click()">
+    <b>{{ isTimeout.text }}</b>
+  </v-btn>
+
 </template>
 
 <script>
@@ -15,12 +17,15 @@ export default {
       if (state.question.timeout < new Date().getTime()) {
         return {
           value: true,
-          text: "mdi-skip-next",
+          text: "Tiếp",
+
         };
       } else {
         return {
           value: false,
-          text: "mdi-skip-next",
+
+          text: "Bỏ qua",
+
         };
       }
     },

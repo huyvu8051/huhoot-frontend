@@ -71,7 +71,6 @@
 import HostManageService from "@/services/HostManageService";
 import { validationMixin } from "vuelidate";
 import { required, maxLength } from "vuelidate/lib/validators";
-
 export default {
   props: {
     item: Object,

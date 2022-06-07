@@ -80,7 +80,6 @@ export default {
         { text: "ID", value: "studentId" },
         { text: "Username", value: "username" },
         { text: "Fullname", value: "studentFullName" },
-
         { text: "Score", value: "score" },
         { text: "Hành động", value: "actions", sortable: false },
       ],

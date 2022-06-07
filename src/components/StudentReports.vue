@@ -59,7 +59,6 @@ export default {
     return {
       headers: [
         { text: "Id", value: "id", align: "start", sortable: true },
-
         { text: "Content", align: "center", value: "questionContent" },
         // { text: "Ngày tạo", value: "createdDate" },
         { text: "Kiểu trả lời", align: "center", value: "answerOption" },
